@@ -706,6 +706,7 @@ public:
 		}
 	}
 
+#if defined(_WIN32) || defined(_WIN64)
 	IC SelfRef hud_to_world()
 	{
 		Device.hud_to_world(*this);
@@ -729,8 +730,11 @@ public:
 		Device.world_to_hud_dir(*this);
 		return *this;
 	}
+#endif
+
 
     // demonized: EMA smoothing
+#if defined(_WIN32) || defined(_WIN64)
     IC SelfRef ema(Self& target, unsigned int steps) {
         float smoothing_alpha = 2.0f / (steps + 1);
         float delta = Device.dwTimeDelta;
@@ -747,6 +751,7 @@ public:
         z = z + std::min(1.f, smoothing_alpha * (delta / steps)) * (target.z - z);
         return *this;
     }
+#endif
 };
 
 typedef _vector3<float> Fvector;

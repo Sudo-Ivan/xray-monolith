@@ -25,7 +25,11 @@
 
 #pragma warning(push)
 #pragma warning(disable:4995)
+#if defined(_WIN32) || defined(_WIN64)
 #include <d3d9.h>
+#else
+#include "../Common/d3d9compat.hpp"
+#endif
 //#include <dplay8.h>
 #pragma warning(pop)
 
@@ -50,6 +54,11 @@
 #endif // NO_ENGINE_API
 
 #define ECORE_API
+
+#if !defined(_WIN32) && !defined(_WIN64)
+#include "../compat/win_sdl.h"
+#include <SDL.h>
+#endif
 
 // Our headers
 #include "Engine.h"

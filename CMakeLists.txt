@@ -14,7 +14,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(
         -fpermissive          # downgrade legacy code errors to warnings
         -fms-extensions       # unnamed struct/union members (Fvector etc.)
-        -fno-operator-names   # code uses 'or'/'and'/'not' as identifiers
+        -fno-operator-names -Wno-template-body   # code uses 'or'/'and'/'not' as identifiers
         -fno-strict-aliasing  # pervasive type punning
         -Wno-unknown-pragmas  # #pragma warning / #pragma hdrstop
         -Wno-write-strings
@@ -30,6 +30,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 find_package(Threads REQUIRED)
+find_package(PkgConfig)
+if(PkgConfig_FOUND)
+    pkg_check_modules(SDL2 sdl2)
+endif()
 
 add_subdirectory(src/xrCore)
 
@@ -39,6 +43,7 @@ add_subdirectory(src/xrNetServer)
 add_subdirectory(src/xrSound)
 add_subdirectory("src/3rd party/ode")
 add_subdirectory(src/xrPhysics)
+add_subdirectory(src/xrEngine)
 
 enable_testing()
 

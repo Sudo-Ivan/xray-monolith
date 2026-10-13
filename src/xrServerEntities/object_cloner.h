@@ -14,13 +14,13 @@ struct CCloner
 	struct CHelper
 	{
 		template <bool a>
-		IC static void clone(const T& _1, T& _2)
+		IC static void clone(std::enable_if_t<!a, const T& >_1, T& _2)
 		{
 			_2 = _1;
 		}
 
-		template <>
-		IC static void clone<true>(const T& _1, T& _2)
+		template <bool a>
+		IC static void clone(std::enable_if_t<a, const T&>_1, T& _2)
 		{
 			_2 = xr_new<object_type_traits::remove_pointer<T>::type>(*_1);
 			CCloner::clone(*_1, *_2);
@@ -54,9 +54,9 @@ struct CCloner
 	IC static void clone(const svector<T, size>& _1, svector<T, size>& _2)
 	{
 		_2.resize(_1.size());
-		svector<T, size>::iterator J = _2.begin();
-		svector<T, size>::const_iterator I = _1.begin();
-		svector<T, size>::const_iterator E = _1.end();
+		typename svector<T, size>::iterator J = _2.begin();
+		typename svector<T, size>::const_iterator I = _1.begin();
+		typename svector<T, size>::const_iterator E = _1.end();
 		for (; I != E; ++I, ++J)
 			clone(*I, *J);
 	}
@@ -142,7 +142,7 @@ struct CCloner
 		}
 
 		template <typename T1, typename T2>
-		IC static void add(T1& data, typename T2& value)
+		IC static void add(T1& data, T2& value)
 		{
 			data.insert(value);
 		}
@@ -151,11 +151,11 @@ struct CCloner
 		IC static void clone(const T& _1, T& _2)
 		{
 			_2.clear();
-			T::const_iterator I = _1.begin();
-			T::const_iterator E = _1.end();
+			typename T::const_iterator I = _1.begin();
+			typename T::const_iterator E = _1.end();
 			for (; I != E; ++I)
 			{
-				T::value_type t;
+				typename T::value_type t;
 				CCloner::clone(*I, t);
 				add(_2, t);
 			}
@@ -166,13 +166,13 @@ struct CCloner
 	struct CHelper4
 	{
 		template <bool a>
-		IC static void clone(const T& _1, T& _2)
+		IC static void clone(std::enable_if_t<!a, const T& >_1, T& _2)
 		{
-			CHelper<T>::clone < object_type_traits::is_pointer<T>::value > (_1, _2);
+			CHelper<T>::template clone < object_type_traits::is_pointer<T>::value > (_1, _2);
 		}
 
-		template <>
-		IC static void clone<true>(const T& _1, T& _2)
+		template <bool a>
+		IC static void clone(std::enable_if_t<a, const T&>_1, T& _2)
 		{
 			CHelper3::clone(_1, _2);
 		}
@@ -181,7 +181,7 @@ struct CCloner
 	template <typename T>
 	IC static void clone(const T& _1, T& _2)
 	{
-		CHelper4<T>::clone < object_type_traits::is_stl_container<T>::value > (_1, _2);
+		CHelper4<T>::template clone < object_type_traits::is_stl_container<T>::value > (_1, _2);
 	}
 };
 

@@ -136,22 +136,19 @@ public:
 extern ENGINE_API IGame_Level* g_pGameLevel;
 
 template <typename _class_type>
-void relcase_register(_class_type* self, void (xr_stdcall _class_type::* function_to_bind)(CObject*))
+void relcase_register(_class_type* self, int* id, void (xr_stdcall _class_type::* function_to_bind)(CObject*))
 {
 	g_pGameLevel->Objects.relcase_register(
 		CObjectList::RELCASE_CALLBACK(
 			self,
-			function_to_bind)
+			function_to_bind),
+		id
 	);
 }
 
 template <typename _class_type>
-void relcase_unregister(_class_type* self, void (xr_stdcall _class_type::* function_to_bind)(CObject*))
+void relcase_unregister(_class_type* self, int* id, void (xr_stdcall _class_type::* function_to_bind)(CObject*))
 {
-	g_pGameLevel->Objects.relcase_unregister(
-		CObjectList::RELCASE_CALLBACK(
-			self,
-			function_to_bind)
-	);
+	g_pGameLevel->Objects.relcase_unregister(id);
 }
 #endif

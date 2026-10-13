@@ -17,7 +17,11 @@
 #pragma warning(default:4995)
 
 #include "x_ray.h"
+#if defined(_WIN32) || defined(_WIN64)
 #include "discord\discord.h"
+#else
+#include <discord/discord.h>
+#endif
 #include "Render.h"
 #include <chrono>
 

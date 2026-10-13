@@ -3,6 +3,8 @@
 #ifndef _WIN32
 typedef long HRESULT;
 
+#ifndef XRAY_COMPAT_GUID_DEFINED
+#define XRAY_COMPAT_GUID_DEFINED
 struct GUID
 {
     unsigned long Data1;
@@ -15,6 +17,7 @@ typedef const GUID& REFIID;
 typedef const GUID& REFCLSID;
 typedef GUID IID;
 typedef GUID CLSID;
+#endif
 
 inline bool operator==(const GUID& a, const GUID& b)
 {

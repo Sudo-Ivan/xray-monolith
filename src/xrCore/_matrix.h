@@ -916,6 +916,7 @@ public:
 		xyz.mul(-1.f);
 	}
 
+#if defined(_WIN32) || defined(_WIN64)
 	IC SelfRef hud_to_world()
 	{
 		Device.hud_to_world(*this);
@@ -927,6 +928,7 @@ public:
 		Device.world_to_hud(*this);
 		return *this;
 	}
+#endif
 };
 
 typedef _matrix<float> Fmatrix;

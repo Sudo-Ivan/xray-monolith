@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
+#include <type_traits>
 //	Module 		: object_type_traits.h
 //	Created 	: 21.01.2003
 //  Modified 	: 12.07.2004
@@ -22,37 +23,13 @@
 template <bool expression, typename T1, typename T2>
 struct _if
 {
-	template <bool>
-	struct selector
-	{
-		typedef T2 result;
-	};
-
-	template <>
-	struct selector<true>
-	{
-		typedef T1 result;
-	};
-
-	typedef typename selector<expression>::result result;
+	typedef typename std::conditional<expression, T1, T2>::type result;
 };
 
 template <typename T1, typename T2>
 struct is_type
 {
-	template <typename T>
-	struct selector
-	{
-		enum { value = false, };
-	};
-
-	template <>
-	struct selector<T1>
-	{
-		enum { value = true, };
-	};
-
-	enum { value = selector<T2>::value, };
+	enum { value = std::is_same<T1, T2>::value, };
 };
 
 template <typename T>
@@ -138,7 +115,6 @@ namespace object_type_traits
 			enum { value = false };
 		};
 
-		template <>
 		struct select<void>
 		{
 			enum { value = true };

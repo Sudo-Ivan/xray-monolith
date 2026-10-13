@@ -8,6 +8,11 @@
 #ifndef _EDITOR
 # include "xr_input_xinput.h"
 #endif
+
+#if !defined(_WIN32) && !defined(_WIN64)
+union SDL_Event;
+extern void xray_input_feed_sdl_event(const SDL_Event& e);
+#endif
 CInput* pInput = NULL;
 IInputReceiver dummyController;
 
@@ -272,7 +277,13 @@ void CInput::KeyUpdate()
 	if (b_alt_tab) {
 		BOOL fullscreen = (g_screenmode == 2);
 		if (fullscreen)
+		{
+#if defined(_WIN32) || defined(_WIN64)
 			SendMessage(Device.m_hWnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+#else
+			SDL_MinimizeWindow((SDL_Window*)Device.m_hWnd);
+#endif
+		}
 	}
 #endif
 	/*
@@ -351,6 +362,7 @@ bool CInput::dik_to_text(int dik, bool shift, bool caps, bool ctrl, bool alt, bo
 
 	dest[0] = 0;
 
+#if defined(_WIN32) || defined(_WIN64)
 	const UINT scan = static_cast<UINT>(dik);
 	const HKL hkl = GetKeyboardLayout(0);
 
@@ -371,7 +383,7 @@ bool CInput::dik_to_text(int dik, bool shift, bool caps, bool ctrl, bool alt, bo
 		ks[VK_CONTROL] = 0x80;
 		ks[VK_MENU] = 0x80;
 	}
-    
+
 	wchar_t wbuf[8] = {};
 	const int rc = ToUnicodeEx(vk, scan, ks, wbuf, (int)std::size(wbuf), 0, hkl);
 
@@ -406,6 +418,36 @@ bool CInput::dik_to_text(int dik, bool shift, bool caps, bool ctrl, bool alt, bo
 		return false;
 
 	return true;
+#else
+	// Linux path: US-layout DIK -> character table. SDL_TEXTINPUT supplies
+	// composed text for the UI; this fallback covers console text entry.
+	if (ctrl || alt || altgr)
+		return false;
+
+	static const char unshifted[] = {
+		0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 0, 0,
+		'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 0, 0,
+		'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 0x27, '`', 0, '\\',
+		'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0, '*', 0, ' ', 0
+	};
+	static const char shifted[] = {
+		0, 0, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 0, 0,
+		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 0, 0,
+		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0, '|',
+		'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0, '*', 0, ' ', 0
+	};
+
+	if (dik < 0 || dik >= (int)sizeof(unshifted))
+		return false;
+
+	char c = shift ^ caps ? shifted[dik] : unshifted[dik];
+	if (c == 0)
+		return false;
+
+	dest[0] = c;
+	dest[1] = 0;
+	return true;
+#endif
 }
 
 #define MOUSE_1 (0xED + 100)
@@ -426,8 +468,10 @@ BOOL CInput::iGetAsyncKeyState(int dik)
 
 BOOL CInput::iGetAsyncBtnState(int btn)
 {
+#if defined(_WIN32) || defined(_WIN64)
 	if ((btn == 0 || btn == 1) && !!GetSystemMetrics(SM_SWAPBUTTON))
 		btn = btn == 0 ? 1 : 0;
+#endif
 	return !!mouseState[btn];
 }
 
@@ -463,7 +507,10 @@ void CInput::MouseUpdate()
 	mouse_prev[6] = mouseState[6];
 	mouse_prev[7] = mouseState[7];
 
-	bool bSwitched = !!GetSystemMetrics(SM_SWAPBUTTON);
+	bool bSwitched = false;
+#if defined(_WIN32) || defined(_WIN64)
+	bSwitched = !!GetSystemMetrics(SM_SWAPBUTTON);
+#endif
 
 	offs[0] = offs[1] = offs[2] = 0;
 	for (u32 i = 0; i < dwElements; i++)

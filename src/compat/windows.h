@@ -40,7 +40,10 @@ typedef void* HBRUSH;
 typedef void* HGDIOBJ;
 typedef void* FARPROC;
 typedef int INT;
-typedef int INT_PTR;
+#ifndef XRAY_COMPAT_PTR_TYPES
+#define XRAY_COMPAT_PTR_TYPES
+typedef intptr_t INT_PTR;
+#endif
 typedef unsigned int DWORD32;
 typedef unsigned long long DWORD64;
 typedef long long LONG64;

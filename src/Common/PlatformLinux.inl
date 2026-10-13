@@ -22,6 +22,7 @@
 #include <pthread.h>
 #include <fcntl.h>
 #include <sys/mman.h> // for mmap / munmap
+#include <dlfcn.h>
 #include <dirent.h>
 #include <utime.h>
 #include <ctime>
@@ -161,6 +162,22 @@ typedef UINT_PTR WPARAM;
 typedef LONG_PTR LPARAM;
 typedef long HRESULT;
 typedef long LRESULT;
+#ifndef XRAY_COMPAT_GUID_DEFINED
+#define XRAY_COMPAT_GUID_DEFINED
+struct GUID
+{
+    unsigned long Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+};
+typedef const GUID& REFGUID;
+typedef const GUID& REFIID;
+typedef const GUID& REFCLSID;
+typedef GUID IID;
+typedef GUID CLSID;
+#endif
+
 typedef void* HWND;
 typedef void* HDC;
 
@@ -1401,3 +1418,109 @@ inline unsigned long GetCurrentThreadId()
 {
     return (unsigned long)pthread_self();
 }
+
+inline unsigned int GetTickCount()
+{
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (unsigned int)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000);
+}
+
+inline HMODULE LoadLibraryA(LPCSTR path)
+{
+    return dlopen(path, RTLD_NOW | RTLD_GLOBAL);
+}
+#define LoadLibrary LoadLibraryA
+inline FARPROC GetProcAddress_compat(HMODULE mod, LPCSTR name)
+{
+    return (FARPROC)dlsym(mod, name);
+}
+#ifndef GetProcAddress
+#define GetProcAddress GetProcAddress_compat
+#endif
+inline void FreeLibrary_compat(HMODULE mod)
+{
+    if (mod) dlclose(mod);
+}
+#ifndef FreeLibrary
+#define FreeLibrary FreeLibrary_compat
+#endif
+class IUnknown
+{
+public:
+    virtual ~IUnknown() {}
+    virtual long QueryInterface(const GUID&, void**) { return 0; }
+    virtual unsigned long AddRef() { return 1; }
+    virtual unsigned long Release() { return 0; }
+};
+
+#ifndef _TRUNCATE
+#define _TRUNCATE ((size_t)-1)
+#endif
+
+#ifndef _unlink
+#define _unlink unlink
+#endif
+
+typedef void* HBITMAP;
+typedef void* HPEN;
+typedef void* HGDIOBJ;
+typedef int HKL_unused_0;
+
+#define EXCEPTION_EXECUTE_HANDLER     1
+#define EXCEPTION_CONTINUE_SEARCH     0
+#define EXCEPTION_CONTINUE_EXECUTION  (-1)
+#define EXCEPTION_STACK_OVERFLOW      0xC00000FDL
+#define EXCEPTION_ACCESS_VIOLATION    0xC0000005L
+inline void _resetstkoflw() {}
+inline void _declspec_dummy() {}
+#define _declspec(x)
+#define __declspec(x)
+#define DLL_PROCESS_ATTACH 1
+#define DLL_PROCESS_DETACH 0
+#define DLL_THREAD_ATTACH  2
+#define DLL_THREAD_DETACH  3
+#define MB_OK             0x00000000
+#define MB_OKCANCEL       0x00000001
+#define MB_ICONEXCLAMATION 0x00000030
+#define MB_ICONERROR      0x00000010
+#define MB_YESNO          0x00000004
+
+#ifndef GetModuleFileNameA
+inline DWORD GetModuleFileNameA(HMODULE, LPSTR buf, DWORD bufsize)
+{
+    ssize_t n = readlink("/proc/self/exe", buf, bufsize - 1);
+    if (n < 0)
+        return 0;
+    buf[n] = 0;
+    return (DWORD)n;
+}
+#define GetModuleFileName GetModuleFileNameA
+#endif
+
+#define ERROR_ALREADY_EXISTS 183
+inline void* CreateMutex(void*, BOOL, LPCSTR)
+{
+    return nullptr;
+}
+struct STARTUPINFO
+{
+    DWORD cb;
+};
+struct PROCESS_INFORMATION
+{
+    void* hProcess;
+    void* hThread;
+    DWORD dwProcessId;
+    DWORD dwThreadId;
+};
+inline void* CreateDialog(void*, void*, void*, void*)
+{
+    return nullptr;
+}
+inline void* GetDlgItem(void*, int)
+{
+    return nullptr;
+}
+#define IDD_STARTUP 0
+#define IDC_STATIC_LOGO 0

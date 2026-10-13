@@ -46,8 +46,8 @@ void __cdecl dummy(void)
 #pragma comment(lib, "vfw32.lib")
 #pragma comment(lib, "nvapi.lib")
 
-#if !defined(STATIC_RENDERER_R1) && !defined(STATIC_RENDERER_R2) && !defined(STATIC_RENDERER_R3) && !defined(STATIC_RENDERER_R4)
-	#error Select one of the renderers R1, R2, R3, or R4
+#if !defined(STATIC_RENDERER_R1) && !defined(STATIC_RENDERER_R2) && !defined(STATIC_RENDERER_R3) && !defined(STATIC_RENDERER_R4) && !defined(STATIC_RENDERER_NULL)
+	#error Select one of the renderers R1, R2, R3, R4, or NULL
 #endif
 
 #ifdef STATIC_RENDERER_R1
@@ -125,6 +125,7 @@ extern BOOL DllMainXrRenderR1(HANDLE hModule, DWORD ul_reason_for_call, LPVOID l
 extern BOOL DllMainXrRenderR2(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
 extern BOOL DllMainXrRenderR3(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
 extern BOOL DllMainXrRenderR4(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
+extern BOOL DllMainXrRenderNull(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
 
 #ifdef STATIC_RENDERER_R1
 	#define DLL_MAIN_RENDERER DllMainXrRenderR1
@@ -138,12 +139,27 @@ extern BOOL DllMainXrRenderR4(HANDLE hModule, DWORD ul_reason_for_call, LPVOID l
 #ifdef STATIC_RENDERER_R4
 	#define DLL_MAIN_RENDERER DllMainXrRenderR4
 #endif
+#ifdef STATIC_RENDERER_NULL
+	#define DLL_MAIN_RENDERER DllMainXrRenderNull
+#endif
 
 void CEngineAPI::InitializeNotDedicated()
 {
 	LPCSTR r2_name = "xrRender_R2.dll";
 	LPCSTR r3_name = "xrRender_R3.dll";
 	LPCSTR r4_name = "xrRender_R4.dll";
+	LPCSTR rnull_name = "xrRender_Null";
+
+#ifdef STATIC_RENDERER_NULL
+	{
+		psDeviceFlags.set(rsR2, FALSE);
+		psDeviceFlags.set(rsR3, FALSE);
+		psDeviceFlags.set(rsR4, FALSE);
+		Log("Loading renderer:", rnull_name);
+		DllMainXrRenderNull(NULL, DLL_PROCESS_ATTACH, NULL);
+		g_current_renderer = 0;
+	}
+#endif
 #ifdef STATIC_RENDERER_R4
 	//if (psDeviceFlags.test(rsR4))
     {

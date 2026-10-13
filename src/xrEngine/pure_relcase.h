@@ -1,6 +1,8 @@
 #ifndef pure_relcaseH
 #define pure_relcaseH
 
+#include "IGame_Level.h"
+
 class ENGINE_API pure_relcase
 {
 private:
@@ -10,7 +12,7 @@ public:
 	pure_relcase(void (xr_stdcall class_type::* function_to_bind)(CObject*))
 	{
 		R_ASSERT(g_pGameLevel);
-		class_type* self = static_cast<class_type*>(this);
+		class_type* self = static_cast<class_type*>(static_cast<void*>(this));
 		g_pGameLevel->Objects.relcase_register(
 			CObjectList::RELCASE_CALLBACK(
 				self,

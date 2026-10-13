@@ -25,9 +25,19 @@
 #include <process.h>
 #include <locale.h>
 
-#include <unicode\unistr.h>
-#include <unicode\ucnv.h>
+#include <unicode/unistr.h>
+#include <unicode/ucnv.h>
+#if defined(_WIN32) || defined(_WIN64)
 #include <discord\discord.h>
+#else
+#include <discord/discord.h>
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+#ifndef PASCAL
+#define PASCAL
+#endif
+#endif
 #include "../xrCore/profiler.h"
 
 #include "xrSASH.h"
@@ -44,7 +54,9 @@ ENGINE_API CInifile* pGameIni = NULL;
 BOOL g_bIntroFinished = FALSE;
 extern void Intro(void* fn);
 extern void Intro_DSHOW(void* fn);
+#if defined(_WIN32) || defined(_WIN64)
 extern int PASCAL IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
+#endif
 //int max_load_stage = 0;
 
 // computing build id
@@ -549,7 +561,11 @@ void updateDiscordPresence()
 
 void Init_Discord()
 {
+#if defined(_WIN32) || defined(_WIN64)
 	auto result = discord::Core::Create(477910171964801060, DiscordCreateFlags_NoRequireDiscord, &discord_core);
+#else
+	auto result = discord::Core::Create(477910171964801060, 0, &discord_core);
+#endif
 	
 	if (result != discord::Result::Ok)
 	{
@@ -722,6 +738,7 @@ static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 // Always request high performance GPU
+#if defined(_WIN32) || defined(_WIN64)
 extern "C"
 {
 	// https://docs.nvidia.com/gameworks/content/technologies/desktop/optimus.htm
@@ -730,6 +747,7 @@ extern "C"
 	// https://gpuopen.com/amdpowerxpressrequesthighperformance/
 	_declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 0x00000001; // PowerXpress or Hybrid Graphics
 }
+#endif
 
 /*
 void test_rtc ()
@@ -955,17 +973,23 @@ ENGINE_API bool g_dedicated_server = false;
 
 #endif // DEDICATED_SERVER
 
+#if defined(_WIN32) || defined(_WIN64)
 int APIENTRY WinMain_impl(HINSTANCE hInstance,
                           HINSTANCE hPrevInstance,
                           char* lpCmdLine,
                           int nCmdShow)
 {
+#else
+int WinMain_impl(HINSTANCE, HINSTANCE, char* lpCmdLine, int)
+{
+#endif
 #ifdef DEDICATED_SERVER
     Debug._initialize(true);
 #else // DEDICATED_SERVER
 	Debug._initialize(false);
 #endif // DEDICATED_SERVER
 
+#if defined(_WIN32) || defined(_WIN64)
 	if (!IsDebuggerPresent())
 	{
 		HMODULE const kernel32 = LoadLibrary("kernel32.dll");
@@ -991,6 +1015,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #endif
 		}
 	}
+#endif // _WIN32
 
 	// foo();
 #ifndef DEDICATED_SERVER
@@ -1034,6 +1059,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 #endif // DEDICATED_SERVER
 
 	// Title window
+#if defined(_WIN32) || defined(_WIN64)
     logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), 0, logDlgProc);
    
 	HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC_LOGO);
@@ -1041,6 +1067,10 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	GetWindowRect(logoPicture, &logoRect);
 	int splashW = logoRect.right - logoRect.left;
 	int splashH = logoRect.bottom - logoRect.top;
+#else
+	int splashW = 0;
+	int splashH = 0;
+#endif
 
 	u32 screenW, screenH;
 	int monX, monY;
@@ -1056,6 +1086,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
     }
 
 
+#if defined(_WIN32) || defined(_WIN64)
 	SetWindowPos(
 		logoWindow,
 #ifndef DEBUG
@@ -1071,6 +1102,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	);
 	
 	UpdateWindow(logoWindow);
+#endif
 
 	// AVI
 	g_bIntroFinished = TRUE;
@@ -1201,6 +1233,7 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 		if (/*xr_strlen(g_sLaunchOnExit_params) && */xr_strlen(g_sLaunchOnExit_app))
 		{
 			//CreateProcess need to return results to next two structures
+#if defined(_WIN32) || defined(_WIN64)
 			STARTUPINFO si;
 			PROCESS_INFORMATION pi;
 			ZeroMemory(&si, sizeof(si));
@@ -1210,6 +1243,13 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 			char const* temp_wf = (xr_strlen(g_sLaunchWorkingFolder) > 0) ? g_sLaunchWorkingFolder : NULL;
 			CreateProcess(g_sLaunchOnExit_app, g_sLaunchOnExit_params, NULL, NULL, FALSE, 0, NULL,
 			              temp_wf, &si, &pi);
+#else
+			if (xr_strlen(g_sLaunchWorkingFolder) > 0)
+				chdir(g_sLaunchWorkingFolder);
+			char cmdline[1024] = {};
+			snprintf(cmdline, sizeof(cmdline), "%s %s &", g_sLaunchOnExit_app, g_sLaunchOnExit_params);
+			system(cmdline);
+#endif
 		}
 #ifndef DEDICATED_SERVER
 #ifdef NO_MULTI_INSTANCES
@@ -1248,6 +1288,7 @@ extern BOOL DllMainXrPhysics(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lp
 //extern BOOL DllMainXrRenderR3(HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved);
 //extern BOOL DllMainXrRenderR4(HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved);
 
+#if defined(_WIN32) || defined(_WIN64)
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      char* lpCmdLine,
@@ -1292,6 +1333,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	DllMainXrCore(NULL, DLL_THREAD_ATTACH, NULL);
 
+#if defined(_WIN32) || defined(_WIN64)
 	__try
 	{
 		WinMain_impl(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
@@ -1301,6 +1343,16 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		_resetstkoflw();
 		FATAL("stack overflow");
 	}
+#else
+	try
+	{
+		WinMain_impl(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	}
+	catch (...)
+	{
+		FATAL("stack overflow");
+	}
+#endif
 
 	DllMainXrPhysics(NULL, DLL_PROCESS_DETACH, NULL);
 	DllMainXrCore(NULL, DLL_PROCESS_DETACH, NULL);
@@ -1308,6 +1360,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	return (0);
 }
+#endif // _WIN32 WinMain
 
 LPCSTR _GetFontTexName(LPCSTR section) { return GetFontTextureName(section); }
 
@@ -2029,3 +2082,43 @@ float f = 1/(exp((float(idx)-kk)*0.5f)+1.0f);
 return color_argb_f (f,1.0f,1.0f,1.0f);
 }
 */
+
+#if !defined(_WIN32) && !defined(_WIN64)
+// Linux entry point: replaces WinMain + WinMain_impl.
+// SDL provides the window; DllMain emulation is done via direct init calls.
+
+static char g_linux_cmdline[4096];
+
+int APIENTRY WinMain_impl(HINSTANCE, HINSTANCE, char* lpCmdLine, int);
+
+int main(int argc, char** argv)
+{
+    // build the command-line string the engine expects (-key value pairs)
+    g_linux_cmdline[0] = 0;
+    for (int i = 1; i < argc; ++i)
+    {
+        xr_strcat(g_linux_cmdline, argv[i]);
+        xr_strcat(g_linux_cmdline, " ");
+    }
+
+    XR_EARLY_INIT();
+
+    DllMainXrCore(NULL, DLL_PROCESS_ATTACH, NULL);
+    DllMainXrPhysics(NULL, DLL_PROCESS_ATTACH, NULL);
+    DllMainXrCore(NULL, DLL_THREAD_ATTACH, NULL);
+
+    int result = 0;
+    try
+    {
+        result = WinMain_impl(NULL, NULL, g_linux_cmdline, 0);
+    }
+    catch (...)
+    {
+        FATAL("stack overflow or unhandled exception");
+    }
+
+    DllMainXrPhysics(NULL, DLL_PROCESS_DETACH, NULL);
+    DllMainXrCore(NULL, DLL_PROCESS_DETACH, NULL);
+    return result;
+}
+#endif // !_WIN32

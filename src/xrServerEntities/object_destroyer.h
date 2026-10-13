@@ -29,8 +29,8 @@ struct CDestroyer
 	template <typename T, int size>
 	IC static void delete_data(svector<T, size>& data)
 	{
-		svector<T, size>::iterator I = data.begin();
-		svector<T, size>::iterator E = data.end();
+		typename svector<T, size>::iterator I = data.begin();
+		typename svector<T, size>::iterator E = data.end();
 		for (; I != E; ++I)
 			delete_data(*I);
 		data.clear();
@@ -85,12 +85,12 @@ struct CDestroyer
 	struct CHelper1
 	{
 		template <bool a>
-		IC static void delete_data(T&)
+		IC static void delete_data(std::enable_if_t<!a, T&>)
 		{
 		}
 
-		template <>
-		IC static void delete_data<true>(T& data)
+		template <bool a>
+		IC static void delete_data(std::enable_if_t<a, T&> data)
 		{
 			data.destroy();
 		}
@@ -100,14 +100,14 @@ struct CDestroyer
 	struct CHelper2
 	{
 		template <bool a>
-		IC static void delete_data(T& data)
+		IC static void delete_data(std::enable_if_t<!a, T&> data)
 		{
-			CHelper1<T>::delete_data < object_type_traits::is_base_and_derived<IPureDestroyableObject, T>::value > (data
+			CHelper1<T>::template delete_data < object_type_traits::is_base_and_derived<IPureDestroyableObject, T>::value > (data
 			);
 		}
 
-		template <>
-		IC static void delete_data<true>(T& data)
+		template <bool a>
+		IC static void delete_data(std::enable_if_t<a, T&> data)
 		{
 			if (data)
 				CDestroyer::delete_data(*data);
@@ -120,8 +120,8 @@ struct CDestroyer
 		template <typename T>
 		IC static void delete_data(T& data)
 		{
-			T::iterator I = data.begin();
-			T::iterator E = data.end();
+			typename T::iterator I = data.begin();
+			typename T::iterator E = data.end();
 			for (; I != E; ++I)
 				CDestroyer::delete_data(*I);
 			data.clear();
@@ -132,13 +132,13 @@ struct CDestroyer
 	struct CHelper4
 	{
 		template <bool a>
-		IC static void delete_data(T& data)
+		IC static void delete_data(std::enable_if_t<!a, T&> data)
 		{
-			CHelper2<T>::delete_data < object_type_traits::is_pointer<T>::value > (data);
+			CHelper2<T>::template delete_data < object_type_traits::is_pointer<T>::value > (data);
 		}
 
-		template <>
-		IC static void delete_data<true>(T& data)
+		template <bool a>
+		IC static void delete_data(std::enable_if_t<a, T&> data)
 		{
 			CHelper3::delete_data(data);
 		}
@@ -147,7 +147,7 @@ struct CDestroyer
 	template <typename T>
 	IC static void delete_data(T& data)
 	{
-		CHelper4<T>::delete_data < object_type_traits::is_stl_container<T>::value > (data);
+		CHelper4<T>::template delete_data < object_type_traits::is_stl_container<T>::value > (data);
 	}
 };
 
