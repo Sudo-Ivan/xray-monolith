@@ -48,3 +48,34 @@ void xrDebug::soft_fail(LPCSTR e1, const std::string& e2, LPCSTR file, int line,
 	static bool ignore_always = false;
 	backend("soft assert", e1, e2.c_str(), nullptr, file, line, function, ignore_always);
 }
+
+void xrDebug::soft_fail(LPCSTR e1, LPCSTR file, int line, LPCSTR function)
+{
+	static bool ignore_always = false;
+	backend("soft assert", e1, nullptr, nullptr, file, line, function, ignore_always);
+}
+
+void xrDebug::soft_fail(LPCSTR e1, LPCSTR e2, LPCSTR file, int line, LPCSTR function)
+{
+	static bool ignore_always = false;
+	backend("soft assert", e1, e2, nullptr, file, line, function, ignore_always);
+}
+
+void xrDebug::soft_fail(LPCSTR e1, LPCSTR e2, LPCSTR e3, LPCSTR file, int line, LPCSTR function)
+{
+	static bool ignore_always = false;
+	backend("soft assert", e1, e2, e3, file, line, function, ignore_always);
+}
+
+void xrDebug::soft_fail(LPCSTR e1, LPCSTR e2, LPCSTR e3, LPCSTR e4, LPCSTR file, int line, LPCSTR function)
+{
+	static bool ignore_always = false;
+	backend("soft assert", e1, e2, e3, file, line, function, ignore_always);
+}
+
+void xrDebug::soft_fail(LPCSTR e1, LPCSTR e2, LPCSTR e3, LPCSTR e4, LPCSTR e5, LPCSTR file, int line,
+                        LPCSTR function)
+{
+	static bool ignore_always = false;
+	backend("soft assert", e1, e2, e3, file, line, function, ignore_always);
+}

@@ -1258,3 +1258,42 @@ inline int _findclose(intptr_t handle)
     delete st;
     return 0;
 }
+
+typedef time_t __time64_t;
+inline __time64_t _time64(__time64_t* t)
+{
+    time_t r = time(nullptr);
+    if (t)
+        *t = r;
+    return r;
+}
+inline struct tm* _localtime64(const __time64_t* t)
+{
+    static thread_local struct tm result;
+    return localtime_r(t, &result);
+}
+#define GetProcessHeap() ((HANDLE)0)
+inline BOOL CopyFile(LPCSTR src, LPCSTR dst, BOOL)
+{
+    int in = open(src, O_RDONLY);
+    if (in < 0)
+        return FALSE;
+    int out = open(dst, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (out < 0)
+    {
+        close(in);
+        return FALSE;
+    }
+    char buf[65536];
+    ssize_t n;
+    BOOL ok = TRUE;
+    while ((n = read(in, buf, sizeof(buf))) > 0)
+        if (write(out, buf, n) != n)
+        {
+            ok = FALSE;
+            break;
+        }
+    close(in);
+    close(out);
+    return ok;
+}
