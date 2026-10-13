@@ -40,15 +40,15 @@ namespace soundSmoothingParams {
 	float pitchVariationPower = 0.f;
 	float power = 1.8;
 	int steps = 15;
-	float alpha = getAlpha();
-	IC float getAlpha() {
+	float alpha = 2.0f / 16.f;
+	float getAlpha() {
 		return 2.0f / (steps + 1);
 	}
-	IC float getTimeDeltaSmoothing() {
+	float getTimeDeltaSmoothing() {
 		return alpha;
 		//return min(1.0f, alpha * (Device.fTimeDelta / steps));
 	}
-	IC float getSmoothedValue(float target, float current, float smoothing = getTimeDeltaSmoothing()) {
+	float getSmoothedValue(float target, float current, float smoothing) {
 		return current + smoothing * (target - current);
 	}
 };

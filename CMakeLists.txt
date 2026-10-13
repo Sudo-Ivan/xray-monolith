@@ -44,10 +44,18 @@ add_subdirectory(src/xrSound)
 add_subdirectory("src/3rd party/ode")
 add_subdirectory(src/xrPhysics)
 add_subdirectory(src/xrEngine)
+add_subdirectory(src/Layers/xrRenderNull)
+add_subdirectory("src/3rd party/imgui")
+
 
 enable_testing()
 
 option(XRCORE_BUILD_SMOKE_TEST "Build the xrCore smoke test executable" ON)
 if(XRCORE_BUILD_SMOKE_TEST)
     add_subdirectory(tests)
+endif()
+
+if(NOT WIN32)
+    add_executable(xray src/xrEngine/x_ray.cpp src/Layers/reshade_stub.cpp src/Layers/xrGameStub.cpp src/Layers/cpupipe_stub.cpp src/compat/icu_shim.cpp)
+    target_link_libraries(xray PRIVATE xrrendernull xrengine xrphysics xrsound xrnetserver xrcdb xrxmlparser xrcore imgui ${SDL2_LIBRARIES} openal vorbisfile vorbis ogg icuuc dl pthread m)
 endif()

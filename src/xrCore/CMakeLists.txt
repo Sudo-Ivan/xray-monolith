@@ -1,4 +1,5 @@
-add_library(xrcore STATIC)
+add_library(xrcore STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/tbb_stub.cpp)
 
 target_include_directories(xrcore PUBLIC
     "${CMAKE_SOURCE_DIR}/src"

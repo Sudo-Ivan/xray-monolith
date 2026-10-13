@@ -54,7 +54,7 @@ typedef svector<S2DVert,UI_FRUSTUM_SAFE> sPoly2D;
 
 class C2DFrustum
 {
-	svector<Fplane2,FRUSTUM_MAXPLANES> planes;
+	svector<Fplane2,UI_FRUSTUM_MAXPLANES> planes;
 	Frect m_rect;
 	bool m_force_clip; // when true, ClipPoly always runs even if the poly is fully inside m_rect
 public:

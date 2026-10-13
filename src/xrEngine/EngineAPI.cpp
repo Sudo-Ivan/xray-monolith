@@ -415,6 +415,9 @@ void CEngineAPI::CreateRendererList()
 	//hRender = 0;
 	bool proceed = true;
 	xr_vector<LPCSTR> _tmp;
+#ifdef STATIC_RENDERER_NULL
+	_tmp.push_back("renderer_null");
+#endif
 #ifdef STATIC_RENDERER_R1
 	_tmp.push_back("renderer_r1");
 #endif

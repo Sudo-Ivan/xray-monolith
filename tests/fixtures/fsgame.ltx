@@ -1,0 +1,26 @@
+; minimal fsgame for the Linux port bring-up
+$app_data_root$        = true| false| $fs_root$| _appdata_\
+$game_data$            = true| false| $fs_root$| gamedata\
+$game_ai$              = true| false| $game_data$| ai\
+$game_spawn$           = true| false| $game_data$| spawns\
+$game_levels$          = true| false| $game_data$| levels\
+$game_meshes$          = true| true| $game_data$| meshes\
+$game_anims$           = true| true| $game_data$| anims\
+$game_dm$              = true| true| $game_data$| meshes\
+$game_shaders$         = true| true| $game_data$| shaders\
+$game_sounds$          = true| true| $game_data$| sounds\
+$game_textures$        = true| true| $game_data$| textures\
+$game_config$          = true| false| $game_data$| config\
+$game_scripts$         = true| false| $game_data$| scripts\
+$level$                = false| false| $game_levels$
+$game_saves$           = true| false| $app_data_root$| savedgames\
+$logs$                 = true| false| $app_data_root$| logs\
+$screenshots$          = true| false| $app_data_root$| screenshots\
+$mod_dir$              = true| false| $fs_root$| mods\
+$downloads$            = true| false| $fs_root$| downloads\
+$arch_dir$             = false| false| $fs_root$
+$arch_dir_levels$      = false| false| $fs_root$| levels\
+$arch_dir_resources$   = false| false| $fs_root$| resources\
+$arch_dir_sounds$      = false| false| $fs_root$| sounds\
+$arch_dir_patches$     = false| false| $fs_root$| patches\
+$arch_dir_configs$     = false| false| $fs_root$| configs\

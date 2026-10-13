@@ -5,8 +5,6 @@
 #include "log.h"
 
 // build info normally generated per executable
-XRCORE_API u32 build_id = 0;
-XRCORE_API LPCSTR build_date = __DATE__;
 
 // modded exes info normally provided by the game binary
 int get_modded_exes_version()
@@ -26,10 +24,6 @@ LPCSTR get_modded_exes_name()
 
 // console markup check lives in xrEngine
 enum Console_mark : int;
-bool is_console_mark(Console_mark)
-{
-	return false;
-}
 
 // thread spawn hook from xrDebugNew.cpp
 void debug_on_thread_spawn()
@@ -79,3 +73,15 @@ void xrDebug::soft_fail(LPCSTR e1, LPCSTR e2, LPCSTR e3, LPCSTR e4, LPCSTR e5, L
 	static bool ignore_always = false;
 	backend("soft assert", e1, e2, e3, file, line, function, ignore_always);
 }
+
+// Build info and console markup. Weak so the real definitions from the game
+// binary (x_ray.cpp) take precedence when linked.
+__attribute__((weak)) XRCORE_API u32 build_id = 0;
+__attribute__((weak)) XRCORE_API LPCSTR build_date = __DATE__;
+
+enum Console_mark : int;
+__attribute__((weak)) bool is_console_mark(Console_mark)
+{
+	return false;
+}
+bool ignore_verify = true;

@@ -386,7 +386,15 @@ inline int vsnprintf_s(char* buffer, size_t size, size_t, const char* format, va
 #define _sopen open
 #define _utime utime
 #define _utimbuf utimbuf
-#define _sopen_s(handle, filename, ...) open(filename, O_RDONLY)
+inline const char* xr_conv_path(const char* path);
+inline int _sopen_s(int* handle, const char* filename, int oflag, int, int)
+{
+    int fd = open(xr_conv_path(filename), oflag & ~_O_BINARY);
+    if (fd < 0)
+        return errno;
+    *handle = fd;
+    return 0;
+}
 inline int _filelength(int fd)
 {
     struct stat file_info;
@@ -1261,7 +1269,7 @@ inline intptr_t _findfirst(const char* pattern, _finddata_t* out)
     pat[sizeof(pat) - 1] = 0;
     size_t pl = strlen(pat);
     if (pl >= 3 && strcmp(pat + pl - 3, "*.*") == 0)
-        pat[pl - 1] = 0; // turn trailing *.* into *
+        pat[pl - 2] = 0; // turn trailing *.* into *
     if (glob(pat, GLOB_PERIOD, nullptr, &st->g) != 0 || st->g.gl_pathc == 0)
     {
         globfree(&st->g);
@@ -1269,7 +1277,9 @@ inline intptr_t _findfirst(const char* pattern, _finddata_t* out)
         return -1;
     }
     const char* path = st->g.gl_pathv[st->idx++];
-    strncpy(out->name, path, sizeof(out->name) - 1);
+    const char* base = strrchr(path, '/');
+    base = base ? base + 1 : path;
+    strncpy(out->name, base, sizeof(out->name) - 1);
     out->name[sizeof(out->name) - 1] = 0;
     struct stat fs;
     if (stat(path, &fs) == 0)
@@ -1499,9 +1509,28 @@ inline DWORD GetModuleFileNameA(HMODULE, LPSTR buf, DWORD bufsize)
 #endif
 
 #define ERROR_ALREADY_EXISTS 183
-inline void* CreateMutex(void*, BOOL, LPCSTR)
+inline void* CreateMutex(void*, BOOL, LPCSTR name)
 {
-    return nullptr;
+    // instance mutex backed by an flock lockfile under /tmp
+    char path[260];
+    snprintf(path, sizeof(path), "/tmp/.xray_mutex_%s", name ? name : "default");
+    for (char* c = path; *c; ++c)
+        if (*c == '\\' || *c == '/')
+            *c = '_';
+    int fd = open(path, O_CREAT | O_RDWR, 0600);
+    if (fd < 0)
+        return nullptr;
+    struct ::flock fl;
+    memset(&fl, 0, sizeof(fl));
+    fl.l_type = F_WRLCK;
+    fl.l_whence = SEEK_SET;
+    if (fcntl(fd, F_SETLK, &fl) != 0)
+    {
+        close(fd);
+        errno = EEXIST;
+        return nullptr;
+    }
+    return (void*)(intptr_t)fd;
 }
 struct STARTUPINFO
 {
