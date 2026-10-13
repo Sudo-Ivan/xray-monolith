@@ -86,7 +86,7 @@ void VerifyPath(LPCSTR path)
 			continue;
 		CopyMemory(tmp, path, i);
 		tmp[i] = 0;
-		_mkdir(tmp);
+		_mkdir(xr_conv_path(tmp));
 	}
 }
 

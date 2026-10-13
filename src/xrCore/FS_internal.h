@@ -24,14 +24,14 @@ public:
 		VerifyPath(fName.c_str());
 		if (exclusive)
 		{
-			int handle = _sopen(fName.c_str(),_O_WRONLY | _O_TRUNC | _O_CREAT | _O_BINARY,SH_DENYWR);
+			int handle = _sopen(xr_conv_path(fName.c_str()),_O_WRONLY | _O_TRUNC | _O_CREAT | _O_BINARY,SH_DENYWR);
             if (handle==-1)
                 Msg("!Can't create file: '%s'. Error: '%s'.", fName.c_str(), strerror(errno));
 			hf = _fdopen(handle, "wb");
 		}
 		else
 		{
-			hf = fopen(fName.c_str(), "wb");
+			hf = fopen(xr_conv_path(fName.c_str()), "wb");
 			if (hf == 0)
 				Msg("!Can't write file: '%s'. Error: '%s'.", fName.c_str(), strerror(errno));
 		}
