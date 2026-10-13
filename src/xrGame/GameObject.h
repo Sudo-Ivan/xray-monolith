@@ -13,6 +13,7 @@
 #include "script_binder.h"
 #include "Hit.h"
 #include "game_object_space.h"
+#include "dplay/dplay8.h"
 
 class CPhysicsShell;
 class CSE_Abstract;

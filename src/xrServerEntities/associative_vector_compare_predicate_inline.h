@@ -10,16 +10,16 @@
 
 #define TEMPLATE_SPECIALIZATION	\
 	template <\
-		typename _key_type,\
+		typename _key_type_t,\
 		typename _value_type,\
-		typename _compare_predicate_type\
+		typename _compare_predicate_type_t\
 	>
 
 #define _associative_vector_compare_predicate	\
 	associative_vector_compare_predicate<\
-		_key_type,\
+		_key_type_t,\
 		_value_type,\
-		_compare_predicate_type\
+		_compare_predicate_type_t\
 	>
 
 TEMPLATE_SPECIALIZATION

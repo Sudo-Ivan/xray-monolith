@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(xray-monolith LANGUAGES C CXX)
+project(xray-monolith LANGUAGES C CXX ASM)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -46,6 +46,11 @@ add_subdirectory(src/xrPhysics)
 add_subdirectory(src/xrEngine)
 add_subdirectory(src/Layers/xrRenderNull)
 add_subdirectory("src/3rd party/imgui")
+add_subdirectory("src/3rd party/luajit-2")
+add_subdirectory("src/3rd party/luabind")
+add_subdirectory("src/3rd party/crypto")
+add_subdirectory("src/3rd party/lua-extensions")
+add_subdirectory(src/xrGame)
 
 
 enable_testing()
@@ -56,6 +61,6 @@ if(XRCORE_BUILD_SMOKE_TEST)
 endif()
 
 if(NOT WIN32)
-    add_executable(xray src/xrEngine/x_ray.cpp src/Layers/reshade_stub.cpp src/Layers/xrGameStub.cpp src/Layers/cpupipe_stub.cpp src/compat/icu_shim.cpp)
-    target_link_libraries(xray PRIVATE xrrendernull xrengine xrphysics xrsound xrnetserver xrcdb xrxmlparser xrcore imgui ${SDL2_LIBRARIES} openal vorbisfile vorbis ogg icuuc dl pthread m)
+    add_executable(xray src/xrEngine/x_ray.cpp src/Layers/reshade_stub.cpp src/Layers/cpupipe_stub.cpp src/compat/icu_shim.cpp)
+    target_link_libraries(xray PRIVATE xrgame xrcrypto luaextensions xrrendernull xrengine xrphysics xrsound xrnetserver xrcdb xrxmlparser xrcore luabind luajit imgui ${SDL2_LIBRARIES} openal vorbisfile vorbis ogg icuuc dl pthread m)
 endif()

@@ -1,0 +1,1057 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message_box_list>
+<message_box_invalid_pass x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_invalid_pass>
+
+<message_box_invalid_host x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_invalid_host>
+
+<message_box_session_full x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_session_full>
+
+<message_box_server_reject x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_server_reject>
+
+<message_box_cdkey_in_use x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_cdkey_in_use>
+
+<message_box_cdkey_disabled x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_cdkey_disabled>
+
+<message_box_cdkey_invalid x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_cdkey_invalid>
+
+<message_box_different_version x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_different_version>
+
+<message_box_gs_service_not_available x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_gs_service_not_available>
+
+<message_box_sb_master_server_connect_failed x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_sb_master_server_connect_failed>
+
+<msg_box_no_new_patch x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_no_new_patch>
+
+<msg_box_new_patch x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_new_patch>
+
+<msg_box_patch_download_error x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_patch_download_error>
+
+<msg_box_patch_download_success x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_patch_download_success>
+
+<msg_box_connect_to_master_server x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_connect_to_master_server>
+
+<msg_box_kicked_by_server x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_kicked_by_server>
+
+<msg_box_error_loading x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_error_loading>
+
+<message_box_download_level x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_download_level>
+
+<message_box x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box>
+
+<message_box_ok x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_ok>
+
+<message_box_yes_no x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_yes_no>
+
+<message_box_password x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_password>
+
+<message_box_ra_login x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_ra_login>
+
+<message_box_error x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_error>
+
+<message_box_buy_spawn x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_buy_spawn>
+
+<msg_box_no_new_patch_2 x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</msg_box_no_new_patch_2>
+
+<message_box_yes_no_cancel x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_yes_no_cancel>
+
+<message_box_yes_no_copy x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_yes_no_copy>
+
+<message_box_direct_ip x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_direct_ip>
+
+<message_box_leave_battle x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_leave_battle>
+
+<message_box_quit_windows x="0" y="0" width="300" height="120" type="ok">
+	<button_ok x="120" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">ok</text>
+	</button_ok>
+	<button_yes x="80" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">yes</text>
+	</button_yes>
+	<button_no x="160" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">no</text>
+	</button_no>
+	<button_cancel x="200" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">cancel</text>
+	</button_cancel>
+	<button_copy x="220" y="80" width="60" height="24">
+		<text font="arial_14" x="0" y="0">copy</text>
+	</button_copy>
+	<message_text x="10" y="10" width="280" height="60">
+		<text font="arial_14" x="0" y="0"></text>
+	</message_text>
+	<picture x="10" y="10" width="32" height="32"/>
+	<cap_host x="10" y="20" width="100" height="20">
+		<text font="arial_14" x="0" y="0">host</text>
+	</cap_host>
+	<edit_host x="120" y="20" width="120" height="20"/>
+	<cap_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_password>
+	<edit_password x="120" y="50" width="120" height="20"/>
+	<cap_user_password x="10" y="50" width="100" height="20">
+		<text font="arial_14" x="0" y="0">pass</text>
+	</cap_user_password>
+	<edit_user_password x="120" y="50" width="120" height="20"/>
+</message_box_quit_windows>
+
+</message_box_list>

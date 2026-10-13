@@ -40,7 +40,6 @@ target_include_directories(ode PUBLIC
 )
 target_compile_definitions(ode PUBLIC
     dSINGLE
-    dTRIMESH_ENABLED
     "__forceinline=inline __attribute__((always_inline))"
 )
 target_compile_options(ode PRIVATE -w)

@@ -7,16 +7,16 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "pch_script.h"
-#include "level.h"
-#include "actor.h"
+#include "Level.h"
+#include "Actor.h"
 #include "script_game_object.h"
 #include "patrol_path_storage.h"
 #include "xrServer.h"
 #include "client_spawn_manager.h"
-#include "../xrEngine/igame_persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 #include "game_cl_base.h"
 #include "UIGameCustom.h"
-#include "UI/UIDialogWnd.h"
+#include "ui/UIDialogWnd.h"
 #include "date_time.h"
 #include "ai_space.h"
 #include "level_graph.h"
@@ -33,19 +33,19 @@
 #include "physics_world_scripted.h"
 #include "alife_simulator.h"
 #include "alife_time_manager.h"
-#include "UI/UIGameTutorial.h"
+#include "ui/UIGameTutorial.h"
 #include "string_table.h"
 #include "ui/UIInventoryUtilities.h"
 #include "alife_object_registry.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#include "hudmanager.h"
-#include "ui\UIMainIngameWnd.h"
-#include "ui\UIHudStatesWnd.h"
-#include "ui\UIPdaWnd.h"
-#include "ui\UITaskWnd.h"
-#include "ui\UIMapWnd.h"
+#include "HUDManager.h"
+#include "ui/UIMainIngameWnd.h"
+#include "ui/UIHudStatesWnd.h"
+#include "ui/UIPdaWnd.h"
+#include "ui/UITaskWnd.h"
+#include "ui/UIMapWnd.h"
 #include "raypick.h"
-#include "../xrcdb/xr_collide_defs.h"
+#include "../xrCDB/xr_collide_defs.h"
 #include "../xrEngine/Rain.h"
 #include "Level_Bullet_Manager.h"
 #include "../xrEngine/xr_efflensflare.h"
@@ -59,8 +59,8 @@
 #include "LevelDebugScript.h"
 #include "script_attachment_manager.h"
 
-#include "ui\UIPdaMsgListItem.h"
-#include "ui\UILogsWnd.h"
+#include "ui/UIPdaMsgListItem.h"
+#include "ui/UILogsWnd.h"
 #include "game_news.h"
 #include "alife_registry_wrappers.h"
 #include "cover_manager.h"
@@ -830,7 +830,7 @@ void iterate_sounds2(LPCSTR prefix, u32 max_count, ::luabind::object object, ::l
 	iterate_sounds(prefix, max_count, temp);
 }
 
-#include "actoreffector.h"
+#include "ActorEffector.h"
 
 float add_cam_effector(LPCSTR fn, int id, bool cyclic, LPCSTR cb_func)
 {
@@ -1113,7 +1113,7 @@ void remove_complex_effector(int id)
 	RemoveEffector(Actor(), id);
 }
 
-#include "postprocessanimator.h"
+#include "PostprocessAnimator.h"
 
 void add_pp_effector(LPCSTR fn, int id, bool cyclic)
 {
@@ -2074,7 +2074,7 @@ enum ETraceTarget {
 
 static SPickParam* get_pick(ETraceTarget tt)
 {
-	R_ASSERT(tt >= 0, tt < TT_MAX);
+	R_ASSERT(tt >= 0 && tt < TT_MAX);
 
 	const attachable_hud_item* item = NULL;
 	switch (tt)

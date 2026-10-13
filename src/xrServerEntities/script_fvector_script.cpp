@@ -12,6 +12,7 @@
 using namespace luabind;
 
 #pragma optimize("s",on)
+template <>
 void CScriptFvector::script_register(lua_State* L)
 {
 	module(L)
@@ -107,10 +108,13 @@ void CScriptFvector::script_register(lua_State* L)
 		// demonized: new exports
 		.def("project", (Fvector & (Fvector::*)(const Fvector&, const Fvector&))(&Fvector::project), return_reference_to<1>())
 		.def("project", (Fvector & (Fvector::*)(const Fvector&))(&Fvector::project), return_reference_to<1>())
+#if defined(_WIN32) || defined(_WIN64)
 		.def("hud_to_world", &Fvector::hud_to_world, return_reference_to<1>())
 		.def("world_to_hud", &Fvector::world_to_hud, return_reference_to<1>())
 		.def("hud_to_world_dir", &Fvector::hud_to_world_dir, return_reference_to<1>())
-		.def("world_to_hud_dir", &Fvector::world_to_hud_dir, return_reference_to<1>()),
+		.def("world_to_hud_dir", &Fvector::world_to_hud_dir, return_reference_to<1>())
+#endif
+		,
 
 		class_<Fvector2>("vector2")
 		.def_readwrite("x", &Fvector2::x)

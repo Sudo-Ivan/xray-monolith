@@ -620,3 +620,28 @@ public:
     void particles_group_next(PS::CPGDef const* const*& iterator) const override {}
     shared_str const& particles_group_id(PS::CPGDef const& particles_group) const override { static shared_str const d = {}; return d; }
 };
+
+// Renderer-module globals consumed by xrGame (normally defined in xrRender/xrRender_console.cpp)
+ENGINE_API Flags32 psDeviceFlags2;
+ENGINE_API int ps_ssfx_grass_interactive_unused = 0;
+ENGINE_API Fvector4 ps_ssfx_grass_interactive;
+ENGINE_API Fvector4 ps_ssfx_wind_trees;
+ENGINE_API Fvector4 ps_ssfx_int_grass_params_1 = { 1.0f, 1.0f, 1.0f, 25.0f };
+ENGINE_API Fvector4 ps_ssfx_int_grass_params_2 = { 1.0f, 5.0f, 1.0f, 1.0f };
+
+// Renderer-module console globals consumed by xrGame/xrEngine
+float sil_glow_max_temp = 0.15f;
+float sil_glow_shot_temp = 0.004f;
+float sil_glow_cool_temp_rate = 0.01f;
+Fvector sil_glow_color = { 1.f, .0f, .0f };
+int ps_r2_heatvision = 0;
+int heat_vision_cooldown = 1;
+float heat_vision_cooldown_time = 20000.f;
+int heat_vision_zombie_cold = 0;
+float ps_r4_hdr10_pda_intensity = 1.0f;
+int ps_r4_hdr10_pda = 0;
+float hud_fov_aim_factor = 0;
+Flags32 ps_actor_shadow_flags = {0};
+BOOL r_optimize_calculate_bones = TRUE;
+float wallmark_range_static = 100.f;
+float wallmark_range_skeleton = 50.f;

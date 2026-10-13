@@ -11,20 +11,20 @@
 
 namespace MonsterSpace
 {
-	enum EBodyState;
-	enum EMovementType;
-	enum EMentalState;
-	enum EPathType;
+	enum EBodyState : u32;
+	enum EMovementType : s32;
+	enum EMentalState : s32;
+	enum EPathType : u32;
 };
 
 namespace MovementManager
 {
-	enum EPathType;
+	enum EPathType : u32;
 };
 
 namespace DetailPathManager
 {
-	enum EDetailPathType;
+	enum EDetailPathType : s32;
 };
 
 namespace smart_cover

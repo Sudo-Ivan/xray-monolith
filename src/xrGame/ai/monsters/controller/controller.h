@@ -1,5 +1,5 @@
 #pragma once
-#include "../BaseMonster/base_monster.h"
+#include "../basemonster/base_monster.h"
 #include "../anim_triple.h"
 #include "../../../../xrServerEntities/script_export_space.h"
 #include "../controlled_actor.h"
@@ -151,8 +151,7 @@ public:
 
 
 public:
-	enum EMentalState
-	{
+	enum EMentalState : s32 {
 		eStateIdle,
 		eStateDanger
 	} m_mental_state;

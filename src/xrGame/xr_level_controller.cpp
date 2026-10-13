@@ -1,10 +1,14 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <dinput.h>
-#include "../xrEngine/xr_ioconsole.h"
+#include "../xrEngine/XR_IOConsole.h"
 #include "../xrEngine/xr_input.h"
 #include "../xrEngine/xr_ioc_cmd.h"
 #include "xr_level_controller.h"
 #include "string_table.h"
+
+#ifndef DIK_CIRCUMFLEX
+#define DIK_CIRCUMFLEX 0x90 // shares the scancode with DIK_PREVTRACK in dinput
+#endif
 
 _binding g_key_bindings [bindings_count];
 _key_group g_current_keygroup = _sp;

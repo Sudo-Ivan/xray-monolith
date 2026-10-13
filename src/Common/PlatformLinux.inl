@@ -36,13 +36,48 @@
 #define _copysign copysign
 
 #define _cdecl //__attribute__((cdecl))
+#define _stdcall
+#define _fastcall
 
 #define __cdecl _cdecl
-#define __stdcall
-#define __fastcall
+#define __stdcall _stdcall
+#define __fastcall _fastcall
 
 #define __pragma(...) _Pragma(#__VA_ARGS__)
 #define CALLBACK
+
+// module export macros are no-ops on Linux; must exist before any order of
+// header inclusion (Windows relied on PCH ordering)
+#ifndef ENGINE_API
+#define ENGINE_API
+#endif
+#ifndef ECORE_API
+#define ECORE_API
+#endif
+#ifndef XRCORE_API
+#define XRCORE_API
+#endif
+#ifndef XRGAME_API
+#define XRGAME_API
+#endif
+#ifndef XRPHYSICS_API
+#define XRPHYSICS_API
+#endif
+#ifndef XRSOUND_API
+#define XRSOUND_API
+#endif
+#ifndef XRCDB_API
+#define XRCDB_API
+#endif
+#ifndef XRNETSERVER_API
+#define XRNETSERVER_API
+#endif
+#ifndef XRSERVERENTITIES_API
+#define XRSERVERENTITIES_API
+#endif
+#ifndef DLL_API
+#define DLL_API
+#endif
 
 #define __except(X) catch(...)
 
@@ -197,7 +232,6 @@ typedef struct tagPOINT {
 
 #define TRUE true
 #define FALSE false
-#define NONE 0
 #define CONST const
 
 typedef dirent DirEntryType;
@@ -761,7 +795,7 @@ inline int xr_init_critical_section(pthread_mutex_t* m)
 #define __debugbreak() __builtin_trap()
 #define OutputDebugStringA(str) ((void)0)
 #define OutputDebugString(str) ((void)0)
-#define DebugBreak() __builtin_trap()
+inline void DebugBreak() { __builtin_trap(); }
 
 #define UNREFERENCED_PARAMETER(p) ((void)(p))
 
@@ -1014,6 +1048,13 @@ inline void* MapViewOfFile(HANDLE h, unsigned long access, DWORD, DWORD offset, 
     int prot = PROT_READ;
     if (access & FILE_MAP_WRITE)
         prot |= PROT_WRITE;
+    if (!len)
+    {
+        struct stat st;
+        if (fstat((int)(intptr_t)h, &st) || !st.st_size)
+            return nullptr;
+        len = (size_t)st.st_size;
+    }
     void* p = mmap(nullptr, len, prot, MAP_SHARED, (int)(intptr_t)h, offset);
     if (p == MAP_FAILED)
         return nullptr;
@@ -1374,6 +1415,67 @@ inline const char* xr_conv_path(const char* path)
     for (char* p = buf; *p; ++p)
         if (*p == '\\')
             *p = '/';
+
+    // The VFS lowercases registered names; on a case-sensitive filesystem the
+    // real path may differ in case. Resolve component-wise on a literal miss.
+    if (access(buf, F_OK) == 0)
+        return buf;
+
+    static thread_local char out[4096];
+    const char* comp = buf;
+    const char* dir_start = (*comp == '/') ? "/" : ".";
+    out[0] = 0;
+    size_t out_len = 0;
+    bool resolved = true;
+
+    while (*comp)
+    {
+        while (*comp == '/')
+            ++comp;
+        if (!*comp)
+            break;
+        const char* comp_end = strchr(comp, '/');
+        size_t comp_len = comp_end ? (size_t)(comp_end - comp) : strlen(comp);
+
+        const char* parent = out_len ? out : dir_start;
+        DIR* d = opendir(parent);
+        if (!d)
+        {
+            resolved = false;
+            break;
+        }
+        struct dirent* e;
+        bool found = false;
+        while ((e = readdir(d)))
+        {
+            if (strlen(e->d_name) == comp_len && strncasecmp(e->d_name, comp, comp_len) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        closedir(d);
+        if (!found)
+        {
+            resolved = false;
+            break;
+        }
+        int n = snprintf(out + out_len, sizeof(out) - out_len, "%s%.*s",
+                         out_len ? "/" : (*buf == '/' ? "/" : ""), (int)comp_len, e->d_name);
+        if (n < 0 || out_len + (size_t)n >= sizeof(out))
+        {
+            resolved = false;
+            break;
+        }
+        out_len += n;
+        comp = comp_end ? comp_end + 1 : comp + comp_len;
+    }
+
+    if (resolved && out_len && access(out, F_OK) == 0)
+    {
+        strncpy(buf, out, sizeof(buf) - 1);
+        buf[sizeof(buf) - 1] = 0;
+    }
     return buf;
 }
 
@@ -1553,3 +1655,225 @@ inline void* GetDlgItem(void*, int)
 }
 #define IDD_STARTUP 0
 #define IDC_STATIC_LOGO 0
+
+typedef struct _SYSTEMTIME
+{
+    unsigned short wYear;
+    unsigned short wMonth;
+    unsigned short wDayOfWeek;
+    unsigned short wDay;
+    unsigned short wHour;
+    unsigned short wMinute;
+    unsigned short wSecond;
+    unsigned short wMilliseconds;
+} SYSTEMTIME, *PSYSTEMTIME, *LPSYSTEMTIME;
+
+inline void GetLocalTime(SYSTEMTIME* st)
+{
+    time_t t = time(nullptr);
+    struct tm lt;
+    localtime_r(&t, &lt);
+    st->wYear = (unsigned short)(lt.tm_year + 1900);
+    st->wMonth = (unsigned short)(lt.tm_mon + 1);
+    st->wDay = (unsigned short)lt.tm_mday;
+    st->wDayOfWeek = (unsigned short)lt.tm_wday;
+    st->wHour = (unsigned short)lt.tm_hour;
+    st->wMinute = (unsigned short)lt.tm_min;
+    st->wSecond = (unsigned short)lt.tm_sec;
+    st->wMilliseconds = 0;
+}
+
+// ---- registry stubs (registry is not used on Linux) ----
+#define HKEY_LOCAL_MACHINE ((HKEY)0)
+#define ERROR_SUCCESS 0
+#define ERROR_FILE_NOT_FOUND 2
+#define REG_SZ 1
+#define REG_BINARY 3
+#define REG_DWORD 4
+#define KEY_READ 0x20019
+#define KEY_WRITE 0x20006
+#define KEY_ALL_ACCESS 0xF003F
+#define REG_OPTION_NON_VOLATILE 0
+#define KEY_QUERY_VALUE 0x0001
+#define KEY_SET_VALUE 0x0002
+
+inline long RegOpenKeyEx(HKEY, LPCSTR, DWORD, DWORD, HKEY* out) { if (out) *out = 0; return ERROR_FILE_NOT_FOUND; }
+inline long RegQueryValueEx(HKEY, LPCSTR, void*, DWORD* type, LPBYTE, DWORD* size) { if (type) *type = 0; if (size) *size = 0; return ERROR_FILE_NOT_FOUND; }
+inline long RegSetValueEx(HKEY, LPCSTR, DWORD, DWORD, const BYTE*, DWORD) { return ERROR_FILE_NOT_FOUND; }
+inline long RegCloseKey(HKEY) { return ERROR_SUCCESS; }
+inline long RegDeleteValue(HKEY, LPCSTR) { return ERROR_FILE_NOT_FOUND; }
+
+// ---- event primitives ----
+typedef unsigned char boolean;
+struct xr_event_t { pthread_cond_t cond; pthread_mutex_t mtx; int signaled; };
+inline void* CreateEvent(void*, int manual_reset, int initial, LPCSTR)
+{
+    xr_event_t* e = (xr_event_t*)malloc(sizeof(xr_event_t));
+    pthread_cond_init(&e->cond, nullptr);
+    pthread_mutex_init(&e->mtx, nullptr);
+    e->signaled = initial ? 1 : 0;
+    return e;
+}
+inline int SetEvent(void* h)
+{
+    xr_event_t* e = (xr_event_t*)h;
+    pthread_mutex_lock(&e->mtx);
+    e->signaled = 1;
+    pthread_cond_broadcast(&e->cond);
+    pthread_mutex_unlock(&e->mtx);
+    return 1;
+}
+inline int ResetEvent(void* h)
+{
+    xr_event_t* e = (xr_event_t*)h;
+    pthread_mutex_lock(&e->mtx);
+    e->signaled = 0;
+    pthread_mutex_unlock(&e->mtx);
+    return 1;
+}
+#define WAIT_OBJECT_0 0
+#define WAIT_TIMEOUT 258
+#define INFINITE 0xFFFFFFFF
+inline DWORD WaitForSingleObject(void* h, DWORD ms)
+{
+    xr_event_t* e = (xr_event_t*)h;
+    DWORD r = WAIT_OBJECT_0;
+    pthread_mutex_lock(&e->mtx);
+    if (ms == INFINITE) {
+        while (!e->signaled) pthread_cond_wait(&e->cond, &e->mtx);
+    } else {
+        struct timespec ts;
+        clock_gettime(CLOCK_REALTIME, &ts);
+        ts.tv_sec += ms / 1000; ts.tv_nsec += (ms % 1000) * 1000000;
+        if (ts.tv_nsec >= 1000000000) { ts.tv_sec++; ts.tv_nsec -= 1000000000; }
+        while (!e->signaled) {
+            if (pthread_cond_timedwait(&e->cond, &e->mtx, &ts) == ETIMEDOUT) { r = WAIT_TIMEOUT; break; }
+        }
+    }
+    pthread_mutex_unlock(&e->mtx);
+    return r;
+}
+
+// ---- sscanf_s shim ----
+// MSVC sscanf_s differs from sscanf: each %s %c %[ conversion takes an extra
+// size argument after the destination pointer. This shim parses the format,
+// drops the size args, and forwards the pointer args to sscanf.
+#include <stdarg.h>
+inline int xr_sscanf_s(const char* str, const char* fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    void* a[16];
+    int n = 0;
+    const char* p = fmt;
+    while (*p && n < 16)
+    {
+        if (*p != '%')
+        {
+            ++p;
+            continue;
+        }
+        ++p;
+        if (*p == '%')
+        {
+            ++p;
+            continue;
+        }
+        bool skip_arg = false;
+        if (*p == '*')
+        {
+            skip_arg = true;
+            ++p;
+        }
+        while (*p >= '0' && *p <= '9')
+            ++p;
+        if (*p == 'h' && p[1] == 'h')
+            p += 2;
+        else if (*p == 'h' || *p == 'w')
+            ++p;
+        else if (*p == 'l' && p[1] == 'l')
+            p += 2;
+        else if (*p == 'l' || *p == 'j' || *p == 'z' || *p == 't' || *p == 'L' || *p == 'I')
+            ++p;
+        if (*p == 'I' && p[1] == '6' && p[2] == '4')
+            p += 3;
+        char c = *p ? *p++ : 0;
+        if (c == '[')
+        {
+            if (*p == '^')
+                ++p;
+            if (*p == ']')
+                ++p;
+            while (*p && *p != ']')
+                ++p;
+            if (*p == ']')
+                ++p;
+        }
+        if (skip_arg)
+            continue;
+        a[n++] = va_arg(ap, void*);
+        if (c == 's' || c == 'c' || c == '[')
+            (void)va_arg(ap, size_t); // buffer size, not needed by sscanf
+    }
+    va_end(ap);
+    switch (n)
+    {
+    case 1:  return sscanf(str, fmt, a[0]);
+    case 2:  return sscanf(str, fmt, a[0], a[1]);
+    case 3:  return sscanf(str, fmt, a[0], a[1], a[2]);
+    case 4:  return sscanf(str, fmt, a[0], a[1], a[2], a[3]);
+    case 5:  return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4]);
+    case 6:  return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4], a[5]);
+    case 7:  return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+    case 8:  return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+    case 9:  return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+    case 10: return sscanf(str, fmt, a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
+    default: return 0;
+    }
+}
+#define sscanf_s xr_sscanf_s
+
+// ---- misc win32 constants/shims ----
+#define WAIT_ABANDONED 0x00000080
+#define WAIT_FAILED 0xFFFFFFFF
+#define GetCurrentProcess() ((void*)-1)
+inline int GetProcessAffinityMask(void*, DWORD_PTR* proc_mask, DWORD_PTR* sys_mask)
+{
+    if (proc_mask) *proc_mask = 1;
+    if (sys_mask) *sys_mask = 1;
+    return 1;
+}
+inline char* ultoa(unsigned long value, char* str, int radix)
+{
+    if (radix == 10)
+        sprintf(str, "%lu", value);
+    else if (radix == 16)
+        sprintf(str, "%lx", value);
+    else if (radix == 8)
+        sprintf(str, "%lo", value);
+    else if (radix == 2)
+    {
+        char* p = str;
+        for (int i = 31; i >= 0; --i)
+            *p++ = ((value >> i) & 1) ? '1' : '0';
+        *p = 0;
+    }
+    else
+        sprintf(str, "%lu", value);
+    return str;
+}
+
+#define __int64 long long
+
+inline DWORD GetFullPathName(LPCSTR lpFileName, DWORD nBufferLength, LPSTR lpBuffer, LPSTR* lpFilePart)
+{
+    // input paths are already absolute in the Linux build; copy and locate the basename
+    strncpy(lpBuffer, lpFileName, nBufferLength - 1);
+    lpBuffer[nBufferLength - 1] = 0;
+    if (lpFilePart)
+    {
+        char* last = strrchr(lpBuffer, '/');
+        *lpFilePart = last ? last + 1 : lpBuffer;
+    }
+    return strlen(lpBuffer);
+}

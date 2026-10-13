@@ -9,6 +9,14 @@
 #ifndef AIMERS_BASE_INLINE_H_INCLUDED
 #define AIMERS_BASE_INLINE_H_INCLUDED
 
+#include "../Include/xrRender/Kinematics.h"
+#include "../Include/xrRender/KinematicsAnimated.h"
+#include "../Include/xrRender/animation_blend.h"
+#include "../xrEngine/bone.h"
+#include "../xrEngine/SkeletonMotionDefs.h"
+#include "GameObject.h"
+#include "animation_movement_controller.h"
+
 template <u32 bone_count0, u32 bone_count1>
 inline void aimers::base::fill_bones(
 	u32 const (&bones) [bone_count0],

@@ -3,30 +3,30 @@
 //	Last updated: 13/08/2015
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Weapon.h"
 #include "ParticlesObject.h"
 #include "entity_alive.h"
 #include "inventory_item_impl.h"
-#include "inventory.h"
-#include "xrserver_objects_alife_items.h"
-#include "actor.h"
+#include "Inventory.h"
+#include "xrServer_Objects_ALife_Items.h"
+#include "Actor.h"
 #include "../xrEngine/CameraBase.h"
-#include "actoreffector.h"
-#include "level.h"
+#include "ActorEffector.h"
+#include "Level.h"
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "ai_object_location.h"
-#include "../xrphysics/mathutils.h"
+#include "../xrPhysics/MathUtils.h"
 #include "object_broker.h"
 #include "player_hud.h"
-#include "gamepersistent.h"
-#include "effectorFall.h"
+#include "GamePersistent.h"
+#include "EffectorFall.h"
 #include "debug_renderer.h"
 #include "static_cast_checked.hpp"
 #include "clsid_game.h"
-#include "weaponBinocularsVision.h"
+#include "WeaponBinocularsVision.h"
 #include "ui/UIWindow.h"
 #include "ui/UIXmlInit.h"
 #include "Torch.h"
@@ -1103,7 +1103,7 @@ void CWeapon::net_Import(NET_Packet& P)
 	P.r_u8(wstate);
 
 	u8 Zoom;
-	P.r_u8((u8)Zoom);
+	P.r_u8(Zoom);
 
 	if (H_Parent() && H_Parent()->Remote())
 	{
@@ -1777,12 +1777,12 @@ float CWeapon::GetConditionMisfireProbability() const
             );
         
     }
-    if (!smart_cast<CActor*>(H_Parent()))
+    if (!smart_cast<const CActor*>(H_Parent()))
     {
         ::luabind::functor<float> funct;
         if (ai().script_engine().functor("xr_weapon_jam.GetConditionMisfireProbability", funct))
         {
-            auto gobj = smart_cast<CGameObject*>(H_Parent());
+            auto gobj = smart_cast<const CGameObject*>(H_Parent());
             result = funct(lua_game_object(), gobj ? gobj->lua_game_object() : nullptr, result);
         }
     }

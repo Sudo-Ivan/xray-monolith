@@ -17,7 +17,7 @@ class intrusive_ptr;
 namespace RestrictionSpace
 {
 	struct CTimeIntrusiveBase;
-	enum ERestrictorTypes;
+	enum ERestrictorTypes : s32;
 };
 
 namespace SpaceRestrictionHolder

@@ -10,7 +10,7 @@
 
 #define TEMPLATE_SPECIALIZATION \
 	template <typename _1,typename _2>\
-	template <template <typename _T> class _vertex>
+	template <template <typename _T_n> class _vertex>
 
 #define CConstructorBuilderAllocator CBuilderAllocatorConstructor<_1,_2>::CDataStorage<_vertex>
 

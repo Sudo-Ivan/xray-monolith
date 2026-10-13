@@ -5,6 +5,24 @@
 #include "stdafx.h"
 #include "null_stubs.cpp"
 #include "../xrRender/dxRenderFactory.h"
+#include "../xrEngine/XR_IOConsole.h"
+#include "../xrEngine/xr_ioc_cmd.h"
+
+// Renderer cvars queried by game/engine code when the real renderer is absent.
+Fvector3 ps_r2_dof = { -1.25f, 0.f, 600.f };
+float ps_r2_dof_sky = 30.f;
+float ps_r2_dof_kernel_size = 0.25f;
+float ps_r2_dof_enable = 0.f;
+float ps_r2_dof_reload = 0.f;
+
+static void null_initconsole()
+{
+    CMD4(CCC_Vector3, "r2_dof", &ps_r2_dof, Fvector3().set(-1000.f, -1000.f, 0.f), Fvector3().set(1000.f, 1000.f, 1000.f));
+    static CCC_Float x_r2_dof_sky("r2_dof_sky", &ps_r2_dof_sky, -10000.f, 10000.f); Console->AddCommand(&x_r2_dof_sky);
+    static CCC_Float x_r2_dof_kernel_size("r2_dof_kernel_size", &ps_r2_dof_kernel_size, 0.f, 10.f); Console->AddCommand(&x_r2_dof_kernel_size);
+    static CCC_Float x_r2_dof_enable("r2_dof_enable", &ps_r2_dof_enable, 0.f, 1.f); Console->AddCommand(&x_r2_dof_enable);
+    static CCC_Float x_r2_dof_reload("r2_dof_reload", &ps_r2_dof_reload, 0.f, 1.f); Console->AddCommand(&x_r2_dof_reload);
+}
 
 namespace
 {
@@ -73,6 +91,7 @@ BOOL DllMainXrRenderNull(HANDLE, DWORD ul_reason_for_call, LPVOID)
         ::DU = &g_nullDU;
         UIRender = &g_nullUIRender;
         DRender = &g_nullDRender;
+        null_initconsole();
     }
     return TRUE;
 }

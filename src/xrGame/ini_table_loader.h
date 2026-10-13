@@ -56,17 +56,17 @@ private:
 		NODEFAULT;
 	}
 
-	template <>
-	T_ITEM convert<int>(LPCSTR str)
+	template <typename T_CONVERT_ITEM>
+	T_ITEM convert_impl(LPCSTR str)
 	{
-		return atoi(str);
+		STATIC_CHECK(false, Specialization_for_convert_in_CIni_Table_not_found);
+		NODEFAULT;
+		return T_ITEM();
 	}
+	int convert_impl(LPCSTR str, int) { return atoi(str); }
+	float convert_impl(LPCSTR str, float) { return (float)atof(str); }
 
-	template <>
-	T_ITEM convert<float>(LPCSTR str)
-	{
-		return (float)atof(str);
-	}
+	T_ITEM convert(LPCSTR str) { return convert_impl(str, T_ITEM()); }
 };
 
 /*
@@ -117,7 +117,7 @@ typename CSIni_Table::ITEM_TABLE& CSIni_Table::table()
 
 	for (CInifile::SectCIt i = table_ini.Data.begin(); table_ini.Data.end() != i; ++i)
 	{
-		T_INI_LOADER::index_type cur_index = T_INI_LOADER::IdToIndex((*i).first, type_max(T_INI_LOADER::index_type));
+		typename T_INI_LOADER::index_type cur_index = T_INI_LOADER::IdToIndex((*i).first, type_max(T_INI_LOADER::index_type));
 
 		if (type_max(T_INI_LOADER::index_type) == cur_index)
 			Debug.fatal(DEBUG_INFO, "wrong community %s in section [%s]", (*i).first, table_sect);
@@ -125,7 +125,7 @@ typename CSIni_Table::ITEM_TABLE& CSIni_Table::table()
 		(*m_pTable)[cur_index].resize(cur_table_width);
 		for (std::size_t j = 0; j < cur_table_width; j++)
 		{
-			(*m_pTable)[cur_index][j] = convert<typename T_ITEM>(_GetItem(*(*i).second, (int)j, buffer));
+			(*m_pTable)[cur_index][j] = convert(_GetItem(*(*i).second, (int)j, buffer));
 		}
 	}
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../LuaJIT-1.1.8/etc/lua.hpp"
+#include <lua.hpp>
 
 int open_math(lua_State *L);
 

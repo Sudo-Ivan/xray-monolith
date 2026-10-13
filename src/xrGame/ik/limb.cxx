@@ -36,6 +36,10 @@
 #include "stdafx.h"
 #include "limb.h"
 
+#ifdef roundup
+#undef roundup
+#endif
+
 //#include "../ode_include.h"
 enum { SolvePosOnly = 1, SolvePosAndOrientation = 2 };
 

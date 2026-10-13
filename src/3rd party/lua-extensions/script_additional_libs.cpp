@@ -2,6 +2,24 @@
 //#include "StdAfx.h"
 #include "script_additional_libs.h"
 #include <random>
+
+#ifndef _WIN32
+#include <stdio.h>
+static char* _itoa(int value, char* str, int radix)
+{
+    if (radix == 2)
+    {
+        char* p = str;
+        unsigned int u = (unsigned int)value;
+        do { *p++ = (u & 1) ? '1' : '0'; u >>= 1; } while (u);
+        *p = 0;
+        for (char* e = p - 1; str < e; ++str, --e) { char t = *str; *str = *e; *e = t; }
+        return str;
+    }
+    sprintf(str, radix == 16 ? "%x" : (radix == 8 ? "%o" : "%d"), value);
+    return str;
+}
+#endif
 #include "../../build_config_defines.h"
 
 /******************** BIT ********************/
@@ -198,11 +216,11 @@ int open_string(lua_State *L)
 /******************** MATH ********************/
 std::random_device ndrng;
 std::mt19937 intgen;
-std::uniform_real<float> float_random_01;
+std::uniform_real_distribution<float> float_random_01;
 
 int gen_random_in_range(int a1, int a2)
 {	//unsigned?
-    std::uniform_int<> dist(a1, a2);
+    std::uniform_int_distribution<> dist(a1, a2);
     return dist(intgen);
 }
 

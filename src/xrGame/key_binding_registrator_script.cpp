@@ -236,7 +236,10 @@ void key_binding_registrator::script_register(lua_State* L)
 			value("DIK_F15", int(DIK_F15)),
 			value("DIK_CONVERT", int(DIK_CONVERT)),
 			value("DIK_YEN", int(DIK_YEN)),
-			value("DIK_CIRCUMFLEX", int(DIK_CIRCUMFLEX)),
+			#ifndef DIK_CIRCUMFLEX
+#define DIK_CIRCUMFLEX 0x90
+#endif
+value("DIK_CIRCUMFLEX", int(DIK_CIRCUMFLEX)),
 			value("DIK_COLON", int(DIK_COLON)),
 			value("DIK_KANJI", int(DIK_KANJI)),
 			value("DIK_AX", int(DIK_AX)),

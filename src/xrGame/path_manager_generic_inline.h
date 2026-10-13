@@ -23,9 +23,9 @@
 TEMPLATE_SPECIALIZATION
 IC CGenericPathManager::CPathManagerGeneric()
 {
-	graph = 0;
-	data_storage = 0;
-	path = 0;
+	this->graph = 0;
+	this->data_storage = 0;
+	this->path = 0;
 }
 
 TEMPLATE_SPECIALIZATION
@@ -48,82 +48,82 @@ IC void CGenericPathManager::setup(
 	const _Parameters& params
 )
 {
-	graph = _graph;
-	data_storage = _data_storage;
-	path = _path;
-	start_node_index = _start_node_index;
-	goal_node_index = _goal_node_index;
-	max_visited_node_count = params.max_visited_node_count;
-	max_range = params.max_range;
-	max_iteration_count = params.max_iteration_count;
+	this->graph = _graph;
+	this->data_storage = _data_storage;
+	this->path = _path;
+	this->start_node_index = _start_node_index;
+	this->goal_node_index = _goal_node_index;
+	this->max_visited_node_count = params.max_visited_node_count;
+	this->max_range = params.max_range;
+	this->max_iteration_count = params.max_iteration_count;
 }
 
 TEMPLATE_SPECIALIZATION
 IC _dist_type CGenericPathManager::evaluate(const _index_type& node_index1, const _index_type& node_index2,
                                             const const_iterator& i) const
 {
-	VERIFY(graph);
-	return (graph->get_edge_weight(node_index1, node_index2, i));
+	VERIFY(this->graph);
+	return (this->graph->get_edge_weight(node_index1, node_index2, i));
 }
 
 TEMPLATE_SPECIALIZATION
 IC _dist_type CGenericPathManager::estimate(const _index_type& vertex_id) const
 {
-	VERIFY(graph);
+	VERIFY(this->graph);
 	return (_dist_type(0));
 }
 
 TEMPLATE_SPECIALIZATION
 IC void CGenericPathManager::init_path()
 {
-	if (path)
-		path->clear_not_free();
+	if (this->path)
+		this->path->clear_not_free();
 }
 
 TEMPLATE_SPECIALIZATION
 template <typename T>
 IC void CGenericPathManager::create_path(T& vertex)
 {
-	VERIFY(data_storage);
+	VERIFY(this->data_storage);
 	//		Msg						("Path [IC=xxx][VNC=%d][BV=%f]",data_storage->get_visited_node_count(),data_storage->get_best().f());
-	if (path)
-		data_storage->get_node_path(*path, &vertex);
+	if (this->path)
+		this->data_storage->get_node_path(*this->path, &vertex);
 }
 
 TEMPLATE_SPECIALIZATION
 IC const _index_type&CGenericPathManager::start_node() const
 {
-	return (start_node_index);
+	return (this->start_node_index);
 }
 
 TEMPLATE_SPECIALIZATION
 IC const _index_type&CGenericPathManager::goal_node() const
 {
-	return (goal_node_index);
+	return (this->goal_node_index);
 }
 
 TEMPLATE_SPECIALIZATION
 IC bool CGenericPathManager::is_goal_reached(const _index_type& vertex_id) const
 {
-	return (vertex_id == goal_node_index);
+	return (vertex_id == this->goal_node_index);
 }
 
 TEMPLATE_SPECIALIZATION
 IC bool CGenericPathManager::is_limit_reached(const _iteration_type iteration_count) const
 {
-	VERIFY(data_storage);
+	VERIFY(this->data_storage);
 	return (
-		(data_storage->get_best().f() >= max_range) ||
-		(iteration_count >= max_iteration_count) ||
-		(data_storage->get_visited_node_count() >= max_visited_node_count)
+		(this->data_storage->get_best().f() >= this->max_range) ||
+		(iteration_count >= this->max_iteration_count) ||
+		(this->data_storage->get_visited_node_count() >= this->max_visited_node_count)
 	);
 }
 
 TEMPLATE_SPECIALIZATION
 IC bool CGenericPathManager::is_accessible(const _index_type& vertex_id) const
 {
-	VERIFY(graph);
-	return (graph->is_accessible(vertex_id));
+	VERIFY(this->graph);
+	return (this->graph->is_accessible(vertex_id));
 }
 
 TEMPLATE_SPECIALIZATION
@@ -136,14 +136,14 @@ IC bool CGenericPathManager::is_metric_euclidian() const
 TEMPLATE_SPECIALIZATION
 IC void CGenericPathManager::begin(const _index_type& vertex_id, const_iterator& begin, const_iterator& end)
 {
-	best_node_index = &vertex_id;
-	graph->begin(vertex_id, begin, end);
+	this->best_node_index = &vertex_id;
+	this->graph->begin(vertex_id, begin, end);
 }
 
 TEMPLATE_SPECIALIZATION
 IC const _index_type CGenericPathManager::get_value(const_iterator& i) const
 {
-	return (graph->value(*best_node_index, i));
+	return (this->graph->value(*this->best_node_index, i));
 }
 
 TEMPLATE_SPECIALIZATION

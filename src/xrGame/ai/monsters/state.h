@@ -44,7 +44,7 @@ public:
 
 	void fill_data_with(void* ptr_src, u32 size);
 
-	u32 time_started() { return time_state_started; }
+	u32 time_started() { return this->time_state_started; }
 
 	virtual bool check_control_start_conditions(ControlCom::EControlType type);
 
@@ -97,7 +97,7 @@ public:
 	virtual void initialize()
 	{
 		inherited::initialize();
-		object->path().prepare_builder();
+		this->object->path().prepare_builder();
 	}
 };
 

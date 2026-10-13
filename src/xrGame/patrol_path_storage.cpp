@@ -6,11 +6,11 @@
 //	Description : Patrol path storage
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "patrol_path_storage.h"
 #include "patrol_path.h"
 #include "patrol_point.h"
-#include "levelgamedef.h"
+#include "LevelGameDef.h"
 #include "game_graph.h"
 #include "level_graph.h"
 

@@ -48,7 +48,7 @@ protected:
 		_index_type,
 		_iteration_type
 	> _Parameters;
-	typedef typename CPathManager<
+	typedef CPathManager<
 		_Graph,
 		_DataStorage,
 		SBaseParameters<

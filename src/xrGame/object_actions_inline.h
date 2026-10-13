@@ -9,6 +9,8 @@
 #pragma once
 
 #include "object_handler.h"
+#include "object_handler_space.h"
+#include "HudItem.h"
 
 //////////////////////////////////////////////////////////////////////////
 // CObjectActionBase
@@ -71,8 +73,9 @@ void CObjectActionBase<_item_type>::stop_hiding_operation_if_any() const
 //////////////////////////////////////////////////////////////////////////
 
 template <typename _item_type>
-IC CObjectActionMember<_item_type>::CObjectActionMember(_item_type* item, CAI_Stalker* owner, CPropertyStorage* storage,
-                                                        _condition_type condition_id, _value_type value,
+CObjectActionMember<_item_type>::CObjectActionMember(_item_type* item, CAI_Stalker* owner, CPropertyStorage* storage,
+                                                        typename inherited::_condition_type condition_id,
+                                                        typename inherited::_value_type value,
                                                         LPCSTR action_name) :
 	inherited(item, owner, storage, action_name),
 	m_condition_id(condition_id),
@@ -84,6 +87,6 @@ template <typename _item_type>
 void CObjectActionMember<_item_type>::execute()
 {
 	inherited::execute();
-	if (completed())
-		set_property(m_condition_id, m_value);
+	if (this->completed())
+		this->set_property(m_condition_id, m_value);
 }

@@ -4,7 +4,7 @@
 //	Description : Editable copy of a game graph that re-serializes into a spawn-chunk layout
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "game_graph_builder.h"
 
 bool CGameGraphBuilder::readable_version(const u32 version)

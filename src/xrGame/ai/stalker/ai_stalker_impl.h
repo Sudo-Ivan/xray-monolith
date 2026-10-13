@@ -8,20 +8,16 @@
 
 #pragma once
 
-#include "../../level.h"
+#include "../../Level.h"
 #include "../../seniority_hierarchy_holder.h"
 #include "../../team_hierarchy_holder.h"
 #include "../../squad_hierarchy_holder.h"
 #include "../../group_hierarchy_holder.h"
-#include "../../effectorshot.h"
+#include "../../EffectorShot.h"
 #include "stalker_movement_manager_smart_cover.h"
 #include "smart_cover_animation_selector.h"
 #include "smart_cover_animation_planner.h"
 
-IC CAgentManager& CAI_Stalker::agent_manager() const
-{
-	return (Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group()).agent_manager());
-}
 
 IC Fvector CAI_Stalker::weapon_shot_effector_direction(const Fvector& current) const
 {

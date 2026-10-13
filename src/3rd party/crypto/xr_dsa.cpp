@@ -10,15 +10,18 @@ xr_dsa::xr_dsa(u8 const p[public_key_length],
 			   u8 const g[public_key_length])
 {
 	m_dsa			= DSA_new();
-	m_dsa->p		= BN_new();
-	m_dsa->q		= BN_new();
-	m_dsa->g		= BN_new();
-	m_dsa->priv_key	= BN_new();
-	m_dsa->pub_key	= BN_new();
+	BIGNUM* bn_p	= BN_new();
+	BIGNUM* bn_q	= BN_new();
+	BIGNUM* bn_g	= BN_new();
+	BIGNUM* bn_pub	= BN_new();
+	BIGNUM* bn_priv	= BN_new();
 
-	BN_bin2bn(p, public_key_length, m_dsa->p);
-	BN_bin2bn(q, private_key_length, m_dsa->q);
-	BN_bin2bn(g, public_key_length, m_dsa->g);
+	BN_bin2bn(p, public_key_length, bn_p);
+	BN_bin2bn(q, private_key_length, bn_q);
+	BN_bin2bn(g, public_key_length, bn_g);
+
+	DSA_set0_pqg(m_dsa, bn_p, bn_q, bn_g);
+	DSA_set0_key(m_dsa, bn_pub, bn_priv);
 }
 
 xr_dsa::~xr_dsa()
@@ -30,19 +33,27 @@ shared_str const xr_dsa::sign		(private_key_t const & priv_key,
 									 u8 const* data,
 									 u32 const data_size)
 {
-	BN_bin2bn(priv_key.m_value, sizeof(priv_key.m_value), m_dsa->priv_key);
+	BIGNUM* bn_priv = BN_bin2bn(priv_key.m_value, sizeof(priv_key.m_value), NULL);
+	{
+		const BIGNUM* old_priv = NULL;
+		const BIGNUM* old_pub  = NULL;
+		DSA_get0_key(m_dsa, &old_pub, &old_priv);
+		BIGNUM* dup_pub = old_pub ? BN_dup(old_pub) : NULL;
+		DSA_set0_key(m_dsa, dup_pub, bn_priv);
+	}
 
 	unsigned int	sign_size = DSA_size(m_dsa);
 	u8*				sign_dest = static_cast<u8*>(
 		_alloca(sign_size));
 	
-	BIGNUM			tmp_sign_res_bn;
-	BN_init			(&tmp_sign_res_bn);
+	BIGNUM*			tmp_sign_res_bn = BN_new();
 	
 	DSA_sign		(0, data, data_size, sign_dest, &sign_size, m_dsa);
-	BN_bin2bn		(sign_dest, sign_size, &tmp_sign_res_bn);
+	BN_bin2bn		(sign_dest, sign_size, tmp_sign_res_bn);
 
-	return			shared_str(BN_bn2hex(&tmp_sign_res_bn));
+	shared_str		result(BN_bn2hex(tmp_sign_res_bn));
+	BN_free			(tmp_sign_res_bn);
+	return			result;
 }
 
 bool		xr_dsa::verify				(public_key_t const & pub_key,
@@ -50,11 +61,18 @@ bool		xr_dsa::verify				(public_key_t const & pub_key,
 										 u32 const data_size,
 										 shared_str const & dsign)
 {
-	BN_bin2bn(pub_key.m_value, sizeof(pub_key.m_value), m_dsa->pub_key);
+	{
+		const BIGNUM* old_priv = NULL;
+		const BIGNUM* old_pub  = NULL;
+		DSA_get0_key(m_dsa, &old_pub, &old_priv);
+		BIGNUM* dup_priv = old_priv ? BN_dup(old_priv) : NULL;
+		BIGNUM* bn_pub = BN_bin2bn(pub_key.m_value, sizeof(pub_key.m_value), NULL);
+		DSA_set0_key(m_dsa, bn_pub, dup_priv);
+	}
 
 	BIGNUM*	tmp_bn			= NULL;
 	BN_hex2bn				(&tmp_bn, dsign.c_str());
-	int	sig_size			= tmp_bn->top * sizeof(unsigned long);
+	int	sig_size			= (BN_num_bits(tmp_bn) + 7) / 8;
 	u8* sig_buff			= static_cast<u8*>(_alloca(sig_size));
 	VERIFY					(sig_size == DSA_size(m_dsa));
 	BN_bn2bin				(tmp_bn, sig_buff);

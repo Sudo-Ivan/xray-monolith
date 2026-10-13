@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game_tutorials>
+	<intro_logo>
+		<item type="simple">
+			<length_sec>0.1</length_sec>
+			<main_wnd x="0" y="0" width="1024" height="768"/>
+		</item>
+	</intro_logo>
+	<intro>
+		<item type="simple">
+			<length_sec>0.1</length_sec>
+			<main_wnd x="0" y="0" width="1024" height="768"/>
+		</item>
+	</intro>
+</game_tutorials>

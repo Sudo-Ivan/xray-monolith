@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIMapWnd.h"
 #include "UIMap.h"
 #include "UIXmlInit.h"
@@ -18,7 +18,7 @@
 #include "UIMapWndActionsSpace.h"
 #include "UIHint.h"
 #include "map_hint.h"
-#include "uicursor.h"
+#include "UICursor.h"
 
 #include "UIPropertiesBox.h"
 #include "UIListBoxItem.h"
@@ -601,7 +601,7 @@ Fvector2 CUIMapWnd::GetGlobalMapCoordsForMouse()
 
 	// Get absolute left top of the current area of the map
 	Fvector2 map_abs = { 0, 0 };
-	Fvector2& current_zoom = gm->GetCurrentZoom();
+	Fvector2 current_zoom = gm->GetCurrentZoom();
 	gm->GetAbsolutePos(map_abs);
 	map_abs.sub(gm->WorkingArea().lt);
 	map_abs.div(current_zoom);
@@ -1153,10 +1153,10 @@ void CUIMapWnd::Reset()
 	ResetActionPlanner();
 }
 
-#include "../gametaskmanager.h"
-#include "../actor.h"
+#include "../GametaskManager.h"
+#include "../Actor.h"
 #include "../map_spot.h"
-#include "../gametask.h"
+#include "../GameTask.h"
 
 void CUIMapWnd::SpotSelected(CUIWindow* w)
 {

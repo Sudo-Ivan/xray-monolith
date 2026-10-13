@@ -10,6 +10,34 @@
 #	define	_strlen strlen
 #endif
 
+#if !defined(_WIN32)
+// mailslot stubs: the script debugger IDE channel is a Windows-only API,
+// the stubs make the debugger simply report the IDE as absent
+#ifndef MAILSLOT_WAIT_FOREVER
+#define MAILSLOT_WAIT_FOREVER ((DWORD)-1)
+#endif
+#ifndef MAILSLOT_NO_MESSAGE
+#define MAILSLOT_NO_MESSAGE ((DWORD)-1)
+#endif
+typedef void* LPSECURITY_ATTRIBUTES;
+typedef DWORD* LPDWORD;
+struct OVERLAPPED
+{
+	DWORD Offset;
+	DWORD OffsetHigh;
+	void* hEvent;
+};
+typedef OVERLAPPED* LPOVERLAPPED;
+inline HANDLE CreateMailslot(LPCSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES)
+{
+	return INVALID_HANDLE_VALUE;
+}
+inline BOOL GetMailslotInfo(HANDLE, LPDWORD, LPDWORD, LPDWORD, LPDWORD)
+{
+	return FALSE;
+}
+#endif
+
 class CMailSlotMsg
 {
 	char m_buff [2048];

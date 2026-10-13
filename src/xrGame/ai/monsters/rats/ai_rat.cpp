@@ -6,13 +6,13 @@
 //	Description : AI Behaviour for monster "Rat"
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ai_rat.h"
 #include "../../ai_monsters_misc.h"
-#include "../../../../xrphysics/PhysicsShell.h"
+#include "../../../../xrPhysics/PhysicsShell.h"
 #include "../../../game_graph.h"
 #include "../../../game_level_cross_table.h"
-#include "../../../../xrServerEntities/xrserver_objects_alife_monsters.h"
+#include "../../../../xrServerEntities/xrServer_Objects_ALife_Monsters.h"
 
 #include "ai_rat_space.h"
 #include "../../../../Include/xrRender/KinematicsAnimated.h"
@@ -23,6 +23,22 @@
 #include "../../../../xrServerEntities/ai_sounds.h"
 #include "../../../sound_player.h"
 #include "ai_rat_impl.h"
+
+void CAI_Rat::add_active_member(bool bForceActive)
+{
+	CGroupHierarchyHolder& Group = Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group());
+	if (!m_bActive && (bForceActive || (Group.m_dwAliveCount * m_dwActiveCountPercent / 100 >= Group.m_dwActiveCount)))
+	{
+		m_bActive = true;
+		m_eCurrentState = aiRatFreeActive;
+		++Group.m_dwActiveCount;
+		shedule.t_min = m_dwActiveScheduleMin;
+		shedule.t_max = m_dwActiveScheduleMax;
+		vfRemoveStandingMember();
+	}
+	//Msg("* Group : alive[%2d], active[%2d]",Group.m_dwAliveCount,Group.m_dwActiveCount);
+};
+
 #include "../../../ai_space.h"
 
 #include "../../../rat_state_manager.h"

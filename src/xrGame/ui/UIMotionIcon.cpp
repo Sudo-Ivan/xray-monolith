@@ -1,8 +1,8 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIMainIngameWnd.h"
 #include "UIMotionIcon.h"
 #include "UIXmlInit.h"
-#include "../actor.cpp"
+#include "../Actor.cpp"
 
 const LPCSTR MOTION_ICON_XML = "motion_icon.xml";
 

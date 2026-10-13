@@ -8,27 +8,13 @@
 
 #pragma once
 
-#include "../../../level.h"
+#include "../../../Level.h"
 #include "../../../seniority_hierarchy_holder.h"
 #include "../../../team_hierarchy_holder.h"
 #include "../../../squad_hierarchy_holder.h"
 #include "../../../group_hierarchy_holder.h"
 #include "../../../../xrServerEntities/ai_sounds.h"
 
-IC void CAI_Rat::add_active_member(bool bForceActive)
-{
-	CGroupHierarchyHolder& Group = Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group());
-	if (!m_bActive && (bForceActive || (Group.m_dwAliveCount * m_dwActiveCountPercent / 100 >= Group.m_dwActiveCount)))
-	{
-		m_bActive = true;
-		m_eCurrentState = aiRatFreeActive;
-		++Group.m_dwActiveCount;
-		shedule.t_min = m_dwActiveScheduleMin;
-		shedule.t_max = m_dwActiveScheduleMax;
-		vfRemoveStandingMember();
-	}
-	//Msg("* Group : alive[%2d], active[%2d]",Group.m_dwAliveCount,Group.m_dwActiveCount);
-};
 
 IC void CAI_Rat::vfRemoveActiveMember()
 {

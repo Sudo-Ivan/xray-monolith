@@ -187,24 +187,49 @@ public:
     typedef _intrusive_ptr self_type;
 
 private:
-    static constexpr DeletionPolicy deletion_policy = elem_t::deletion_policy;
-    static constexpr bool virtual_destructor = elem_t::virtual_destructor;
+    template <typename T, typename = void>
+    struct intrusive_complete : std::false_type
+    {
+    };
+    template <typename T>
+    struct intrusive_complete<T, std::void_t<decltype(sizeof(T))>> : std::true_type
+    {
+    };
 
-    // Static check instead of the old enum hack
-    static_assert(std::is_base_of_v<intrusive_base_marker, elem_t>,
-        "intrusive_ptr<T>: T must be derived from intrusive_base");
+    template <typename T, bool complete = intrusive_complete<T>::value>
+    struct intrusive_policies
+    {
+        static constexpr DeletionPolicy deletion_policy = DeletionPolicy::Immediate;
+        static constexpr bool virtual_destructor = false;
+        IC static void check() {}
+    };
+    template <typename T>
+    struct intrusive_policies<T, true>
+    {
+        static constexpr DeletionPolicy deletion_policy = T::deletion_policy;
+        static constexpr bool virtual_destructor = T::virtual_destructor;
 
-    // Safety Enforcement
-    // This asserts that 'elem_t' does NOT have a public destructor if policy is Strict (intrusive_base_strict).
-    // If this triggers, it means you forgot to make your destructor protected.
-    // Note: std::is_destructible_v is false if the destructor is protected/private.
-    static_assert(!(deletion_policy == DeletionPolicy::Strict && std::is_destructible_v<elem_t>),
-        "intrusive_ptr<T>: T must have a protected destructor, Strict Policy");
+        IC static void check()
+        {
+            // Static check instead of the old enum hack
+            static_assert(std::is_base_of_v<intrusive_base_marker, T>,
+                "intrusive_ptr<T>: T must be derived from intrusive_base");
 
+            // Safety Enforcement
+            // This asserts that 'elem_t' does NOT have a public destructor if policy is Strict (intrusive_base_strict).
+            // If this triggers, it means you forgot to make your destructor protected.
+            // Note: std::is_destructible_v is false if the destructor is protected/private.
+            static_assert(!(deletion_policy == DeletionPolicy::Strict && std::is_destructible_v<T>),
+                "intrusive_ptr<T>: T must have a protected destructor, Strict Policy");
 
-    // Static check to see if class have virtual destructor if base is virtual
-    static_assert(!virtual_destructor || std::is_polymorphic_v<elem_t>,
-        "intrusive_ptr<T>: T must be polymorphic because the base class is virtual");
+            // Static check to see if class have virtual destructor if base is virtual
+            static_assert(!virtual_destructor || std::is_polymorphic_v<T>,
+                "intrusive_ptr<T>: T must be polymorphic because the base class is virtual");
+        }
+    };
+
+    static constexpr DeletionPolicy deletion_policy = intrusive_policies<elem_t>::deletion_policy;
+    static constexpr bool virtual_destructor = intrusive_policies<elem_t>::virtual_destructor;
 
     elem_t* m_object;
 
@@ -342,6 +367,7 @@ IC _intrusive_ptr::~intrusive_ptr()
 TEMPLATE_SPECIALIZATION
 IC void _intrusive_ptr::dec()
 {
+    intrusive_policies<elem_t>::check();
     if (m_object)
     {
         elem_t* temp = m_object;
@@ -415,6 +441,7 @@ IC bool _intrusive_ptr::equal(const self_type& rhs) const noexcept
 TEMPLATE_SPECIALIZATION
 IC void _intrusive_ptr::set(elem_t* rhs)
 {
+    intrusive_policies<elem_t>::check();
     if (rhs)
 		rhs->intrusive_ref_add();
 

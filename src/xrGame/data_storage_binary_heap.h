@@ -12,7 +12,7 @@ struct CDataStorageBinaryHeap
 {
 	template <
 		typename _data_storage,
-		template <typename _T> class _vertex = CEmptyClassTemplate
+		template <typename _T_n> class _vertex = CEmptyClassTemplate
 	>
 	class CDataStorage : public _data_storage::template CDataStorage<_vertex>
 	{

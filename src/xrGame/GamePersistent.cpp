@@ -1,25 +1,25 @@
 #include "pch_script.h"
-#include "gamepersistent.h"
-#include "../xrEngine/fmesh.h"
-#include "../xrEngine/xr_ioconsole.h"
-#include "../xrEngine/gamemtllib.h"
+#include "GamePersistent.h"
+#include "../xrEngine/Fmesh.h"
+#include "../xrEngine/XR_IOConsole.h"
+#include "../xrEngine/GameMtlLib.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "profiler.h"
 #include "MainMenu.h"
 #include "script_wallmarks_manager.h"
 #include "UICursor.h"
 #include "game_base_space.h"
-#include "level.h"
+#include "Level.h"
 #include "ParticlesObject.h"
 #include "game_base_space.h"
 #include "stalker_animation_data_storage.h"
 #include "stalker_velocity_holder.h"
 
 #include "ActorEffector.h"
-#include "actor.h"
-#include "spectator.h"
+#include "Actor.h"
+#include "Spectator.h"
 
-#include "UI/UItextureMaster.h"
+#include "ui/UITextureMaster.h"
 
 #include "../xrEngine/xrSASH.h"
 #include "ai_space.h"
@@ -27,14 +27,14 @@
 
 #include "holder_custom.h"
 #include "game_cl_base.h"
-#include "xrserver_objects_alife_monsters.h"
+#include "xrServer_Objects_ALife_Monsters.h"
 #include "../xrServerEntities/xrServer_Object_Base.h"
-#include "UI/UIGameTutorial.h"
+#include "ui/UIGameTutorial.h"
 
 #include "../xrEngine/xr_input.h"
 
 #ifndef MASTER_GOLD
-#	include "custommonster.h"
+#	include "CustomMonster.h"
 #endif // MASTER_GOLD
 
 #ifndef _EDITOR
@@ -158,7 +158,7 @@ void CGamePersistent::OnAppStart()
 	// load game materials
 	GMLib.Load();
 	init_game_globals();
-	__super::OnAppStart();
+	IGame_Persistent::OnAppStart();
 	m_pUI_core = xr_new<ui_core>();
 	m_pMainMenu = xr_new<CMainMenu>();
 	m_pWallmarksManager = xr_new<ScriptWallmarksManager>();
@@ -174,7 +174,7 @@ void CGamePersistent::OnAppEnd()
 	xr_delete(m_pUI_core);
 	xr_delete(m_pWallmarksManager);
 
-	__super::OnAppEnd();
+	IGame_Persistent::OnAppEnd();
 
 	clean_game_globals();
 
@@ -183,7 +183,7 @@ void CGamePersistent::OnAppEnd()
 
 void CGamePersistent::Start(LPCSTR op)
 {
-	__super::Start(op);
+	IGame_Persistent::Start(op);
 }
 
 void CGamePersistent::Disconnect()
@@ -191,7 +191,7 @@ void CGamePersistent::Disconnect()
 	// destroy ambient particles
 	CParticlesObject::Destroy(ambient_particles);
 
-	__super::Disconnect();
+	IGame_Persistent::Disconnect();
 	// stop all played emitters
 	::Sound->stop_emitters();
 	m_game_params.m_e_game_type = eGameIDNoGame;
@@ -201,7 +201,7 @@ void CGamePersistent::Disconnect()
 
 void CGamePersistent::OnGameStart()
 {
-	__super::OnGameStart();
+	IGame_Persistent::OnGameStart();
 	UpdateGameType();
 }
 
@@ -257,7 +257,7 @@ EGameIDs ParseStringToGameType(LPCSTR str)
 
 void CGamePersistent::UpdateGameType()
 {
-	__super::UpdateGameType();
+	IGame_Persistent::UpdateGameType();
 
 	m_game_params.m_e_game_type = ParseStringToGameType(m_game_params.m_game_type);
 
@@ -270,7 +270,7 @@ void CGamePersistent::UpdateGameType()
 
 void CGamePersistent::OnGameEnd()
 {
-	__super::OnGameEnd();
+	IGame_Persistent::OnGameEnd();
 
 	xr_delete(g_stalker_animation_data_storage);
 	xr_delete(g_stalker_velocity_holder);
@@ -814,7 +814,7 @@ void CGamePersistent::OnFrame()
 		}
 #endif // MASTER_GOLD
 	}
-	__super::OnFrame();
+	IGame_Persistent::OnFrame();
 
 	if (!Device.Paused())
 		Engine.Sheduler.Update();
@@ -1059,7 +1059,7 @@ void CGamePersistent::RestoreEffectorDOF()
 	SetEffectorDOF(m_dof[3]);
 }
 
-#include "hudmanager.h"
+#include "HUDManager.h"
 
 //	m_dof		[4];	// 0-dest 1-current 2-from 3-original
 void CGamePersistent::UpdateDof()
@@ -1089,7 +1089,7 @@ void CGamePersistent::UpdateDof()
 	(m_dof[0].z < m_dof[2].z) ? clamp(m_dof[1].z, m_dof[0].z, m_dof[2].z) : clamp(m_dof[1].z, m_dof[2].z, m_dof[0].z);
 }
 
-#include "ui\uimainingamewnd.h"
+#include "ui/UIMainIngameWnd.h"
 
 void CGamePersistent::OnSectorChanged(int sector)
 {

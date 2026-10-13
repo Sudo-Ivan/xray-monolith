@@ -1,6 +1,6 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "screenshot_manager.h"
-#include "level.h"
+#include "Level.h"
 #include "game_cl_mp.h"
 #include "xrCore/ppmd_compressor.h"
 #include "screenshots_writer.h"
@@ -13,6 +13,13 @@
 #include "ximage.h"
 #include "xmemfile.h"
 #include "profiler.h"
+
+#ifndef WAIT_ABANDONED
+#define WAIT_ABANDONED 0x00000080L
+#endif
+#ifndef WAIT_FAILED
+#define WAIT_FAILED 0xFFFFFFFFL
+#endif
 
 #pragma comment(lib,"cximage.lib")
 #pragma comment(lib,"libjpeg.lib")

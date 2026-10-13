@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DynamicHeightMap.h"
 #include "../xrEngine/cl_intersect.h"
 
@@ -123,9 +123,12 @@ void CHM_Static::Update()
 		bb.grow(EPS_L);
 
 		// Select polygons
-		XRC.BBoxMode(0); // BBOX_TRITEST
-		XRC.BBoxCollide(precalc_identity, g_pGameLevel->ObjectSpace.GetStaticModel(), precalc_identity, bb);
-		u32 triCount = XRC.GetBBoxContactCount();
+		CDB::MODEL* model = g_pGameLevel->ObjectSpace.GetStaticModel();
+		XRC.box_options(0); // BBOX_TRITEST
+		Fvector bc, bd;
+		bb.get_CD(bc, bd);
+		XRC.box_query(model, bc, bd);
+		u32 triCount = XRC.r_count();
 		if (0 == triCount)
 		{
 			S->clear();
@@ -133,17 +136,19 @@ void CHM_Static::Update()
 		}
 
 		// Cull polys
-		RAPID::tri* tris = g_pGameLevel->ObjectSpace.GetStaticTris();
+		CDB::TRI* tris = g_pGameLevel->ObjectSpace.GetStaticTris();
+		CDB::RESULT* R_begin = XRC.r_begin();
+		const Fvector* verts = model->get_verts();
 		Fvector vecUP;
 		vecUP.set(0, 1, 0);
 		for (u32 tid = 0; tid < triCount; ++tid)
 		{
-			RAPID::tri& T = tris[XRC.BBoxContact[tid].id];
+			CDB::TRI& T = tris[R_begin[tid].id];
 			Poly P;
 			Fvector N;
-			P.v[0].set(*T.verts[0]);
-			P.v[1].set(*T.verts[1]);
-			P.v[2].set(*T.verts[2]);
+			P.v[0].set(verts[T.verts[0]]);
+			P.v[1].set(verts[T.verts[1]]);
+			P.v[2].set(verts[T.verts[2]]);
 			N.mknormal(P.v[0], P.v[1], P.v[2]);
 			if (N.dotproduct(vecUP) <= 0) continue;
 			polys.push_back(P);
@@ -165,7 +170,7 @@ void CHM_Static::Update()
 				float r_u, r_v, r_range;
 				for (u32 tid = 0; tid < polys.size(); ++tid)
 				{
-					if (RAPID::TestRayTri(pos, dir, polys[tid].v, r_u, r_v, r_range,TRUE))
+					if (CDB::TestRayTri(pos, dir, polys[tid].v, r_u, r_v, r_range,TRUE))
 					{
 						if (r_range >= 0)
 						{

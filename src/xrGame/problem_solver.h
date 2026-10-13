@@ -17,8 +17,8 @@ template <
 	typename _condition_evaluator,
 	typename _operator_id_type,
 	bool _reverse_search = false,
-	typename _operator_ptr = _operator*,
-	typename _condition_evaluator_ptr = _condition_evaluator*>
+	typename _operator_ptr_t = _operator*,
+	typename _condition_evaluator_ptr_t = _condition_evaluator*>
 class CProblemSolver
 {
 public:
@@ -35,17 +35,17 @@ private:
 		_condition_evaluator,
 		_operator_id_type,
 		_reverse_search,
-		_operator_ptr,
-		_condition_evaluator_ptr
+		_operator_ptr_t,
+		_condition_evaluator_ptr_t
 	> self_type;
 
 public:
+	typedef _operator_ptr_t _operator_ptr;
+	typedef _condition_evaluator_ptr_t _condition_evaluator_ptr;
 	typedef _operator_condition COperatorCondition;
 	typedef _operator COperator;
 	typedef _condition_state CState;
 	typedef _condition_evaluator CConditionEvaluator;
-	typedef _operator_ptr _operator_ptr;
-	typedef _condition_evaluator_ptr _condition_evaluator_ptr;
 	typedef typename _operator_condition::_condition_type _condition_type;
 	typedef typename _operator_condition::_value_type _value_type;
 	typedef typename _operator::_edge_value_type _edge_value_type;
@@ -57,9 +57,9 @@ public:
 		_operator_id_type m_operator_id;
 		_operator_ptr m_operator;
 
-		IC SOperator(const _operator_id_type& operator_id, _operator_ptr _operator) :
+		IC SOperator(const _operator_id_type& operator_id, _operator_ptr _operator_p) :
 			m_operator_id(operator_id),
-			m_operator(_operator)
+			m_operator(_operator_p)
 		{
 		}
 
@@ -91,13 +91,13 @@ protected:
 	bool m_failed;
 
 private:
-	template <bool>
-	IC bool is_goal_reached_impl(const _index_type& vertex_index) const { return is_goal_reached_impl(vertex_index); }
-
-	template <>
-	IC bool is_goal_reached_impl<true>(const _index_type& vertex_index) const
+	template <bool _condition>
+	IC bool is_goal_reached_impl(const _index_type& vertex_index) const
 	{
-		return is_goal_reached_impl(vertex_index, true);
+		if constexpr (_condition)
+			return is_goal_reached_impl(vertex_index, true);
+		else
+			return is_goal_reached_impl(vertex_index);
 	}
 
 	IC bool is_goal_reached_impl(const _index_type& vertex_index) const;
@@ -107,21 +107,15 @@ private:
 	IC _edge_value_type estimate_edge_weight_impl(const _index_type& vertex_index, bool) const;
 
 private:
-	template <bool>
+	template <bool _reverse>
 	struct helper
 	{
 		static IC _edge_value_type estimate_edge_weight_impl(self_type const& self, const _index_type& vertex_index)
 		{
-			return self.estimate_edge_weight_impl(vertex_index);
-		}
-	}; // struct helper
-
-	template <>
-	struct helper<true>
-	{
-		static IC _edge_value_type estimate_edge_weight_impl(self_type const& self, const _index_type& vertex_index)
-		{
-			return self.estimate_edge_weight_impl(vertex_index, true);
+			if constexpr (_reverse)
+				return self.estimate_edge_weight_impl(vertex_index, true);
+			else
+				return self.estimate_edge_weight_impl(vertex_index);
 		}
 	}; // struct helper
 
@@ -149,7 +143,7 @@ public:
 	IC _edge_value_type estimate_edge_weight(const _index_type& vertex_index) const;
 
 	// operator interface
-	IC virtual void add_operator(const _edge_type& operator_id, _operator_ptr _operator);
+	IC virtual void add_operator(const _edge_type& operator_id, _operator_ptr _operator_p);
 	IC virtual void remove_operator(const _edge_type& operator_id);
 	IC _operator_ptr get_operator(const _operator_id_type& operator_id);
 	IC const OPERATOR_VECTOR& operators() const;

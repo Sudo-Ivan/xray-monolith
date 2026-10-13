@@ -4,7 +4,7 @@
 #include "ui/TeamInfo.h"
 #include "game_cl_capture_the_artefact.h"
 #include "game_cl_capture_the_artefact_captions_manager.h"
-#include "actor.h"
+#include "Actor.h"
 
 CTAGameClCaptionsManager::CTAGameClCaptionsManager()
 {
@@ -219,7 +219,7 @@ u32 CTAGameClCaptionsManager::SetWarmupTime(u32 current_warmup_time, u32 current
 				}
 			}
 			dwLastTimeRemains = dwCurTimeRemains;
-			_itoa(dwCurTimeRemains, time_str, 10);
+			itoa(dwCurTimeRemains, time_str, 10);
 			strconcat(sizeof(warmup_message), warmup_message, *st.translate("mp_ready"), "...", time_str);
 		}
 	};

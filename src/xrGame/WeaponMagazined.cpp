@@ -1,14 +1,14 @@
 #include "pch_script.h"
 
 #include "WeaponMagazined.h"
-#include "actor.h"
+#include "Actor.h"
 #include "ParticlesObject.h"
 #include "Scope.h"
 #include "Silencer.h"
 #include "GrenadeLauncher.h"
-#include "inventory.h"
+#include "Inventory.h"
 #include "InventoryOwner.h"
-#include "xrserver_objects_alife_items.h"
+#include "xrServer_Objects_ALife_Items.h"
 #include "ActorEffector.h"
 #include "EffectorZoomInertion.h"
 #include "xr_level_controller.h"
@@ -1019,7 +1019,7 @@ void CWeaponMagazined::switch2_Idle()
 }
 
 #ifdef DEBUG
-#include "ai\stalker\ai_stalker.h"
+#include "ai/stalker/ai_stalker.h"
 #include "object_handler_planner.h"
 #endif
 void CWeaponMagazined::switch2_Fire()
@@ -1253,18 +1253,20 @@ bool CWeaponMagazined::TryPlayAnimBore()
 
 void CWeaponMagazined::PlayAnimIdleSprint()
 {
-	iAmmoElapsed == 0 && HudAnimationExist("anm_idle_sprint_empty")
-		? PlayHUDMotion("anm_idle_sprint_empty", TRUE, NULL, GetState())
-		: inherited::PlayAnimIdleSprint();
+	if (iAmmoElapsed == 0 && HudAnimationExist("anm_idle_sprint_empty"))
+		PlayHUDMotion("anm_idle_sprint_empty", TRUE, NULL, GetState());
+	else
+		inherited::PlayAnimIdleSprint();
 }
 
 void CWeaponMagazined::PlayAnimIdleMoving()
 {
 	bool bAccelerated = isActorAccelerated(Actor()->MovingState(), IsZoomed());
 
-	iAmmoElapsed == 0 && HudAnimationExist("anm_idle_moving_empty")
-		? PlayHUDMotion("anm_idle_moving_empty", TRUE, NULL, GetState(), bAccelerated ? 1.f : .75f)
-		: inherited::PlayAnimIdleMoving();
+	if (iAmmoElapsed == 0 && HudAnimationExist("anm_idle_moving_empty"))
+		PlayHUDMotion("anm_idle_moving_empty", TRUE, NULL, GetState(), bAccelerated ? 1.f : .75f);
+	else
+		inherited::PlayAnimIdleMoving();
 }
 
 bool CWeaponMagazined::PlayAnimCrouchIdleMoving()

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../Include/xrRender/KinematicsAnimated.h"
-#include "../../../xrEngine/cameramanager.h"
+#include "../../../xrEngine/CameraManager.h"
 
 typedef u32 TTime;
 
@@ -541,7 +541,7 @@ struct SMonsterHit
 
 	bool operator==(const CObject* obj)
 	{
-		return (object == obj);
+		return (this->object == obj);
 	}
 };
 

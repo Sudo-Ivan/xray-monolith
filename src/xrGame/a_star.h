@@ -15,25 +15,25 @@
 namespace AStar
 {
 	template <
-		typename _dist_type,
-		template <typename _T> class T1
+		typename _dist_type_t,
+		template <typename _T_n> class T1
 	>
 	struct _Vertex
 	{
 		template <typename T2>
 		struct _vertex : public T1<T2>
 		{
-			typedef _dist_type _dist_type;
+			typedef _dist_type_t _dist_type;
 
-			_dist_type _g;
-			_dist_type _h;
+			_dist_type_t _g;
+			_dist_type_t _h;
 
-			IC _dist_type& g()
+			IC _dist_type_t& g()
 			{
 				return (_g);
 			}
 
-			IC _dist_type& h()
+			IC _dist_type_t& h()
 			{
 				return (_h);
 			}
@@ -42,63 +42,63 @@ namespace AStar
 }
 
 template <
-	typename _dist_type,
+	typename _dist_type_t,
 	typename _priority_queue,
 	typename _vertex_manager,
 	typename _vertex_allocator,
 	bool euclidian_heuristics = true,
 	typename _data_storage_base = CVertexPath<euclidian_heuristics>,
-	template <typename _T> class _vertex = CEmptyClassTemplate,
+	template <typename _T_n> class _vertex = CEmptyClassTemplate,
 	template <
-		typename _1,
-		typename _2
+		typename _1_n,
+		typename _2_n
 	>
 	class _builder_allocator_constructor = CBuilderAllocatorConstructor,
 	template <
-		typename _1,
-		typename _2,
-		typename _3,
+		typename _1_n,
+		typename _2_n,
+		typename _3_n,
 		template <
-			typename _1,
-			typename _2
+			typename _1_n_n,
+			typename _2_n_n
 		>
-		class _4
+		class _4_n
 	>
 	class _manager_builder_allocator_constructor = CManagerBuilderAllocatorConstructor,
 	template <
-		typename _algorithm,
-		typename _manager,
-		typename _builder,
-		typename _allocator,
-		template <typename _T> class _vertex,
+		typename _algorithm_n,
+		typename _manager_n,
+		typename _builder_n,
+		typename _allocator_n,
+		template <typename _T_n_n> class _vertex_n,
 		template <
-			typename _1,
-			typename _2
+			typename _1_n_n,
+			typename _2_n_n
 		>
-		class _builder_allocator_constructor = CBuilderAllocatorConstructor,
+		class _builder_allocator_constructor_n = CBuilderAllocatorConstructor,
 		template <
-			typename _1,
-			typename _2,
-			typename _3,
+			typename _1_n_n,
+			typename _2_n_n,
+			typename _3_n_n,
 			template <
-				typename _1,
-				typename _2
+				typename _1_n_n_n,
+				typename _2_n_n_n
 			>
-			class _4
+			class _4_n_n
 		>
-		class _manager_builder_allocator_constructor = CManagerBuilderAllocatorConstructor
+		class _manager_builder_allocator_constructor_n = CManagerBuilderAllocatorConstructor
 	>
 	class _data_storage_constructor = CDataStorageConstructor,
 	typename _iteration_type = u32
 >
 class CAStar : public CDijkstra<
-		_dist_type,
+		_dist_type_t,
 		_priority_queue,
 		_vertex_manager,
 		_vertex_allocator,
 		euclidian_heuristics,
 		_data_storage_base,
-		AStar::_Vertex<_dist_type, _vertex>::_vertex,
+		AStar::_Vertex<_dist_type_t, _vertex>::template _vertex,
 		_builder_allocator_constructor,
 		_manager_builder_allocator_constructor,
 		_data_storage_constructor,
@@ -107,13 +107,13 @@ class CAStar : public CDijkstra<
 {
 protected:
 	typedef CDijkstra<
-		_dist_type,
+		_dist_type_t,
 		_priority_queue,
 		_vertex_manager,
 		_vertex_allocator,
 		euclidian_heuristics,
 		_data_storage_base,
-		AStar::_Vertex<_dist_type, _vertex>::_vertex,
+		AStar::_Vertex<_dist_type_t, _vertex>::template _vertex,
 		_builder_allocator_constructor,
 		_manager_builder_allocator_constructor,
 		_data_storage_constructor,

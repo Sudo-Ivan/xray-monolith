@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "level.h"
+#include "Level.h"
 
 #define TEMPLATE_SPECIALIZATION template <typename _object_type>
 #define CBaseAction				CActionBase<_object_type>
@@ -18,13 +18,13 @@ IC CBaseAction::CActionBase(const xr_vector<COperatorCondition>& conditions,
                             const xr_vector<COperatorCondition>& effects, _object_type* object, LPCSTR action_name) :
 	inherited(conditions, effects)
 {
-	init(object, action_name);
+	this->init(object, action_name);
 }
 
 TEMPLATE_SPECIALIZATION
 IC CBaseAction::CActionBase(_object_type* object, LPCSTR action_name)
 {
-	init(object, action_name);
+	this->init(object, action_name);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -35,12 +35,12 @@ CBaseAction::~CActionBase()
 TEMPLATE_SPECIALIZATION
 void CBaseAction::init(_object_type* object, LPCSTR action_name)
 {
-	m_storage = 0;
+	this->m_storage = 0;
 	m_object = object;
 	m_weight = _edge_value_type(1);
 
 #ifdef LOG_ACTION
-	m_use_log			= false;
+	this->m_use_log			= false;
 	m_action_name		= action_name;
 	m_switched			= false;
 //	if (xr_strlen(m_action_name))
@@ -55,11 +55,11 @@ void CBaseAction::setup(_object_type* object, CPropertyStorage* storage)
 	VERIFY(object);
 	VERIFY(storage);
 	m_object = object;
-	m_storage = storage;
+	this->m_storage = storage;
 	m_inertia_time = 0;
 #ifdef LOG_ACTION
 	m_switched			= false;
-	if (m_use_log && xr_strlen(m_action_name))
+	if (this->m_use_log && xr_strlen(m_action_name))
 		debug_log		(eActionStateSetup);
 #endif
 }
@@ -70,7 +70,7 @@ void CBaseAction::initialize()
 #ifdef LOG_ACTION
 	VERIFY3				(!m_switched,m_action_name,"::initialize()");
 	m_switched			= true;
-	if (m_use_log && xr_strlen(m_action_name))
+	if (this->m_use_log && xr_strlen(m_action_name))
 		debug_log		(eActionStateInitialized);
 #endif
 	m_start_level_time = Device.dwTimeGlobal;
@@ -82,7 +82,7 @@ void CBaseAction::execute()
 {
 	m_first_time = false;
 #ifdef LOG_ACTION
-	if (m_use_log && xr_strlen(m_action_name) && m_switched)
+	if (this->m_use_log && xr_strlen(m_action_name) && m_switched)
 		debug_log		(eActionStateExecuted);
 	m_switched			= false;
 #endif
@@ -93,7 +93,7 @@ void CBaseAction::finalize()
 {
 #ifdef LOG_ACTION
 	VERIFY3				(!m_switched,m_action_name,"::finalize()");
-	if (m_use_log && xr_strlen(m_action_name))
+	if (this->m_use_log && xr_strlen(m_action_name))
 		debug_log		(eActionStateFinalized);
 #endif
 }
@@ -154,22 +154,22 @@ IC	void CBaseAction::debug_log			(const EActionStates state_state) const
 TEMPLATE_SPECIALIZATION
 IC	void CBaseAction::set_use_log		(bool value)
 {
-	m_use_log	= value;
+	this->m_use_log	= value;
 }
 #endif
 
 TEMPLATE_SPECIALIZATION
 IC void CBaseAction::set_property(const _condition_type& condition_id, const _value_type& value)
 {
-	VERIFY(m_storage);
-	m_storage->set_property(condition_id, value);
+	VERIFY(this->m_storage);
+	this->m_storage->set_property(condition_id, value);
 }
 
 TEMPLATE_SPECIALIZATION
 IC const typename CBaseAction::_value_type&CBaseAction::property(const _condition_type& condition_id) const
 {
-	VERIFY(m_storage);
-	return (m_storage->property(condition_id));
+	VERIFY(this->m_storage);
+	return (this->m_storage->property(condition_id));
 }
 
 TEMPLATE_SPECIALIZATION

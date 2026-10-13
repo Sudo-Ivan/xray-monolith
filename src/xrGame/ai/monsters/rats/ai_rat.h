@@ -18,7 +18,7 @@
 
 class CBlend;
 class CPatrolPath;
-enum ESoundTypes;
+enum ESoundTypes : u32;
 class rat_state_manager;
 
 namespace steering_behaviour
@@ -327,7 +327,7 @@ public:
 	IC bool bfCheckIfGoalChanged(bool bForceChangeGoal = true);
 	IC void vfChooseNewSpeed();
 	IC void vfUpdateTime(float fTimeDelta);
-	IC void add_active_member(bool bForceActive = false);
+	void add_active_member(bool bForceActive = false);
 	IC void vfRemoveActiveMember();
 	IC void vfAddStandingMember();
 	IC void vfRemoveStandingMember();

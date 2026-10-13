@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "tushkano.h"
 #include "tushkano_state_manager.h"
 
@@ -16,7 +16,7 @@
 #include "../states/monster_state_controlled.h"
 #include "../states/monster_state_help_sound.h"
 
-#include "../../../entitycondition.h"
+#include "../../../EntityCondition.h"
 
 
 CStateManagerTushkano::CStateManagerTushkano(CTushkano* obj) : inherited(obj)

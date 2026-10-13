@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "UIOptionsItem.h"
 #include "UIOptionsManager.h"
-#include "../../xrEngine/xr_ioconsole.h"
+#include "../../xrEngine/XR_IOConsole.h"
 
 CUIOptionsManager CUIOptionsItem::m_optionsManager;
 
@@ -114,3 +114,7 @@ void CUIOptionsItem::UndoOptValue()
 	if (m_dep == sdApplyOnChange)
 		SaveOptValue();
 }
+
+// pure virtuals with bodies; derived classes call the base version explicitly
+void CUIOptionsItem::SetCurrentOptValue() {}
+void CUIOptionsItem::SaveBackUpOptValue() {}

@@ -22,6 +22,7 @@
 #include "luabind_api.h"
 #include <luabind/lua_include.hpp>
 #include <luabind/luabind.hpp>
+#include <cstring>
 
 namespace luabind { namespace detail
 {

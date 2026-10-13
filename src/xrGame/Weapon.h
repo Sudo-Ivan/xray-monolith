@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "../xrphysics/PhysicsShell.h"
-#include "weaponammo.h"
+#include "../xrPhysics/PhysicsShell.h"
+#include "WeaponAmmo.h"
 #include "PHShellCreator.h"
 
 #include "ShootingObject.h"
@@ -55,6 +55,9 @@ private:
 public:
 	CWeapon();
 	virtual ~CWeapon();
+
+	// GCC: re-export protected CHudItem::SetPending for script binding
+	using CHudItem::SetPending;
 
 	// Generic
 	virtual void Load(LPCSTR section);

@@ -15,11 +15,12 @@ struct CComparer
 	struct CHelper
 	{
 		template <bool a>
-		IC static bool compare(const T& _1, const T& _2, const P& p)
+		IC static bool compare(std::enable_if_t<!a, const T&> _1, const T& _2, const P& p)
 		{
 			return (p(_1, _2));
 		}
 
+		template <bool a>
 		IC static bool compare(std::enable_if_t<a, const T&>_1, const T& _2, const P& p)
 		{
 			return (CComparer::compare(*_1, *_2, p));
@@ -144,11 +145,12 @@ struct CComparer
 	struct CHelper4
 	{
 		template <bool a>
-		IC static bool compare(const T& _1, const T& _2, const P& p)
+		IC static bool compare(std::enable_if_t<!a, const T&> _1, const T& _2, const P& p)
 		{
-			return (CHelper<T>::compare < object_type_traits::is_pointer<T>::value > (_1, _2, p));
+			return (CHelper<T>::template compare<object_type_traits::is_pointer<T>::value> (_1, _2, p));
 		}
 
+		template <bool a>
 		IC static bool compare(std::enable_if_t<a, const T&>_1, const T& _2, const P& p)
 		{
 			return (CHelper3::compare(_1, _2, p));
@@ -158,7 +160,7 @@ struct CComparer
 	template <typename T>
 	IC static bool compare(const T& _1, const T& _2, const P& p)
 	{
-		return (CHelper4<T>::compare < object_type_traits::is_stl_container<T>::value > (_1, _2, p));
+		return (CHelper4<T>::template compare<object_type_traits::is_stl_container<T>::value> (_1, _2, p));
 	}
 };
 

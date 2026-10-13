@@ -15,12 +15,12 @@
 #define CEvaluator	CPropertyEvaluatorConst<_object_type>
 
 TEMPLATE_SPECIALIZATION
-IC CEvaluator::CPropertyEvaluatorConst(_value_type value, LPCSTR evaluator_name) :
+IC CEvaluator::CPropertyEvaluatorConst(typename CEvaluator::_value_type value, LPCSTR evaluator_name) :
 	m_value(value)
 {
 	//m_evaluator_name
 	//#ifdef LOG_ACTION
-	m_evaluator_name = evaluator_name;
+	this->m_evaluator_name = evaluator_name;
 	//#endif
 }
 

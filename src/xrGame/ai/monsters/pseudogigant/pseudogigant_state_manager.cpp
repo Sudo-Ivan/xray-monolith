@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "pseudo_gigant.h"
 #include "pseudogigant_state_manager.h"
 
@@ -14,7 +14,7 @@
 #include "../states/monster_state_hear_int_sound.h"
 #include "../states/monster_state_hear_danger_sound.h"
 #include "../states/monster_state_hitted.h"
-#include "../../../entitycondition.h"
+#include "../../../EntityCondition.h"
 #include "../states/monster_state_controlled.h"
 #include "../states/monster_state_help_sound.h"
 

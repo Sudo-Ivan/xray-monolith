@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "fracture.h"
 #include "fracture_state_manager.h"
 
@@ -14,7 +14,7 @@
 #include "../states/monster_state_hear_danger_sound.h"
 #include "../states/monster_state_hitted.h"
 
-#include "../../../entitycondition.h"
+#include "../../../EntityCondition.h"
 
 CStateManagerFracture::CStateManagerFracture(CFracture* obj) : inherited(obj)
 {

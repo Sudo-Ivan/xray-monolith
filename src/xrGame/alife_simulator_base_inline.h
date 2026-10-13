@@ -192,7 +192,7 @@ IC shared_str* CALifeSimulatorBase::server_command_line() const
 template <typename T>
 IC T& CALifeSimulatorBase::registry(T* t) const
 {
-	return registry().get<T>();
+	return registry().template get<T>();
 }
 
 IC void CALifeSimulatorBase::can_register_objects(const bool& value)

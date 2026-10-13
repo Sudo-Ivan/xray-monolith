@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<colors>
+	<color name="default" r="255" g="255" b="255" a="255"/>
+	<color name="white" r="255" g="255" b="255" a="255"/>
+	<color name="black" r="0" g="0" b="0" a="255"/>
+	<color name="red" r="255" g="0" b="0" a="255"/>
+	<color name="green" r="0" g="255" b="0" a="255"/>
+</colors>

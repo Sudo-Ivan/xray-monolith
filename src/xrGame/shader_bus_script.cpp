@@ -1,7 +1,7 @@
 #include "pch_script.h"
 #include "shader_bus_script.h"
 #include "../xrEngine/shader_bus.h"
-#include "../xrEngine/xr_ioconsole.h"
+#include "../xrEngine/XR_IOConsole.h"
 #include "../xrEngine/xr_ioc_cmd.h"
 #include "script_game_object.h"
 #include "GameObject.h"

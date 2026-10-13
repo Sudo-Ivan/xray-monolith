@@ -4,7 +4,7 @@
 //	Description : ltx overlays applied on top of the loaded all.spawn
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "spawn_overlays.h"
 #include "spawn_templates.h"
 #include "game_graph_builder.h"

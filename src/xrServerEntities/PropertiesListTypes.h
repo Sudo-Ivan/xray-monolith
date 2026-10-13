@@ -3,7 +3,7 @@
 #define PropertiesListTypesH
 
 
-#include "WaveForm.H"
+#include "WaveForm.h"
 #include "gametype_chooser.h"
 
 #ifdef __BORLANDC__
@@ -48,10 +48,11 @@ enum EPropType
 struct xr_token;
 class PropValue;
 class PropItem;
+class TProperties;
 DEFINE_VECTOR(PropItem*, PropItemVec, PropItemIt);
 
 //------------------------------------------------------------------------------
-#include "../xrcore/ChooseTypes.H"
+#include "../xrCore/ChooseTypes.H"
 //------------------------------------------------------------------------------
 typedef fastdelegate::FastDelegate2<PropValue*, xr_string&> TOnDrawTextEvent;
 typedef fastdelegate::FastDelegate1<PropItem*> TOnClick;
@@ -572,8 +573,8 @@ public:
 public:
 	NumericValue(T* val): CustomValue<T>(val)
 	{
-		value = val;
-		init_value = *value;
+		this->value = val;
+		this->init_value = *this->value;
 		dec = 0;
 	};
 
@@ -581,8 +582,8 @@ public:
 	                                                       dec(decim)
 	{
 		clamp(*val, lim_mn, lim_mx);
-		value = val;
-		init_value = *value;
+		this->value = val;
+		this->init_value = *this->value;
 	};
 
 	bool ApplyValue(const T& _val)
@@ -596,7 +597,7 @@ public:
 	{
 		xr_string draw_val;
 		if (!OnDrawText.empty()) OnDrawText(this, draw_val);
-		else draw_sprintf(draw_val, *value, dec);
+		else draw_sprintf(draw_val, *this->value, dec);
 		return draw_val;
 	}
 };

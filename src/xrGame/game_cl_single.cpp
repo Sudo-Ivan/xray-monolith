@@ -1,7 +1,7 @@
 #include "pch_script.h"
 #include "game_cl_single.h"
 #include "UIGameSP.h"
-#include "actor.h"
+#include "Actor.h"
 #include "clsid_game.h"
 
 using namespace luabind;
@@ -101,6 +101,7 @@ void game_cl_Single::SetEnvironmentGameTimeFactor(const float fTimeFactor)
 }
 
 #pragma optimize("s",on)
+template <>
 void CScriptGameDifficulty::script_register(lua_State* L)
 {
 	module(L)

@@ -13,8 +13,8 @@
 #include "UICellItemFactory.h"
 #include "../InventoryOwner.h"
 #include "../Inventory.h"
-#include "../actor.h"
-#include "../uigamesp.h"
+#include "../Actor.h"
+#include "../UIGameSP.h"
 #include "UI3tButton.h"
 
 #include "inventory_upgrade.h"

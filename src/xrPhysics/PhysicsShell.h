@@ -28,8 +28,7 @@ typedef u32 CLBits;
 struct dMass;
 
 
-enum motion_history_state
-{
+enum motion_history_state : s32 {
 	mh_clear = 0,
 	mh_unspecified,
 	mh_not_clear,

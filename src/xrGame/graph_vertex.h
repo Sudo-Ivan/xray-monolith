@@ -10,17 +10,34 @@
 
 #include "object_broker.h"
 
+template <typename _edge_weight_type, typename _vertex_type, typename _edge_data_type>
+class CEdge;
+
+// breaks the CVertex <-> CEdge instantiation cycle: matching the partial
+// specialization does not require CEdge to be complete
+template <typename _T>
+struct _edge_weight_of
+{
+	typedef typename _T::_edge_weight_type type;
+};
+
+template <typename _E, typename _V, typename _D>
+struct _edge_weight_of<CEdge<_E, _V, _D>>
+{
+	typedef _E type;
+};
+
 template <
 	typename _data_type,
-	typename _vertex_id_type,
+	typename _vertex_id_type_t,
 	typename _graph_type
 >
 class CVertex
 {
 public:
-	typedef _vertex_id_type _vertex_id_type;
+	typedef _vertex_id_type_t _vertex_id_type;
 	typedef typename _graph_type::CEdge _edge_type;
-	typedef typename _edge_type::_edge_weight_type _edge_weight_type;
+	typedef typename _edge_weight_of<_edge_type>::type _edge_weight_type;
 	typedef xr_vector<_edge_type> EDGES;
 	typedef xr_vector<CVertex*> VERTICES;
 

@@ -72,7 +72,7 @@ namespace luabind
 		LUABIND_TYPE_INFO m_info;
 	};
 
-#else
+#endif
 
 	typedef void(*error_callback_fun)(lua_State*);
 	typedef void(*cast_failed_callback_fun)(lua_State*, LUABIND_TYPE_INFO);
@@ -83,8 +83,6 @@ namespace luabind
     LUABIND_API error_callback_fun get_error_callback();
     LUABIND_API error_callback_fun get_error_callback_not_crash();
 	LUABIND_API cast_failed_callback_fun get_cast_failed_callback();
-
-#endif
 
 	typedef int(*pcall_callback_fun)(lua_State*);
 	LUABIND_API void set_pcall_callback(pcall_callback_fun e);

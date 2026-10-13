@@ -100,7 +100,7 @@ extern ENGINE_API CInifile* pGameIni;
 # define LUABIND_NO_ERROR_CHECKING
 #endif
 
-#if !defined(DEBUG) || defined(FORCE_NO_EXCEPTIONS)
+#if (!defined(DEBUG) || defined(FORCE_NO_EXCEPTIONS)) && !defined(__linux__)
 # define LUABIND_NO_EXCEPTIONS
 # define BOOST_NO_EXCEPTIONS
 #endif

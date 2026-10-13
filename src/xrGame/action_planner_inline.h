@@ -12,7 +12,7 @@
 	template <\
 		typename _object_type,\
 		bool	 _reverse_search,\
-		typename _world_operator,\
+		typename _world_operator_t,\
 		typename _condition_evaluator,\
 		typename _world_operator_ptr,\
 		typename _condition_evaluator_ptr\
@@ -22,7 +22,7 @@
 	CActionPlanner <\
 		_object_type,\
 		_reverse_search,\
-		_world_operator,\
+		_world_operator_t,\
 		_condition_evaluator,\
 		_world_operator_ptr,\
 		_condition_evaluator_ptr\
@@ -35,7 +35,7 @@ IC CPlanner::CActionPlanner() :
 	m_solving(false)
 {
 #ifdef LOG_ACTION
-	m_use_log				= false;
+	this->m_use_log				= false;
 #endif
 }
 
@@ -50,10 +50,10 @@ void CPlanner::setup(_object_type* object)
 {
 	inherited::setup();
 	m_object = object;
-	m_current_action_id = _action_id_type(-1);
-	m_storage.clear();
-	m_initialized = false;
-	m_loaded = false;
+	this->m_current_action_id = _action_id_type(-1);
+	this->m_storage.clear();
+	this->m_initialized = false;
+	this->m_loaded = false;
 }
 
 TEMPLATE_SPECIALIZATION
@@ -66,14 +66,14 @@ IC _object_type&CPlanner::object() const
 TEMPLATE_SPECIALIZATION
 void CPlanner::update()
 {
-	m_solving = true;
-	solve();
-	m_solving = false;
+	this->m_solving = true;
+	this->solve();
+	this->m_solving = false;
 
 #ifdef LOG_ACTION
-	// printing solution
-	if (m_use_log) {
-		if (m_solution_changed) {
+	// printing this->solution
+	if (this->m_use_log) {
+		if (this->m_solution_changed) {
 			show_current_world_state();
 			show_target_world_state	();
 			Msg						("%6d : Solution for object %s [%d vertices searched]",Device.dwTimeGlobal,object_name(),ai().graph_engine().solver_algorithm().data_storage().get_visited_node_count());
@@ -95,9 +95,9 @@ void CPlanner::update()
 		show_target_world_state		();
 	}
 #else
-	if (bDbgAct && m_failed && current_action().m_action_name)
+	if (bDbgAct && this->m_failed && this->current_action().m_action_name)
 		Msg("!ERROR: there is no action sequence, which can transfer current world state to the target one. action[%s]",
-		    current_action().m_action_name);
+		    this->current_action().m_action_name);
 #endif
 
 	THROW(!solution().empty());
@@ -147,7 +147,7 @@ IC void CPlanner::finalize()
 TEMPLATE_SPECIALIZATION
 IC typename CPlanner::COperator&CPlanner::action(const _action_id_type& action_id)
 {
-	return (*get_operator(action_id));
+	return (*this->get_operator(action_id));
 }
 
 TEMPLATE_SPECIALIZATION
@@ -302,8 +302,8 @@ TEMPLATE_SPECIALIZATION
 IC	void CPlanner::set_use_log		(bool value)
 {
 	m_use_log							= value;
-	OPERATOR_VECTOR::iterator			I = m_operators.begin();
-	OPERATOR_VECTOR::iterator			E = m_operators.end();
+	auto			I = m_operators.begin();
+	auto			E = m_operators.end();
 	for ( ; I != E; ++I)
 		(*I).get_operator()->set_use_log(m_use_log);
 }
@@ -312,8 +312,8 @@ TEMPLATE_SPECIALIZATION
 IC	void CPlanner::show_current_world_state	()
 {
 	Msg						("Current world state :");
-	EVALUATORS::const_iterator	I = evaluators().begin();
-	EVALUATORS::const_iterator	E = evaluators().end();
+	auto	I = evaluators().begin();
+	auto	E = evaluators().end();
 	for ( ; I != E; ++I) {
 		typename xr_vector<COperatorCondition>::const_iterator J = std::lower_bound(current_state().conditions().begin(),current_state().conditions().end(),CWorldProperty((*I).first,false));
 		char				temp = '?';
@@ -328,8 +328,8 @@ TEMPLATE_SPECIALIZATION
 IC	void CPlanner::show_target_world_state	()
 {
 	Msg						("Target world state :");
-	EVALUATORS::const_iterator	I = evaluators().begin();
-	EVALUATORS::const_iterator	E = evaluators().end();
+	auto	I = evaluators().begin();
+	auto	E = evaluators().end();
 	for ( ; I != E; ++I) {
 		typename xr_vector<COperatorCondition>::const_iterator J = std::lower_bound(target_state().conditions().begin(),target_state().conditions().end(),CWorldProperty((*I).first,false));
 		char				temp = '?';
@@ -347,15 +347,15 @@ IC	void CPlanner::show				(LPCSTR offset)
 	strconcat		(sizeof(temp),temp,offset,"    ");
 	{
 		Msg			("\n%sEVALUATORS : %d\n",offset,evaluators().size());
-		EVALUATORS::const_iterator	I = evaluators().begin();
-		EVALUATORS::const_iterator	E = evaluators().end();
+		auto	I = evaluators().begin();
+		auto	E = evaluators().end();
 		for ( ; I != E; ++I)
 			Msg		("%sevaluator   [%d][%s]",offset,(*I).first,property2string((*I).first));
 	}
 	{
 		Msg			("\n%sOPERATORS : %d\n",offset,operators().size());
-		OPERATOR_VECTOR::const_iterator	I = operators().begin();
-		OPERATOR_VECTOR::const_iterator	E = operators().end();
+		auto	I = operators().begin();
+		auto	E = operators().end();
 		for ( ; I != E; ++I) {
 			Msg		("%soperator    [%d][%s]",offset,(*I).m_operator_id,(*I).m_operator->m_action_name);
 
@@ -383,24 +383,24 @@ TEMPLATE_SPECIALIZATION
 IC void CPlanner::save(NET_Packet& packet)
 {
 	{
-		EVALUATORS::iterator I = m_evaluators.begin();
-		EVALUATORS::iterator E = m_evaluators.end();
+		auto I = this->m_evaluators.begin();
+		auto E = this->m_evaluators.end();
 		for (; I != E; ++I)
 			(*I).second->save(packet);
 	}
 
 	{
-		OPERATOR_VECTOR::iterator I = m_operators.begin();
-		OPERATOR_VECTOR::iterator E = m_operators.end();
+		auto I = this->m_operators.begin();
+		auto E = this->m_operators.end();
 		for (; I != E; ++I)
 			(*I).m_operator->save(packet);
 	}
 
 	{
-		packet.w_u32(m_storage.m_storage.size());
+		packet.w_u32(this->m_storage.m_storage.size());
 		typedef CPropertyStorage::CConditionStorage CConditionStorage;
-		CConditionStorage::const_iterator I = m_storage.m_storage.begin();
-		CConditionStorage::const_iterator E = m_storage.m_storage.end();
+		CConditionStorage::const_iterator I = this->m_storage.m_storage.begin();
+		CConditionStorage::const_iterator E = this->m_storage.m_storage.end();
 		for (; I != E; ++I)
 		{
 			packet.w(&(*I).m_condition, sizeof((*I).m_condition));
@@ -413,15 +413,15 @@ TEMPLATE_SPECIALIZATION
 IC void CPlanner::load(IReader& packet)
 {
 	{
-		EVALUATORS::iterator I = m_evaluators.begin();
-		EVALUATORS::iterator E = m_evaluators.end();
+		auto I = this->m_evaluators.begin();
+		auto E = this->m_evaluators.end();
 		for (; I != E; ++I)
 			(*I).second->load(packet);
 	}
 
 	{
-		OPERATOR_VECTOR::iterator I = m_operators.begin();
-		OPERATOR_VECTOR::iterator E = m_operators.end();
+		auto I = this->m_operators.begin();
+		auto E = this->m_operators.end();
 		for (; I != E; ++I)
 			(*I).m_operator->load(packet);
 	}
@@ -434,10 +434,10 @@ IC void CPlanner::load(IReader& packet)
 		{
 			packet.r(&condition, sizeof(condition));
 			packet.r(&value, sizeof(value));
-			m_storage.set_property(condition, value);
+			this->m_storage.set_property(condition, value);
 		}
 	}
-	m_loaded = true;
+	this->m_loaded = true;
 }
 
 #undef TEMPLATE_SPECIALIZATION

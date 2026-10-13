@@ -25,21 +25,21 @@ template <
 	typename _manager,
 	typename _builder,
 	typename _allocator,
-	template <typename _T> class _vertex = CEmptyClassTemplate,
+	template <typename _T_n> class _vertex = CEmptyClassTemplate,
 	template <
-		typename _1,
-		typename _2
+		typename _1_n,
+		typename _2_n
 	>
 	class _builder_allocator_constructor = CBuilderAllocatorConstructor,
 	template <
-		typename _1,
-		typename _2,
-		typename _3,
+		typename _1_n,
+		typename _2_n,
+		typename _3_n,
 		template <
-			typename _1,
-			typename _2
+			typename _1_n_n,
+			typename _2_n_n
 		>
-		class _4
+		class _4_n
 	>
 	class _manager_builder_allocator_constructor = CManagerBuilderAllocatorConstructor
 >

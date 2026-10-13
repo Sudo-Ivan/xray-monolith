@@ -6,7 +6,7 @@
 //	Description : Movement manager for game paths
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "movement_manager.h"
 #include "alife_simulator.h"
 #include "alife_graph_registry.h"
@@ -18,11 +18,11 @@
 #include "level_path_manager.h"
 #include "detail_path_manager.h"
 #include "ai_object_location.h"
-#include "custommonster.h"
+#include "CustomMonster.h"
 #include "level_path_builder.h"
 #include "detail_path_builder.h"
 #include "mt_config.h"
-#include "../../script_game_object.h"
+#include "script_game_object.h"
 
 void CMovementManager::show_game_path_info()
 {

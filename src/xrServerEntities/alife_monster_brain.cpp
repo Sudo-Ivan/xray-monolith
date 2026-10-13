@@ -6,7 +6,7 @@
 //	Description : ALife monster brain class
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "alife_monster_brain.h"
 #include "object_broker.h"
 #include "xrServer_Objects_ALife_Monsters.h"
@@ -25,7 +25,7 @@
 #	include "alife_time_manager.h"
 #	include "date_time.h"
 #	ifdef DEBUG
-#		include "level.h"
+#		include "Level.h"
 #		include "map_location.h"
 #		include "map_manager.h"
 #	endif
@@ -96,7 +96,7 @@ void CALifeMonsterBrain::on_location_change()
 {
 }
 
-IC CSE_ALifeSmartZone& CALifeMonsterBrain::smart_terrain()
+CSE_ALifeSmartZone& CALifeMonsterBrain::smart_terrain()
 {
 	VERIFY(object().m_smart_terrain_id != 0xffff);
 	if (m_smart_terrain && (object().m_smart_terrain_id == m_smart_terrain->ID))

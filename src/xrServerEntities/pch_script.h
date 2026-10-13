@@ -9,7 +9,7 @@
 #ifndef PCH_SCRIPT_H
 #define PCH_SCRIPT_H
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 
 //AVO: lua re-org
@@ -23,6 +23,9 @@
 
 #pragma warning(push)
 #pragma warning(disable:4995)
+// GCC: policy.hpp uses get_error_callback_not_crash before luabind.hpp
+// pulls in error.hpp, so include it first
+#include <luabind/error.hpp>
 #include <luabind/luabind.hpp>
 #pragma warning(pop)
 

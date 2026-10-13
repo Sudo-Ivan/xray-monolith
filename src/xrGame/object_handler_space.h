@@ -10,8 +10,7 @@
 
 namespace ObjectHandlerSpace
 {
-	enum EWorldProperties
-	{
+	enum EWorldProperties : u32 {
 		eWorldPropertyItemID = u32(0),
 		eWorldPropertyHidden,
 		eWorldPropertyShown,

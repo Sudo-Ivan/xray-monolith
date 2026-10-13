@@ -35,7 +35,7 @@ class CPathManager<
 {
 protected:
 	typedef CGameGraph _Graph;
-	typedef typename CPathManagerGeneric<
+	typedef CPathManagerGeneric<
 		_Graph,
 		_DataStorage,
 		_Parameters,

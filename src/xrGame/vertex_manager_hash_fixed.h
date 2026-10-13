@@ -8,9 +8,22 @@
 
 #pragma once
 
+#include "data_storage_constructor.h"
+#include "graph_engine_space.h"
+
+class shared_str;
+
+namespace hash_fixed_vertex_manager
+{
+	IC u32 to_u32(const GraphEngineSpace::CWorldState& other);
+	// GCC: qualified lookup in hash_index() happens at the template
+	// definition point, so the shared_str overload must be declared here
+	IC u32 to_u32(const shared_str& other);
+}
+
 template <
-	typename _path_id_type,
-	typename _index_type,
+	typename _path_id_type_t,
+	typename _index_type_t,
 	u32 hash_size,
 	u32 fix_size
 >
@@ -22,7 +35,7 @@ struct CVertexManagerHashFixed
 		template <typename T2>
 		struct _vertex : public T1<T2>
 		{
-			typedef _index_type _index_type;
+			typedef _index_type_t _index_type;
 			_index_type _index;
 			bool _opened;
 
@@ -48,35 +61,43 @@ struct CVertexManagerHashFixed
 		};
 	};
 
+	struct _default_data_storage
+	{
+		template <template <typename> class _vertex>
+		struct CDataStorage
+		{
+		};
+	};
+
 	template <
 		template <typename _T> class _vertex = CEmptyClassTemplate,
 		template <typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
-		typename _data_storage = CBuilderAllocatorConstructor
+		typename _data_storage = _default_data_storage
 	>
-	class CDataStorage : public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
+	class CDataStorage : public _data_storage::template CDataStorage<VertexManager<_vertex>::template _vertex>
 	{
 	public:
 		typedef typename _data_storage::template CDataStorage<
 			VertexManager<
 				_vertex
-			>::_vertex
+			>::template _vertex
 		> inherited;
 		typedef typename inherited::CGraphVertex CGraphVertex;
 		typedef typename CGraphVertex::_index_type _index_type;
 
 #pragma pack(push,1)
-		template <typename _path_id_type>
-		struct SGraphIndexVertex : public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
+		template <typename _path_id_type_i>
+		struct SGraphIndexVertex : public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type_i>>
 		{
 			CGraphVertex* m_vertex;
 			SGraphIndexVertex* m_next;
 			SGraphIndexVertex* m_prev;
 			u32 m_hash;
-			_path_id_type m_path_id;
+			_path_id_type_i m_path_id;
 		};
 #pragma pack(pop)
 
-		typedef _path_id_type _path_id_type;
+		typedef _path_id_type_t _path_id_type;
 		typedef SGraphIndexVertex<_path_id_type> CGraphIndexVertex;
 
 	protected:

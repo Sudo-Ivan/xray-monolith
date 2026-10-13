@@ -23,6 +23,7 @@
 #pragma once
 
 #include <luabind/config.hpp>
+#include <limits>
 
 #include <typeinfo>
 

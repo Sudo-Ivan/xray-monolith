@@ -4,9 +4,9 @@
 //	Description : Spawn template registry shared by ltx overlays, fragments and level packs
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "spawn_templates.h"
-#include "xrmessages.h"
+#include "xrMessages.h"
 
 namespace
 {

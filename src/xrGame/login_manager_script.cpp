@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "login_manager.h"
 
 using namespace luabind;
@@ -42,5 +42,20 @@ namespace gamespy_gp
 		];
 	}
 } //namespace gamespy_gp
+
+#undef DEFINE_MIXED_DELEGATE_SCRIPT
+#define DEFINE_MIXED_DELEGATE_SCRIPT(type, name_str) \
+	template <> \
+	void type::script_register(lua_State *L)\
+	{\
+		module(L)\
+		[\
+			class_<type>(name_str)\
+				.def(						constructor<>())\
+				.def(						constructor<type::lua_object_type, type::lua_function_type>())\
+				.def("bind",				static_cast<void (type::*)(type::lua_object_type, type::lua_function_type)>(&type::bind))\
+				.def("clear",				&type::clear)\
+		];\
+	};
 
 DEFINE_MIXED_DELEGATE_SCRIPT(gamespy_gp::login_operation_cb, "login_operation_cb");

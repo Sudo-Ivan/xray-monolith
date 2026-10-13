@@ -6,7 +6,7 @@
 //	Description : Sight manager
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "sight_manager.h"
 #include "ai/stalker/ai_stalker.h"
 #include "stalker_movement_manager_smart_cover.h"
@@ -14,7 +14,7 @@
 #include "aimers_weapon.h"
 #include "aimers_bone.h"
 #include "stalker_animation_manager.h"
-#include "weapon.h"
+#include "Weapon.h"
 
 using MonsterSpace::SBoneRotation;
 
@@ -292,8 +292,9 @@ void CSightManager::update()
 
 void CSightManager::remove_links(CObject* object)
 {
-	setup_actions::iterator I = actions().begin();
-	setup_actions::iterator E = actions().end();
+	// GCC: setup_actions is a private typedef of CSetupManager
+	auto I = actions().begin();
+	auto E = actions().end();
 	for (; I != E; ++I)
 		(*I).second->remove_links(object);
 }

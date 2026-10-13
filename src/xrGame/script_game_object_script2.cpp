@@ -126,12 +126,12 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("team", &CScriptGameObject::Team)
 		.def("squad", &CScriptGameObject::Squad)
 		.def("group", &CScriptGameObject::Group)
-		.def("change_team", SAFE_WRAP((void (CScriptGameObject::*)(u8, u8, u8))(&CScriptGameObject::ChangeTeam)))
+		.def("change_team", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u8, u8, u8)>(&CScriptGameObject::ChangeTeam)))
 		.def("set_visual_memory_enabled", SAFE_WRAP(&CScriptGameObject::SetVisualMemoryEnabled))
 		.def("kill", SAFE_WRAP(&CScriptGameObject::Kill))
 		.def("hit", SAFE_WRAP(&CScriptGameObject::Hit))
-		.def("play_cycle", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::play_cycle)))
-		.def("play_cycle", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::play_cycle)))
+		.def("play_cycle", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::play_cycle)))
+		.def("play_cycle", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::play_cycle)))
 		.def("fov", &CScriptGameObject::GetFOV)
 		.def("range", &CScriptGameObject::GetRange)
 		.def("relation", SAFE_WRAP(&CScriptGameObject::GetRelationType))
@@ -154,33 +154,33 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("command", SAFE_WRAP(&CScriptGameObject::AddAction))
 		.def("action", SAFE_WRAP(&CScriptGameObject::GetCurrentAction), adopt<result>())
 		.def("object_count", SAFE_WRAP(&CScriptGameObject::GetInventoryObjectCount))
-		.def("object", SAFE_WRAP((CScriptGameObject *(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::GetObjectByName)))
-		.def("object", SAFE_WRAP((CScriptGameObject *(CScriptGameObject::*)(int))(&CScriptGameObject::GetObjectByIndex)))
+		.def("object", SAFE_WRAP(static_cast<CScriptGameObject *(CScriptGameObject::*)(LPCSTR) const>(&CScriptGameObject::GetObjectByName)))
+		.def("object", SAFE_WRAP(static_cast<CScriptGameObject *(CScriptGameObject::*)(int) const>(&CScriptGameObject::GetObjectByIndex)))
 		.def("object_id", SAFE_WRAP(&CScriptGameObject::GetObjectById))
 		.def("active_item", SAFE_WRAP(&CScriptGameObject::GetActiveItem))
 
 		.def("set_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(GameObject::ECallbackType, const ::luabind::functor<void>&))(&CScriptGameObject
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(GameObject::ECallbackType, const ::luabind::functor<void>&)>(&CScriptGameObject
 		     ::SetCallback)))
 		.def("set_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(GameObject::ECallbackType, const ::luabind::functor<void>&,
-		                                  const ::luabind::object&))(&CScriptGameObject::SetCallback)))
-		.def("set_callback", SAFE_WRAP((void (CScriptGameObject::*)(GameObject::ECallbackType))(&CScriptGameObject::SetCallback)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(GameObject::ECallbackType, const ::luabind::functor<void>&,
+		                                  const ::luabind::object&)>(&CScriptGameObject::SetCallback)))
+		.def("set_callback", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(GameObject::ECallbackType)>(&CScriptGameObject::SetCallback)))
 
 		.def("set_patrol_extrapolate_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)())(&CScriptGameObject::set_patrol_extrapolate_callback)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_patrol_extrapolate_callback)))
 		.def("set_patrol_extrapolate_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const ::luabind::functor<bool>&))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const ::luabind::functor<bool>&)>(&CScriptGameObject::
 		     set_patrol_extrapolate_callback)))
 		.def("set_patrol_extrapolate_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const ::luabind::functor<bool>&, const ::luabind::object&))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const ::luabind::functor<bool>&, const ::luabind::object&)>(&CScriptGameObject::
 		     set_patrol_extrapolate_callback)))
 
-		.def("set_enemy_callback", SAFE_WRAP((void (CScriptGameObject::*)())(&CScriptGameObject::set_enemy_callback)))
+		.def("set_enemy_callback", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_enemy_callback)))
 		.def("set_enemy_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const ::luabind::functor<bool>&))(&CScriptGameObject::set_enemy_callback)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const ::luabind::functor<bool>&)>(&CScriptGameObject::set_enemy_callback)))
 		.def("set_enemy_callback",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const ::luabind::functor<bool>&, const ::luabind::object&))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const ::luabind::functor<bool>&, const ::luabind::object&)>(&CScriptGameObject::
 		     set_enemy_callback)))
 
 		.def("patrol", SAFE_WRAP(&CScriptGameObject::GetPatrolPathName))
@@ -283,8 +283,8 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("deadbody_can_take", SAFE_WRAP(&CScriptGameObject::deadbody_can_take))
 		.def("deadbody_can_take_status", SAFE_WRAP(&CScriptGameObject::deadbody_can_take_status))
 
-		.def("can_select_weapon", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::can_select_weapon))
-		.def("can_select_weapon", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::can_select_weapon))
+		.def("can_select_weapon", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::can_select_weapon)))
+		.def("can_select_weapon", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::can_select_weapon)))
 		// searchlight
 		.def("get_current_direction", &CScriptGameObject::GetCurrentDirection)
 
@@ -305,12 +305,12 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("detail_path_type", SAFE_WRAP(&CScriptGameObject::detail_path_type))
 
 		//
-		.def("set_desired_position", SAFE_WRAP((void (CScriptGameObject::*)())(&CScriptGameObject::set_desired_position)))
+		.def("set_desired_position", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_desired_position)))
 		.def("set_desired_position",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_position)))
-		.def("set_desired_direction", SAFE_WRAP((void (CScriptGameObject::*)())(&CScriptGameObject::set_desired_direction)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const Fvector*)>(&CScriptGameObject::set_desired_position)))
+		.def("set_desired_direction", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_desired_direction)))
 		.def("set_desired_direction",
-		     SAFE_WRAP((void (CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_direction)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(const Fvector*)>(&CScriptGameObject::set_desired_direction)))
 		.def("set_patrol_path", SAFE_WRAP(&CScriptGameObject::set_patrol_path))
 		.def("inactualize_patrol_path", SAFE_WRAP(&CScriptGameObject::inactualize_patrol_path))
 		.def("set_dest_level_vertex_id", SAFE_WRAP(&CScriptGameObject::set_dest_level_vertex_id))
@@ -318,9 +318,9 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("set_movement_selection_type", SAFE_WRAP(&CScriptGameObject::set_movement_selection_type))
 		.def("level_vertex_id", SAFE_WRAP(&CScriptGameObject::level_vertex_id))
 		.def("game_vertex_id", SAFE_WRAP(&CScriptGameObject::game_vertex_id))
-		.def("add_animation", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR, bool, bool))(&CScriptGameObject::add_animation)))
+		.def("add_animation", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR, bool, bool)>(&CScriptGameObject::add_animation)))
 		.def("add_animation",
-		     SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR, bool, Fvector, Fvector, bool))(&CScriptGameObject::add_animation)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR, bool, Fvector, Fvector, bool)>(&CScriptGameObject::add_animation)))
 		.def("clear_animations", SAFE_WRAP(&CScriptGameObject::clear_animations))
 		.def("animation_count", SAFE_WRAP(&CScriptGameObject::animation_count))
 		.def("animation_slot", SAFE_WRAP(&CScriptGameObject::animation_slot))
@@ -334,8 +334,8 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 
 		.def("eat", SAFE_WRAP(&CScriptGameObject::eat))
 
-		.def("extrapolate_length", SAFE_WRAP((float (CScriptGameObject::*)() const)(&CScriptGameObject::extrapolate_length)))
-		.def("extrapolate_length", SAFE_WRAP((void (CScriptGameObject::*)(float))(&CScriptGameObject::extrapolate_length)))
+		.def("extrapolate_length", SAFE_WRAP(static_cast<float (CScriptGameObject::*)() const>(&CScriptGameObject::extrapolate_length)))
+		.def("extrapolate_length", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::extrapolate_length)))
 
 		.def("set_fov", SAFE_WRAP(&CScriptGameObject::set_fov))
 		.def("set_range", SAFE_WRAP(&CScriptGameObject::set_range))
@@ -368,8 +368,8 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 #ifdef DEBUG
 		.def("debug_planner",				SAFE_WRAP(&CScriptGameObject::debug_planner))
 #endif // DEBUG
-		.def("invulnerable", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::invulnerable))
-		.def("invulnerable", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::invulnerable))
+		.def("invulnerable", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::invulnerable)))
+		.def("invulnerable", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::invulnerable)))
 
 		.def("get_smart_cover_description", &CScriptGameObject::get_smart_cover_description)
 		.def("set_visual_name", SAFE_WRAP(&CScriptGameObject::set_visual_name))
@@ -377,45 +377,45 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("get_inv_max_weight", &CScriptGameObject::get_max_weight)
 		.def("get_visual_name", SAFE_WRAP(&CScriptGameObject::get_visual_name))
 
-		.def("can_throw_grenades", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::can_throw_grenades))
-		.def("can_throw_grenades", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::can_throw_grenades))
+		.def("can_throw_grenades", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::can_throw_grenades)))
+		.def("can_throw_grenades", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::can_throw_grenades)))
 
 		.def("group_throw_time_interval",
-		     SAFE_WRAP((u32 (CScriptGameObject::*)() const)&CScriptGameObject::group_throw_time_interval))
+		     SAFE_WRAP(static_cast<u32 (CScriptGameObject::*)() const>(&CScriptGameObject::group_throw_time_interval)))
 		.def("group_throw_time_interval",
-		     SAFE_WRAP((void (CScriptGameObject::*)(u32))&CScriptGameObject::group_throw_time_interval))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32)>(&CScriptGameObject::group_throw_time_interval)))
 
 		.def("register_in_combat", SAFE_WRAP(&CScriptGameObject::register_in_combat))
 		.def("unregister_in_combat", SAFE_WRAP(&CScriptGameObject::unregister_in_combat))
 		.def("make_enemy_visible", SAFE_WRAP(&CScriptGameObject::make_enemy_visible))
 		.def("find_best_cover", SAFE_WRAP(&CScriptGameObject::find_best_cover))
 
-		.def("use_smart_covers_only", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::use_smart_covers_only))
-		.def("use_smart_covers_only", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::use_smart_covers_only))
+		.def("use_smart_covers_only", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::use_smart_covers_only)))
+		.def("use_smart_covers_only", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::use_smart_covers_only)))
 
 		.def("in_smart_cover", SAFE_WRAP(&CScriptGameObject::in_smart_cover))
 
-		.def("set_dest_smart_cover", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))&CScriptGameObject::set_dest_smart_cover))
-		.def("set_dest_smart_cover", SAFE_WRAP((void (CScriptGameObject::*)())&CScriptGameObject::set_dest_smart_cover))
+		.def("set_dest_smart_cover", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::set_dest_smart_cover)))
+		.def("set_dest_smart_cover", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_dest_smart_cover)))
 		.def("get_dest_smart_cover",
-		     SAFE_WRAP((CCoverPoint const* (CScriptGameObject::*)())&CScriptGameObject::get_dest_smart_cover))
+		     SAFE_WRAP(static_cast<CCoverPoint const* (CScriptGameObject::*)()>(&CScriptGameObject::get_dest_smart_cover)))
 		.def("get_dest_smart_cover_name", SAFE_WRAP(&CScriptGameObject::get_dest_smart_cover_name))
 
-		.def("set_dest_loophole", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))&CScriptGameObject::set_dest_loophole))
-		.def("set_dest_loophole", SAFE_WRAP((void (CScriptGameObject::*)())&CScriptGameObject::set_dest_loophole))
+		.def("set_dest_loophole", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::set_dest_loophole)))
+		.def("set_dest_loophole", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_dest_loophole)))
 
-		.def("set_smart_cover_target", SAFE_WRAP((void (CScriptGameObject::*)(Fvector))&CScriptGameObject::set_smart_cover_target))
+		.def("set_smart_cover_target", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(Fvector)>(&CScriptGameObject::set_smart_cover_target)))
 		.def("set_smart_cover_target",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject*))&CScriptGameObject::set_smart_cover_target))
-		.def("set_smart_cover_target", SAFE_WRAP((void (CScriptGameObject::*)())&CScriptGameObject::set_smart_cover_target))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject*)>(&CScriptGameObject::set_smart_cover_target)))
+		.def("set_smart_cover_target", SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_smart_cover_target)))
 
 		.def("set_smart_cover_target_selector",
-		     SAFE_WRAP((void (CScriptGameObject::*)(::luabind::functor<void>))&CScriptGameObject::set_smart_cover_target_selector))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(::luabind::functor<void>)>(&CScriptGameObject::set_smart_cover_target_selector)))
 		.def("set_smart_cover_target_selector",
-		     SAFE_WRAP((void (CScriptGameObject::*)(::luabind::functor<void>, ::luabind::object))&CScriptGameObject::
-		     set_smart_cover_target_selector))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(::luabind::functor<void>, ::luabind::object)>(&CScriptGameObject::
+		     set_smart_cover_target_selector)))
 		.def("set_smart_cover_target_selector",
-		     SAFE_WRAP((void (CScriptGameObject::*)())&CScriptGameObject::set_smart_cover_target_selector))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)()>(&CScriptGameObject::set_smart_cover_target_selector)))
 
 		.def("set_smart_cover_target_idle", SAFE_WRAP(&CScriptGameObject::set_smart_cover_target_idle))
 		.def("set_smart_cover_target_lookout", SAFE_WRAP(&CScriptGameObject::set_smart_cover_target_lookout))
@@ -424,17 +424,17 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("set_smart_cover_target_idle", SAFE_WRAP(&CScriptGameObject::set_smart_cover_target_idle))
 		.def("set_smart_cover_target_default", SAFE_WRAP(&CScriptGameObject::set_smart_cover_target_default))
 
-		.def("idle_min_time", SAFE_WRAP((void (CScriptGameObject::*)(float))(&CScriptGameObject::idle_min_time)))
-		.def("idle_min_time", SAFE_WRAP((float (CScriptGameObject::*)() const)(&CScriptGameObject::idle_min_time)))
+		.def("idle_min_time", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::idle_min_time)))
+		.def("idle_min_time", SAFE_WRAP(static_cast<float const (CScriptGameObject::*)() const>(&CScriptGameObject::idle_min_time)))
 
-		.def("idle_max_time", SAFE_WRAP((void (CScriptGameObject::*)(float))(&CScriptGameObject::idle_max_time)))
-		.def("idle_max_time", SAFE_WRAP((float (CScriptGameObject::*)() const)(&CScriptGameObject::idle_max_time)))
+		.def("idle_max_time", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::idle_max_time)))
+		.def("idle_max_time", SAFE_WRAP(static_cast<float const (CScriptGameObject::*)() const>(&CScriptGameObject::idle_max_time)))
 
-		.def("lookout_min_time", SAFE_WRAP((void (CScriptGameObject::*)(float))(&CScriptGameObject::lookout_min_time)))
-		.def("lookout_min_time", SAFE_WRAP((float (CScriptGameObject::*)() const)(&CScriptGameObject::lookout_min_time)))
+		.def("lookout_min_time", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::lookout_min_time)))
+		.def("lookout_min_time", SAFE_WRAP(static_cast<float const (CScriptGameObject::*)() const>(&CScriptGameObject::lookout_min_time)))
 
-		.def("lookout_max_time", SAFE_WRAP((void (CScriptGameObject::*)(float))(&CScriptGameObject::lookout_max_time)))
-		.def("lookout_max_time", SAFE_WRAP((float (CScriptGameObject::*)() const)(&CScriptGameObject::lookout_max_time)))
+		.def("lookout_max_time", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::lookout_max_time)))
+		.def("lookout_max_time", SAFE_WRAP(static_cast<float const (CScriptGameObject::*)() const>(&CScriptGameObject::lookout_max_time)))
 
 		.def("in_loophole_fov", SAFE_WRAP(&CScriptGameObject::in_loophole_fov))
 		.def("in_current_loophole_fov", SAFE_WRAP(&CScriptGameObject::in_current_loophole_fov))
@@ -442,18 +442,18 @@ class_<CScriptGameObject> script_register_game_object1(class_<CScriptGameObject>
 		.def("in_current_loophole_range", SAFE_WRAP(&CScriptGameObject::in_current_loophole_range))
 
 		.def("apply_loophole_direction_distance",
-		     SAFE_WRAP((void (CScriptGameObject::*)(float))&CScriptGameObject::apply_loophole_direction_distance))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float)>(&CScriptGameObject::apply_loophole_direction_distance)))
 		.def("apply_loophole_direction_distance",
-		     SAFE_WRAP((float (CScriptGameObject::*)() const)&CScriptGameObject::apply_loophole_direction_distance))
+		     SAFE_WRAP(static_cast<float (CScriptGameObject::*)() const>(&CScriptGameObject::apply_loophole_direction_distance)))
 
 		.def("movement_target_reached", SAFE_WRAP(&CScriptGameObject::movement_target_reached))
 		.def("suitable_smart_cover", SAFE_WRAP(&CScriptGameObject::suitable_smart_cover))
 
-		.def("take_items_enabled", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::take_items_enabled))
-		.def("take_items_enabled", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::take_items_enabled))
+		.def("take_items_enabled", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::take_items_enabled)))
+		.def("take_items_enabled", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::take_items_enabled)))
 
-		.def("death_sound_enabled", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::death_sound_enabled))
-		.def("death_sound_enabled", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::death_sound_enabled))
+		.def("death_sound_enabled", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::death_sound_enabled)))
+		.def("death_sound_enabled", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::death_sound_enabled)))
 
 		.def("register_door_for_npc", SAFE_WRAP(&CScriptGameObject::register_door))
 		.def("unregister_door_for_npc", &CScriptGameObject::unregister_door)

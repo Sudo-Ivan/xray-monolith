@@ -6,7 +6,7 @@
 //	Description : Level graph
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "level_graph.h"
 #include "profiler.h"
 
@@ -53,17 +53,19 @@ CLevelGraph::CLevelGraph()
 		m_nodes_allocated = true;
 		for (u32 i = 0; i < header().vertex_count(); ++i)
 		{
+			// sizeof(CVertex) == sizeof(NodeCompressed13) is statically asserted
+			NodeCompressed13& new_node = reinterpret_cast<NodeCompressed13&>(m_nodes[i]);
 			for (u8 direction = 0; direction < 4; ++direction)
 			{
 				const u32 old_link = old_nodes[i].link(direction);
-				m_nodes[i].set_link(direction,
+				new_node.set_link(direction,
 					old_link == 0x007fffff ? NodeCompressed13::LINK_MASK : old_link);
 			}
-			m_nodes[i].high = old_nodes[i].high;
-			m_nodes[i].low = old_nodes[i].low;
-			m_nodes[i].NodeCompressed13::plane = old_nodes[i].plane;
-			m_nodes[i].p.xz(old_nodes[i].p.xz());
-			m_nodes[i].p.y(u16(old_nodes[i].p.y()));
+			new_node.high = old_nodes[i].high;
+			new_node.low = old_nodes[i].low;
+			new_node.plane = old_nodes[i].plane;
+			new_node.p.xz(old_nodes[i].p.xz());
+			new_node.p.y(u16(old_nodes[i].p.y()));
 		}
 	}
 	m_row_length = iFloor((header().box().max.z - header().box().min.z) / header().cell_size() + EPS_L + 1.5f);

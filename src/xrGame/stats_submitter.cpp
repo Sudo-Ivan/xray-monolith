@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "stats_submitter.h"
 #include "login_manager.h"
 #include "MainMenu.h"
@@ -341,8 +341,8 @@ namespace gamespy_profile
 
 	bool stats_submitter::create_award_inc_report()
 	{
-		__time32_t tmp_time = 0;
-		_time32(&tmp_time);
+		time_t tmp_time = 0;
+		time(&tmp_time);
 
 		//SCResult tmp_res = m_atlas_obj->ReportAddIntValue(
 		//	m_atlas_report,

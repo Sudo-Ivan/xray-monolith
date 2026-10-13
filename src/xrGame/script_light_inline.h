@@ -1,6 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "../xrEngine/LightAnimLibrary.h"
+#include "../xrEngine/Render.h"
 
 class CLAItem;
 

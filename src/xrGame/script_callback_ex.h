@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <luabind/functor.hpp>
 #include "ai_space.h"
 #include "script_engine.h"
 

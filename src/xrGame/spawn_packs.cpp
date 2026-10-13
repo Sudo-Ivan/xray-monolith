@@ -4,13 +4,13 @@
 //	Description : Level packs: extra all.spawn files whose new levels, objects and paths join the base spawn
 ////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "spawn_packs.h"
 #include "game_graph.h"
 #include "game_graph_builder.h"
 #include "patrol_path.h"
 #include "patrol_path_storage.h"
-#include "xrmessages.h"
+#include "xrMessages.h"
 
 extern LPCSTR LEVEL_GRAPH_NAME;
 

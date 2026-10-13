@@ -10,7 +10,7 @@
 
 #define TEMPLATE_SPECIALIZATION \
 	template<bool bEuclidianHeuristics>\
-	template <template <typename _T> class _vertex>
+	template <template <typename _T_n> class _vertex>
 
 
 #define CVertexPathBuilder		CVertexPath<bEuclidianHeuristics>::CDataStorage<_vertex>
@@ -62,7 +62,7 @@ IC void CVertexPathBuilder::get_node_path(xr_vector<_index_type>& path, CGraphVe
 	path[--i] = best->index();
 	t2 = t1->back();
 
-	xr_vector<_index_type>::reverse_iterator I = path.rbegin();
+	typename xr_vector<_index_type>::reverse_iterator I = path.rbegin();
 	//xr_vector<_index_type>::reverse_iterator	E = path.rend();
 	for (++I; t2; t2 = t2->back(), ++I)
 		*I = t2->index();

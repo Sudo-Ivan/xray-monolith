@@ -163,3 +163,71 @@ void IPureServer::UnBanAddress(const ip_address& Address)
 void IPureServer::Print_Banned_Addreses()
 {
 }
+
+void IPureServer::_Recieve(const void* data, u32 data_size, u32 param)
+{
+	if (data_size >= NET_PacketSizeLimit)
+	{
+		Msg("! too large packet size[%d] received, DoS attack?", data_size);
+		return;
+	}
+
+	NET_Packet packet;
+	ClientID id;
+
+	id.set(param);
+	packet.construct(data, data_size);
+	csMessage.Enter();
+	u32 result = OnMessage(packet, id);
+	csMessage.Leave();
+
+	if (result)
+		SendBroadcast(id, packet, result);
+}
+
+void ip_address::set(LPCSTR src_string)
+{
+	u32 buff[4];
+	int cnt = sscanf(src_string, "%d.%d.%d.%d", &buff[0], &buff[1], &buff[2], &buff[3]);
+	if (cnt == 4)
+	{
+		m_data.a1 = u8(buff[0] & 0xff);
+		m_data.a2 = u8(buff[1] & 0xff);
+		m_data.a3 = u8(buff[2] & 0xff);
+		m_data.a4 = u8(buff[3] & 0xff);
+	}
+	else
+	{
+		Msg("! Bad ipAddress format [%s]", src_string);
+		m_data.data = 0;
+	}
+}
+
+xr_string ip_address::to_string() const
+{
+	string128 res;
+	xr_sprintf(res, sizeof(res), "%d.%d.%d.%d", m_data.a1, m_data.a2, m_data.a3, m_data.a4);
+	return res;
+}
+
+IClient::IClient(CTimer* timer)
+	: stats(timer),
+	  server(NULL)
+{
+	dwTime_LastUpdate = 0;
+	flags.bLocal = FALSE;
+	flags.bConnected = FALSE;
+	flags.bReconnect = FALSE;
+	flags.bVerified = TRUE;
+}
+
+IClient::~IClient()
+{
+}
+
+void
+IClient::_SendTo_LL(const void* data, u32 size, u32 flags, u32 timeout)
+{
+	R_ASSERT(server);
+	server->IPureServer::SendTo_LL(ID, const_cast<void*>(data), size, flags, timeout);
+}

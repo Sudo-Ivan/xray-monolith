@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #include "PHSoundPlayer.h"
 #include "PhysicsShellHolder.h"
@@ -23,9 +23,9 @@ void CPHSoundPlayer::Play(SGameMtlPair* mtl_pair, const Fvector& pos)
 		if (vel.square_magnitude() > 0.01f)
 		{
 #ifdef DEBUG
-			CLONE_MTL_SOUND_CHECK(m_sound, mtl_pair, CollideSounds);
+			{ VERIFY2(!mtl_pair->CollideSounds.empty(), mtl_pair->dbg_Name()); }
 #endif
-			CLONE_MTL_SOUND_DO(m_sound, mtl_pair, CollideSounds);
+			{ m_sound.clone(GET_RANDOM(mtl_pair->CollideSounds), st_Effect, sg_SourceType); }
 			m_sound.play_at_pos(smart_cast<CPhysicsShellHolder*>(m_object), pos);
 		}
 	}

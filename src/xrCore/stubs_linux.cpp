@@ -7,17 +7,17 @@
 // build info normally generated per executable
 
 // modded exes info normally provided by the game binary
-int get_modded_exes_version()
+__attribute__((weak)) int get_modded_exes_version()
 {
 	return 0;
 }
 
-xr_string get_modded_exes_version_string()
+__attribute__((weak)) xr_string get_modded_exes_version_string()
 {
 	return xr_string("linux-port");
 }
 
-LPCSTR get_modded_exes_name()
+__attribute__((weak)) LPCSTR get_modded_exes_name()
 {
 	return "xray-monolith-linux";
 }
@@ -85,3 +85,22 @@ __attribute__((weak)) bool is_console_mark(Console_mark)
 	return false;
 }
 bool ignore_verify = true;
+
+namespace crash_saving
+{
+    void (*save_impl)() = nullptr;
+	BOOL enabled = TRUE;
+
+    void save()
+    {
+        if (enabled && save_impl != nullptr)
+        {
+            (*save_impl)();
+        }
+    }
+}
+
+// crash/bug-report globals normally provided by xrDebugNew.cpp (Windows-only crash handler)
+typedef void (*full_memory_stats_callback_type)();
+XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback = 0;
+XRCORE_API string_path g_bug_report_file;

@@ -32,10 +32,10 @@ struct CLoader
 	template <typename T>
 	struct CHelper
 	{
-		template <bool pointer>
+		template <bool a>
 		IC static void load_data(std::enable_if_t<!a, T& >data, M& stream, const P& p)
 		{
-			CHelper1<T>::template load_data <
+			CHelper1<T>::template load_data<
 				object_type_traits::is_base_and_derived_or_same_from_template<
 					IPureLoadableObject,
 					T
@@ -46,7 +46,7 @@ struct CLoader
 		template <bool a>
 		IC static void load_data(std::enable_if_t<a, T&>data, M& stream, const P& p)
 		{
-			CLoader<M, P>::load_data(*(data = xr_new<object_type_traits::remove_pointer<T>::type>()), stream, p);
+			CLoader<M, P>::load_data(*(data = xr_new<typename object_type_traits::remove_pointer<T>::type>()), stream, p);
 		}
 	};
 
@@ -77,8 +77,8 @@ struct CLoader
 		template <typename T1, typename T2>
 		struct add_helper
 		{
-			template <bool>
-			IC static void add(T1& data, T2& value)
+			template <bool a>
+			IC static void add(std::enable_if_t<!a, T1&> data, T2& value)
 			{
 				data.push_back(value);
 			}
@@ -118,7 +118,7 @@ struct CLoader
 		template <bool a>
 		IC static void load_data(std::enable_if_t<!a, T& >data, M& stream, const P& p)
 		{
-			CHelper<T>::template load_data < object_type_traits::is_pointer<T>::value > (data, stream, p);
+			CHelper<T>::template load_data< object_type_traits::is_pointer<T>::value > (data, stream, p);
 		}
 
 		template <bool a>
@@ -155,11 +155,11 @@ struct CLoader
 	template <typename T1, typename T2>
 	IC static void load_data(std::pair<T1, T2>& data, M& stream, const P& p)
 	{
-		if (p(data, const_cast<object_type_traits::remove_const<T1>::type&>(data.first), true))
+		if (p(data, const_cast<typename object_type_traits::remove_const<T1>::type&>(data.first), true))
 		{
 			const bool value = object_type_traits::is_same<T1, LPCSTR>::value;
 			VERIFY(!value);
-			load_data(const_cast<object_type_traits::remove_const<T1>::type&>(data.first), stream, p);
+			load_data(const_cast<typename object_type_traits::remove_const<T1>::type&>(data.first), stream, p);
 		}
 		if (p(data, data.second, false))
 			load_data(data.second, stream, p);
@@ -279,7 +279,7 @@ struct CLoader
 	template <typename T>
 	IC static void load_data(T& data, M& stream, const P& p)
 	{
-		CHelper4<T>::template load_data < object_type_traits::is_stl_container<T>::value > (data, stream, p);
+		CHelper4<T>::template load_data< object_type_traits::is_stl_container<T>::value > (data, stream, p);
 	}
 };
 

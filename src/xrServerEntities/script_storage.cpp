@@ -16,7 +16,7 @@
 #include <sstream>
 #include <regex>
 
-#if !defined(DEBUG) && defined(USE_LUAJIT_ONE)
+#if !defined(DEBUG) && defined(USE_LUAJIT_ONE) && !defined(__linux__)
 #	include "opt.lua.h"
 #	include "opt_inline.lua.h"
 #endif //!DEBUG && USE_LUAJIT_ONE
@@ -436,9 +436,11 @@ void CScriptStorage::reinit()
 	{
 		luajit::open_lib(lua(), LUA_JITLIBNAME, luaopen_jit);
 #ifndef DEBUG
+#ifndef __linux__
 		put_function(lua(), opt_lua_binary, sizeof(opt_lua_binary), "jit.opt");
 		put_function(lua(), opt_inline_lua_binary, sizeof(opt_lua_binary), "jit.opt_inline");
 		dojitopt(lua(), "2");
+#endif
 #endif //!DEBUG
 	}
 
@@ -746,8 +748,8 @@ bool CScriptStorage::load_buffer(lua_State* L, LPCSTR caBuffer, size_t tSize, LP
 		}
 		__except (GetExceptionCode() == STATUS_STACK_OVERFLOW)
 		{
-			int errcode = _resetstkoflw();
-			R_ASSERT2(errcode, "Could not reset the stack after \"Stack overflow\" exception!");
+			_resetstkoflw(); // the non-Windows shim returns void
+			R_ASSERT2(true, "Could not reset the stack after \"Stack overflow\" exception!");
 #ifdef DEBUG
             script					= (LPSTR)Memory.mem_alloc(total_size, "lua script file (after exception)");
 #else //#ifdef DEBUG

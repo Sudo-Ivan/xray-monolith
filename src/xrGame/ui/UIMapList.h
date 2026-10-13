@@ -2,7 +2,7 @@
 
 #include "UIWindow.h"
 #include "gametype_chooser.h"
-#include "..\uiGameCustom.h"
+#include "../UIGameCustom.h"
 
 class CUIListBox;
 class CUIListBoxItem;
@@ -35,7 +35,7 @@ public:
 	void OnListItemClicked();
 	void LoadMapList();
 	void SaveMapList();
-	const char* GetCommandLine(LPCSTR player_name);
+	const char* GetCmdLine(LPCSTR player_name);
 	EGameIDs GetCurGameType();
 	void StartDedicatedServer();
 	void ClearList();

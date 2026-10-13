@@ -3,6 +3,8 @@
 class CUICursor;
 class CUIGameCustom;
 
+#include "../xrEngine/device.h"
+#include "../xrEngine/GameFont.h"
 #include "ui_defs.h"
 
 

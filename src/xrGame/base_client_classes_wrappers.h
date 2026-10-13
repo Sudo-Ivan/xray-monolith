@@ -10,13 +10,13 @@
 
 #include "script_export_space.h"
 #include "base_client_classes.h"
-#include "../xrEngine/engineapi.h"
-#include "../xrcdb/ispatial.h"
-#include "../xrEngine/isheduled.h"
-#include "../xrEngine/irenderable.h"
-#include "../xrEngine/icollidable.h"
+#include "../xrEngine/EngineAPI.h"
+#include "../xrCDB/ISpatial.h"
+#include "../xrEngine/ISheduled.h"
+#include "../xrEngine/IRenderable.h"
+#include "../xrEngine/ICollidable.h"
 #include "../xrEngine/xr_object.h"
-#include "entity.h"
+#include "Entity.h"
 #include "ai_space.h"
 #include "script_engine.h"
 #include "xrServer_Object_Base.h"
@@ -32,7 +32,7 @@ public:
 
 	virtual DLL_Pure* _construct()
 	{
-		return call_member<DLL_Pure*>(this, "_construct");
+		return ::luabind::call_member<DLL_Pure*>(this, "_construct");
 	}
 
 	static DLL_Pure* _construct_static(Base* self_)
@@ -49,7 +49,7 @@ public:
 	virtual					~ISpatialWrapper			() {};
 	virtual	void			spatial_register			()
 	{
-		call_member<void>(this,"spatial_register");
+		::luabind::call_member<void>(this,"spatial_register");
 	}
 
 	static	void			spatial_register_static		(base *self)
@@ -59,7 +59,7 @@ public:
 
 	virtual	void			spatial_unregister			()
 	{
-		call_member<void>(this,"spatial_unregister");
+		::luabind::call_member<void>(this,"spatial_unregister");
 	}
 	
 	static	void			spatial_unregister_static	(base *self)
@@ -69,7 +69,7 @@ public:
 
 	virtual	void			spatial_move				()
 	{
-		call_member<void>(this,"spatial_move");
+		::luabind::call_member<void>(this,"spatial_move");
 	}
 
 	static	void			spatial_move_static			(base *self)
@@ -79,7 +79,7 @@ public:
 
 	virtual	Fvector			spatial_sector_point		()
 	{
-		return	(call_member<Fvector>(this,"spatial_sector_point"));
+		return	(::luabind::call_member<Fvector>(this,"spatial_sector_point"));
 	}
 
 	static	Fvector			spatial_sector_point_static	(base *self)
@@ -89,7 +89,7 @@ public:
 	
 	virtual	CObject*		dcast_CObject				()
 	{
-		return	(call_member<CObject*>(this,"dcast_CObject"));
+		return	(::luabind::call_member<CObject*>(this,"dcast_CObject"));
 	}
 
 	static	CObject*		dcast_CObject_static		(base *self)
@@ -99,7 +99,7 @@ public:
 
 	virtual	Feel::Sound*	dcast_FeelSound				()
 	{
-		return	(call_member<Feel::Sound*>(this,"dcast_FeelSound"));
+		return	(::luabind::call_member<Feel::Sound*>(this,"dcast_FeelSound"));
 	}
 
 	static	Feel::Sound*	dcast_FeelSound_static		(base *self)
@@ -109,7 +109,7 @@ public:
 
 	virtual	IRenderable*	dcast_Renderable			()
 	{
-		return	(call_member<IRenderable*>(this,"dcast_Renderable"));
+		return	(::luabind::call_member<IRenderable*>(this,"dcast_Renderable"));
 	}
 
 	static	IRenderable*	dcast_Renderable_static		(base *self)

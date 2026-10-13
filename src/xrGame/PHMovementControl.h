@@ -2,13 +2,13 @@
 #ifndef CPHMOVEMENT_CONTROL_H
 #define CPHMOVEMENT_CONTROL_H
 
-#include "../xrphysics/physicsexternalcommon.h"
-#include "../xrphysics/mathutils.h"
-#include "../xrphysics/movementboxdynamicactivate.h"
+#include "../xrPhysics/PhysicsExternalCommon.h"
+#include "../xrPhysics/MathUtils.h"
+#include "../xrPhysics/MovementBoxDynamicActivate.h"
 
 namespace ALife
 {
-	enum EHitType;
+	enum EHitType : int;
 };
 
 namespace DetailPathManager
@@ -270,7 +270,7 @@ public:
 	void EnableCharacter();
 	void SetOjectContactCallback(ObjectContactCallbackFun* callback);
 	void SetFootCallBack(ObjectContactCallbackFun* callback);
-	static BOOL CPHMovementControl::BorderTraceCallback(collide::rq_result& result, LPVOID params);
+	static BOOL BorderTraceCallback(collide::rq_result& result, LPVOID params);
 	ObjectContactCallbackFun* ObjectContactCallback();
 	u16 ContactBone();
 	const ICollisionDamageInfo* CollisionDamageInfo() const;

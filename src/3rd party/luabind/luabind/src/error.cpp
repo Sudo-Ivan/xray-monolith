@@ -29,18 +29,11 @@ namespace luabind
 	{
 		pcall_callback_fun pcall_callback = 0;
 		pregister_callback_fun pregister_callback = 0;
-#ifdef LUABIND_NO_EXCEPTIONS
         error_callback_fun error_callback = 0;
         error_callback_fun error_callback_not_crash = 0;
 		cast_failed_callback_fun cast_failed_callback = 0;
-#endif
 	}
 
-
-#ifdef LUABIND_NO_EXCEPTIONS
-
-	typedef void(*error_callback_fun)(lua_State*);
-	typedef void(*cast_failed_callback_fun)(lua_State*, LUABIND_TYPE_INFO);
 
 	void set_error_callback(error_callback_fun e)
 	{
@@ -71,8 +64,6 @@ namespace luabind
 	{
 		return cast_failed_callback;
 	}
-
-#endif
 
 	void set_pcall_callback(pcall_callback_fun e)
 	{

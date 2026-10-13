@@ -9,7 +9,7 @@
 #include "UIMapInfo.h"
 #include "UIComboBox.h"
 #include "UIListBoxItem.h"
-#include "../../xrEngine/xr_ioconsole.h"
+#include "../../xrEngine/XR_IOConsole.h"
 #include "../string_table.h"
 
 #include "object_broker.h"
@@ -74,7 +74,13 @@ void CUIMapList::StartDedicatedServer()
 	GetModuleFileName(NULL, ModuleFileName, sizeof(ModuleFileName));
 
 	char* ModuleName = NULL;
-	GetFullPathName(ModuleFileName, sizeof(g_sLaunchWorkingFolder), g_sLaunchWorkingFolder, &ModuleName);
+	// GetFullPathName equivalent: ModuleFileName is already an absolute path
+	xr_strcpy(g_sLaunchWorkingFolder, sizeof(g_sLaunchWorkingFolder), ModuleFileName);
+	ModuleName = strrchr(g_sLaunchWorkingFolder, '/');
+	if (ModuleName)
+		++ModuleName;
+	else
+		ModuleName = g_sLaunchWorkingFolder;
 	//removing module name from WorkingDirectory that contain full path...
 	ModuleName[0] = 0;
 
@@ -83,7 +89,7 @@ void CUIMapList::StartDedicatedServer()
 
 	xr_strcpy(g_sLaunchOnExit_params, g_sLaunchOnExit_app);
 	xr_strcat(g_sLaunchOnExit_params, " -i -fsltx ..\\fsgame.ltx -nosound -");
-	xr_strcat(g_sLaunchOnExit_params, GetCommandLine(""));
+	xr_strcat(g_sLaunchOnExit_params, GetCmdLine(""));
 	Msg("Going to quit before starting dedicated server");
 	Msg("Working folder is:%s", g_sLaunchWorkingFolder);
 	Msg("%s %s", g_sLaunchOnExit_app, g_sLaunchOnExit_params);
@@ -130,7 +136,7 @@ void CUIMapList::OnListItemClicked()
 	xr_string map_name = "intro\\intro_map_pic_";
 
 	CUIListBoxItem* itm = m_pList1->GetSelectedItem();
-	u32 _idx = (u32)(__int64)(itm->GetData());
+	u32 _idx = (u32)(s64)(itm->GetData());
 	const MPLevelDesc& M = GetMapNameInt(GetCurGameType(), _idx);
 
 	map_name += M.map_name.c_str();
@@ -148,7 +154,7 @@ void CUIMapList::OnListItemClicked()
 	m_pMapInfo->InitMap(M.map_name.c_str(), M.map_ver.c_str());
 }
 
-xr_token g_GameModes[];
+extern xr_token g_GameModes[];
 
 void CUIMapList::OnModeChange()
 {
@@ -197,13 +203,13 @@ EGameIDs CUIMapList::GetCurGameType()
 #endif
 }
 
-const char* CUIMapList::GetCommandLine(LPCSTR player_name)
+const char* CUIMapList::GetCmdLine(LPCSTR player_name)
 {
 	CUIListBoxItem* itm = m_pList2->GetItemByIDX(0);
 	if (!itm)
 		return NULL;
 
-	u32 _idx = (u32)(__int64)(itm->GetData());
+	u32 _idx = (u32)(s64)(itm->GetData());
 	const MPLevelDesc& M = GetMapNameInt(GetCurGameType(), _idx);
 
 	m_command.clear();
@@ -279,7 +285,7 @@ void CUIMapList::SaveMapList()
 	for (u32 idx = 0; idx < m_pList2->GetSize(); ++idx)
 	{
 		CUIListBoxItem* itm = m_pList2->GetItemByIDX(idx);
-		u32 _idx = (u32)(__int64)(itm->GetData());
+		u32 _idx = (u32)(s64)(itm->GetData());
 		const MPLevelDesc& M = GetMapNameInt(GetCurGameType(), _idx);
 
 		xr_sprintf(map_name, "sv_addmap %s/ver=%s", M.map_name.c_str(), M.map_ver.c_str());
@@ -314,7 +320,7 @@ void CUIMapList::SetServerParams(LPCSTR params)
 	m_srv_params = params;
 }
 
-#include "uilistboxitem.h"
+#include "UIListBoxItem.h"
 
 void CUIMapList::AddWeather(const shared_str& WeatherType, const shared_str& WeatherTime, u32 _id)
 {
@@ -353,7 +359,7 @@ void CUIMapList::UpdateMapList(EGameIDs GameType)
 	for (u32 i = 0; i < cnt; ++i)
 	{
 		CUIListBoxItem* itm = m_pList1->AddTextItem(CStringTable().translate(M.m_map_names[i].map_name).c_str());
-		itm->SetData((void*)(__int64)i);
+		itm->SetData((void*)(s64)i);
 		itm->Enable(true);
 	}
 

@@ -44,14 +44,14 @@
 #endif
 
 enum EPdaMsg;
-enum ESoundTypes;
-enum ETaskState;
+enum ESoundTypes : u32;
+enum ETaskState : u32;
 
 namespace ALife { enum ERelationType; }
 namespace ScriptEntity { enum EActionType; }
-namespace MovementManager { enum EPathType; }
-namespace DetailPathManager { enum EDetailPathType; }
-namespace SightManager { enum ESightType; }
+namespace MovementManager { enum EPathType : u32; }
+namespace DetailPathManager { enum EDetailPathType : s32; }
+namespace SightManager { enum ESightType : u32; }
 namespace smart_cover { class object; }
 namespace doors { class door; }
 
@@ -59,8 +59,8 @@ class NET_Packet;
 class CGameTask;
 
 namespace PatrolPathManager {
-	enum EPatrolStartType;
-	enum EPatrolRouteType;
+	enum EPatrolStartType : u32;
+	enum EPatrolRouteType : u32;
 };
 
 namespace MemorySpace {
@@ -72,20 +72,20 @@ namespace MemorySpace {
 };
 
 namespace MonsterSpace {
-	enum EBodyState;
-	enum EMovementType;
-	enum EMovementDirection;
-	enum EDirectionType;
-	enum EPathState;
-	enum EObjectAction;
-	enum EMentalState;
-	enum EScriptMonsterMoveAction;
-	enum EScriptMonsterSpeedParam;
-	enum EScriptMonsterAnimAction;
-	enum EScriptMonsterGlobalAction;
-	enum EScriptSoundAnim;
-	enum EMonsterSounds;
-	enum EMonsterHeadAnimType;
+	enum EBodyState : u32;
+	enum EMovementType : s32;
+	enum EMovementDirection : s32;
+	enum EDirectionType : u32;
+	enum EPathState : u32;
+	enum EObjectAction : u32;
+	enum EMentalState : s32;
+	enum EScriptMonsterMoveAction : s32;
+	enum EScriptMonsterSpeedParam : u32;
+	enum EScriptMonsterAnimAction : u32;
+	enum EScriptMonsterGlobalAction : u32;
+	enum EScriptSoundAnim : u32;
+	enum EMonsterSounds : s32;
+	enum EMonsterHeadAnimType : u32;
 	struct SBoneRotation;
 };
 
@@ -157,7 +157,7 @@ class CScriptGameObject;
 
 namespace SightManager
 {
-	enum ESightType;
+	enum ESightType : u32;
 }
 
 struct CSightParams

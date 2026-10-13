@@ -28,10 +28,10 @@
 #include "script_zone.h"
 #include "relation_registry.h"
 #include "GameTask.h"
-#include "car.h"
+#include "Car.h"
 #include "ZoneCampfire.h"
-#include "physicobject.h"
-#include "artefact.h"
+#include "PhysicObject.h"
+#include "Artefact.h"
 #include "sight_manager_space.h"
 #include "script_attachment_manager.h"
 #include "WeaponBinoculars.h"
@@ -42,21 +42,20 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 {
 	return std::move(instance)
 		.def("add_sound",
-		     SAFE_WRAP((u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32))(&CScriptGameObject::add_sound)))
+		     SAFE_WRAP(static_cast<u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32)>(&CScriptGameObject::add_sound)))
 		.def("add_sound",
-		     SAFE_WRAP((u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(&CScriptGameObject::add_sound
-		     )))
+		     SAFE_WRAP(static_cast<u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR)>(&CScriptGameObject::add_sound)))
 		.def("add_combat_sound",
-		     SAFE_WRAP((u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<u32 (CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR)>(&CScriptGameObject::
 		     add_combat_sound)))
 		.def("remove_sound", SAFE_WRAP(&CScriptGameObject::remove_sound))
 		.def("set_sound_mask", SAFE_WRAP(&CScriptGameObject::set_sound_mask))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32))(&CScriptGameObject::play_sound)))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32, u32))(&CScriptGameObject::play_sound)))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32, u32, u32))(&CScriptGameObject::play_sound)))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32, u32, u32, u32))(&CScriptGameObject::play_sound)))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32, u32, u32, u32, u32))(&CScriptGameObject::play_sound)))
-		.def("play_sound", SAFE_WRAP((void (CScriptGameObject::*)(u32, u32, u32, u32, u32, u32))(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32)>(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32, u32)>(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32, u32, u32)>(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32, u32, u32, u32)>(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32, u32, u32, u32, u32)>(&CScriptGameObject::play_sound)))
+		.def("play_sound", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u32, u32, u32, u32, u32, u32)>(&CScriptGameObject::play_sound)))
 		.def("binded_object", SAFE_WRAP(&CScriptGameObject::binded_object))
 		.def("set_previous_point", SAFE_WRAP(&CScriptGameObject::set_previous_point))
 		.def("set_start_point", SAFE_WRAP(&CScriptGameObject::set_start_point))
@@ -109,8 +108,8 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		.def("try_monster_threaten", SAFE_WRAP(&CScriptGameObject::try_monster_threaten))
 		.def("monster_capture_control", SAFE_WRAP(&CScriptGameObject::monster_capture_control))
 		.def("monster_release_control", SAFE_WRAP(&CScriptGameObject::monster_release_control))
-		.def("active_sound_count", SAFE_WRAP((int (CScriptGameObject::*)())(&CScriptGameObject::active_sound_count)))
-		.def("active_sound_count", SAFE_WRAP((int (CScriptGameObject::*)(bool))(&CScriptGameObject::active_sound_count)))
+		.def("active_sound_count", SAFE_WRAP(static_cast<int (CScriptGameObject::*)()>(&CScriptGameObject::active_sound_count)))
+		.def("active_sound_count", SAFE_WRAP(static_cast<int (CScriptGameObject::*)(bool)>(&CScriptGameObject::active_sound_count)))
 		.def("best_cover", SAFE_WRAP(&CScriptGameObject::best_cover))
 		.def("best_cover_invalidate", SAFE_WRAP(&CScriptGameObject::best_cover_invalidate))
 		.def("affect_cover", SAFE_WRAP(&CScriptGameObject::affect_cover))
@@ -129,83 +128,81 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 
 		// sight manager
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector* vector3d, u32 dwLookOverDelay))(
-			     &CScriptGameObject::set_sight)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(SightManager::ESightType, Fvector*, u32)>(&CScriptGameObject::set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(SightManager::ESightType sight_type, bool torso_look, bool path))(&
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(SightManager::ESightType sight_type, bool torso_look, bool path)>(&
 			     CScriptGameObject::set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector& vector3d, bool torso_look))(&
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector& vector3d, bool torso_look)>(&
 			     CScriptGameObject::set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector* vector3d))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector* vector3d)>(&CScriptGameObject::
 			     set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject* object_to_look))(&CScriptGameObject::set_sight)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject* object_to_look)>(&CScriptGameObject::set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look)>(&CScriptGameObject::
 			     set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look, bool fire_object))(&
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look, bool fire_object)>(&
 			     CScriptGameObject::set_sight)))
 		.def("set_sight",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look, bool fire_object,
-		                                  bool no_pitch))(&CScriptGameObject::set_sight)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject* object_to_look, bool torso_look, bool fire_object,
+		                                  bool no_pitch)>(&CScriptGameObject::set_sight)))
 		//		.def("set_sight",					(void (CScriptGameObject::*)(const MemorySpace::CMemoryInfo *memory_object, bool	torso_look))(&CScriptGameObject::set_sight))
 
 		// object handler
-		.def("set_item", SAFE_WRAP((void (CScriptGameObject::*)(MonsterSpace::EObjectAction))(&CScriptGameObject::set_item)))
+		.def("set_item", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(MonsterSpace::EObjectAction)>(&CScriptGameObject::set_item)))
 		.def("set_item",
-		     SAFE_WRAP((void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*))(&CScriptGameObject::set_item
-		     )))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*)>(&CScriptGameObject::set_item)))
 		.def("set_item",
-		     SAFE_WRAP((void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32))(&CScriptGameObject::
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32)>(&CScriptGameObject::
 			     set_item)))
 		.def("set_item",
-		     SAFE_WRAP((void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32, u32))(&CScriptGameObject
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32, u32)>(&CScriptGameObject
 			     ::set_item)))
 
 		.def("is_body_turning", SAFE_WRAP(&CScriptGameObject::is_body_turning))
 
 		// Backwards compatibility
-		.def("get_bone_id", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_id)))
-		.def("get_bone_id", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_id)))
+		.def("get_bone_id", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_id)))
+		.def("get_bone_id", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_id)))
 
-		.def("bone_id", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_id)))
-		.def("bone_id", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_id)))
+		.def("bone_id", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_id)))
+		.def("bone_id", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_id)))
 
-		.def("bone_name", SAFE_WRAP((LPCSTR(CScriptGameObject::*)(u16))(&CScriptGameObject::bone_name)))
-		.def("bone_name", SAFE_WRAP((LPCSTR(CScriptGameObject::*)(u16, bool))(&CScriptGameObject::bone_name)))
+		.def("bone_name", SAFE_WRAP(static_cast<LPCSTR(CScriptGameObject::*)(u16)>(&CScriptGameObject::bone_name)))
+		.def("bone_name", SAFE_WRAP(static_cast<LPCSTR(CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::bone_name)))
 
-		.def("bone_position", SAFE_WRAP((Fvector(CScriptGameObject::*)(u16))(&CScriptGameObject::bone_position)))
-		.def("bone_position", SAFE_WRAP((Fvector(CScriptGameObject::*)(u16, bool))(&CScriptGameObject::bone_position)))
-		.def("bone_position", SAFE_WRAP((Fvector(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_position)))
-		.def("bone_position", SAFE_WRAP((Fvector(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_position)))
+		.def("bone_position", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(u16)>(&CScriptGameObject::bone_position)))
+		.def("bone_position", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::bone_position)))
+		.def("bone_position", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_position)))
+		.def("bone_position", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_position)))
 
-		.def("bone_direction", SAFE_WRAP((Fvector(CScriptGameObject::*)(u16))(&CScriptGameObject::bone_direction)))
-		.def("bone_direction", SAFE_WRAP((Fvector(CScriptGameObject::*)(u16, bool))(&CScriptGameObject::bone_direction)))
-		.def("bone_direction", SAFE_WRAP((Fvector(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_direction)))
-		.def("bone_direction", SAFE_WRAP((Fvector(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_direction)))
+		.def("bone_direction", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(u16)>(&CScriptGameObject::bone_direction)))
+		.def("bone_direction", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::bone_direction)))
+		.def("bone_direction", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_direction)))
+		.def("bone_direction", SAFE_WRAP(static_cast<Fvector(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_direction)))
 
-		.def("bone_transform", SAFE_WRAP((Fmatrix(CScriptGameObject::*)(u16))(&CScriptGameObject::bone_transform)))
-		.def("bone_transform", SAFE_WRAP((Fmatrix(CScriptGameObject::*)(u16, bool))(&CScriptGameObject::bone_transform)))
-		.def("bone_transform", SAFE_WRAP((Fmatrix(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_transform)))
-		.def("bone_transform", SAFE_WRAP((Fmatrix(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_transform)))
+		.def("bone_transform", SAFE_WRAP(static_cast<Fmatrix(CScriptGameObject::*)(u16)>(&CScriptGameObject::bone_transform)))
+		.def("bone_transform", SAFE_WRAP(static_cast<Fmatrix(CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::bone_transform)))
+		.def("bone_transform", SAFE_WRAP(static_cast<Fmatrix(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_transform)))
+		.def("bone_transform", SAFE_WRAP(static_cast<Fmatrix(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_transform)))
 
-		.def("bone_parent", SAFE_WRAP((u16(CScriptGameObject::*)(u16))(&CScriptGameObject::bone_parent)))
-		.def("bone_parent", SAFE_WRAP((u16(CScriptGameObject::*)(u16, bool))(&CScriptGameObject::bone_parent)))
-		.def("bone_parent", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::bone_parent)))
-		.def("bone_parent", SAFE_WRAP((u16(CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::bone_parent)))
+		.def("bone_parent", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(u16)>(&CScriptGameObject::bone_parent)))
+		.def("bone_parent", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::bone_parent)))
+		.def("bone_parent", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::bone_parent)))
+		.def("bone_parent", SAFE_WRAP(static_cast<u16(CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::bone_parent)))
 
-		.def("bone_visible", SAFE_WRAP((bool (CScriptGameObject::*)(u16))(&CScriptGameObject::is_bone_visible)))
-		.def("bone_visible", SAFE_WRAP((bool (CScriptGameObject::*)(u16, bool))(&CScriptGameObject::is_bone_visible)))
-		.def("bone_visible", SAFE_WRAP((bool (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::is_bone_visible)))
-		.def("bone_visible", SAFE_WRAP((bool (CScriptGameObject::*)(LPCSTR, bool))(&CScriptGameObject::is_bone_visible)))
+		.def("bone_visible", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(u16)>(&CScriptGameObject::is_bone_visible)))
+		.def("bone_visible", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(u16, bool)>(&CScriptGameObject::is_bone_visible)))
+		.def("bone_visible", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::is_bone_visible)))
+		.def("bone_visible", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(LPCSTR, bool)>(&CScriptGameObject::is_bone_visible)))
 
-		.def("set_bone_visible", SAFE_WRAP((void (CScriptGameObject::*)(u16, bool, bool))(&CScriptGameObject::set_bone_visible)))
-		.def("set_bone_visible", SAFE_WRAP((void (CScriptGameObject::*)(u16, bool, bool, bool))(&CScriptGameObject::set_bone_visible)))
-		.def("set_bone_visible", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR, bool, bool))(&CScriptGameObject::set_bone_visible)))
-		.def("set_bone_visible", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR, bool, bool, bool))(&CScriptGameObject::set_bone_visible)))
+		.def("set_bone_visible", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u16, bool, bool)>(&CScriptGameObject::set_bone_visible)))
+		.def("set_bone_visible", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u16, bool, bool, bool)>(&CScriptGameObject::set_bone_visible)))
+		.def("set_bone_visible", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR, bool, bool)>(&CScriptGameObject::set_bone_visible)))
+		.def("set_bone_visible", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR, bool, bool, bool)>(&CScriptGameObject::set_bone_visible)))
 
 		// demonized: list all bones
 		.def("list_bones", SAFE_WRAP(&CScriptGameObject::list_bones))
@@ -438,8 +435,8 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 
 		// Script Zone
 		.def("active_zone_contact", SAFE_WRAP(&CScriptGameObject::active_zone_contact))
-		.def("inside", SAFE_WRAP((bool (CScriptGameObject::*)(const Fvector&, float) const)(&CScriptGameObject::inside)))
-		.def("inside", SAFE_WRAP((bool (CScriptGameObject::*)(const Fvector&) const)(&CScriptGameObject::inside)))
+		.def("inside", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(const Fvector&, float) const>(&CScriptGameObject::inside)))
+		.def("inside", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)(const Fvector&) const>(&CScriptGameObject::inside)))
 		.def("set_fastcall", SAFE_WRAP(&CScriptGameObject::set_fastcall))
 		.def("set_const_force", SAFE_WRAP(&CScriptGameObject::set_const_force))
 		.def("info_add", SAFE_WRAP(&CScriptGameObject::info_add))
@@ -457,25 +454,25 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 
 		.def("make_object_visible_somewhen", SAFE_WRAP(&CScriptGameObject::make_object_visible_somewhen))
 
-		.def("buy_condition", SAFE_WRAP((void (CScriptGameObject::*)(CScriptIniFile*, LPCSTR))(&CScriptGameObject::buy_condition)))
-		.def("buy_condition", SAFE_WRAP((void (CScriptGameObject::*)(float, float))(&CScriptGameObject::buy_condition)))
+		.def("buy_condition", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptIniFile*, LPCSTR)>(&CScriptGameObject::buy_condition)))
+		.def("buy_condition", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float, float)>(&CScriptGameObject::buy_condition)))
 		.def("show_condition", SAFE_WRAP(&CScriptGameObject::show_condition))
 		.def("sell_condition",
-		     SAFE_WRAP((void (CScriptGameObject::*)(CScriptIniFile*, LPCSTR))(&CScriptGameObject::sell_condition)))
-		.def("sell_condition", SAFE_WRAP((void (CScriptGameObject::*)(float, float))(&CScriptGameObject::sell_condition)))
+		     SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptIniFile*, LPCSTR)>(&CScriptGameObject::sell_condition)))
+		.def("sell_condition", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(float, float)>(&CScriptGameObject::sell_condition)))
 		.def("buy_supplies", SAFE_WRAP(&CScriptGameObject::buy_supplies))
 		.def("buy_item_condition_factor", SAFE_WRAP(&CScriptGameObject::buy_item_condition_factor))
 		.def("buy_item_exponent", SAFE_WRAP(&CScriptGameObject::buy_item_exponent))
 		.def("sell_item_exponent", SAFE_WRAP(&CScriptGameObject::sell_item_exponent))
 
-		.def("sound_prefix", SAFE_WRAP((LPCSTR (CScriptGameObject::*)() const)(&CScriptGameObject::sound_prefix)))
-		.def("sound_prefix", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::sound_prefix)))
+		.def("sound_prefix", SAFE_WRAP(static_cast<LPCSTR (CScriptGameObject::*)() const>(&CScriptGameObject::sound_prefix)))
+		.def("sound_prefix", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::sound_prefix)))
 
 		.def("location_on_path", SAFE_WRAP(&CScriptGameObject::location_on_path))
 		.def("is_there_items_to_pickup", SAFE_WRAP(&CScriptGameObject::is_there_items_to_pickup))
 
-		.def("wounded", SAFE_WRAP((bool (CScriptGameObject::*)() const)(&CScriptGameObject::wounded)))
-		.def("wounded", SAFE_WRAP((void (CScriptGameObject::*)(bool))(&CScriptGameObject::wounded)))
+		.def("wounded", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::wounded)))
+		.def("wounded", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::wounded)))
 
 		// demonized: Toggle movement collision for stalker NPCs
 		.def("set_enable_movement_collision", &CScriptGameObject::set_enable_movement_collision)
@@ -494,17 +491,17 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		.def("get_campfire", &CScriptGameObject::get_campfire)
 		.def("get_artefact", &CScriptGameObject::get_artefact)
 		.def("get_physics_object", &CScriptGameObject::get_physics_object)
-		.def("aim_time", SAFE_WRAP((void (CScriptGameObject::*)(CScriptGameObject*, u32))&CScriptGameObject::aim_time))
-		.def("aim_time", SAFE_WRAP((u32 (CScriptGameObject::*)(CScriptGameObject*))&CScriptGameObject::aim_time))
+		.def("aim_time", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(CScriptGameObject*, u32)>(&CScriptGameObject::aim_time)))
+		.def("aim_time", SAFE_WRAP(static_cast<u32 (CScriptGameObject::*)(CScriptGameObject*)>(&CScriptGameObject::aim_time)))
 
-		.def("special_danger_move", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::special_danger_move))
-		.def("special_danger_move", SAFE_WRAP((bool (CScriptGameObject::*)())&CScriptGameObject::special_danger_move))
+		.def("special_danger_move", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::special_danger_move)))
+		.def("special_danger_move", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)()>(&CScriptGameObject::special_danger_move)))
 
-		.def("sniper_update_rate", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::sniper_update_rate))
-		.def("sniper_update_rate", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::sniper_update_rate))
+		.def("sniper_update_rate", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::sniper_update_rate)))
+		.def("sniper_update_rate", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::sniper_update_rate)))
 
-		.def("sniper_fire_mode", SAFE_WRAP((void (CScriptGameObject::*)(bool))&CScriptGameObject::sniper_fire_mode))
-		.def("sniper_fire_mode", SAFE_WRAP((bool (CScriptGameObject::*)() const)&CScriptGameObject::sniper_fire_mode))
+		.def("sniper_fire_mode", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(bool)>(&CScriptGameObject::sniper_fire_mode)))
+		.def("sniper_fire_mode", SAFE_WRAP(static_cast<bool (CScriptGameObject::*)() const>(&CScriptGameObject::sniper_fire_mode)))
 
 		.def("set_aim_params", SAFE_WRAP(&CScriptGameObject::set_aim_params))
 		.def("set_fire_queue_scale", SAFE_WRAP(&CScriptGameObject::set_fire_queue_scale))
@@ -513,8 +510,8 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		.def("fire_make_sense", SAFE_WRAP(&CScriptGameObject::fire_make_sense))
 		.def("is_hit_anim_playing", SAFE_WRAP(&CScriptGameObject::is_hit_anim_playing))
 
-		.def("aim_bone_id", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))&CScriptGameObject::aim_bone_id))
-		.def("aim_bone_id", SAFE_WRAP((LPCSTR (CScriptGameObject::*)() const)&CScriptGameObject::aim_bone_id))
+		.def("aim_bone_id", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::aim_bone_id)))
+		.def("aim_bone_id", SAFE_WRAP(static_cast<LPCSTR (CScriptGameObject::*)() const>(&CScriptGameObject::aim_bone_id)))
 
 		.def("actor_look_at_point", &CScriptGameObject::ActorLookAtPoint)
 		.def("actor_stop_look_at_point", &CScriptGameObject::ActorStopLookAtPoint)
@@ -572,12 +569,12 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		.def("hud_fire_bone_name", SAFE_WRAP(&CScriptGameObject::hud_fire_bone_name))
 		.def("hud_fire_bone2_name", SAFE_WRAP(&CScriptGameObject::hud_fire_bone2_name))
 		.def("hud_fire_bone_silencer_name", SAFE_WRAP(&CScriptGameObject::hud_fire_bone_silencer_name))
-		.def("set_hud_fire_bone", SAFE_WRAP((void (CScriptGameObject::*)(u16))(&CScriptGameObject::set_hud_fire_bone)))
-		.def("set_hud_fire_bone", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::set_hud_fire_bone)))
-		.def("set_hud_fire_bone2", SAFE_WRAP((void (CScriptGameObject::*)(u16))(&CScriptGameObject::set_hud_fire_bone2)))
-		.def("set_hud_fire_bone2", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::set_hud_fire_bone2)))
-		.def("set_hud_fire_bone_silencer", SAFE_WRAP((void (CScriptGameObject::*)(u16))(&CScriptGameObject::set_hud_fire_bone_silencer)))
-		.def("set_hud_fire_bone_silencer", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR))(&CScriptGameObject::set_hud_fire_bone_silencer)))
+		.def("set_hud_fire_bone", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u16)>(&CScriptGameObject::set_hud_fire_bone)))
+		.def("set_hud_fire_bone", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::set_hud_fire_bone)))
+		.def("set_hud_fire_bone2", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u16)>(&CScriptGameObject::set_hud_fire_bone2)))
+		.def("set_hud_fire_bone2", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::set_hud_fire_bone2)))
+		.def("set_hud_fire_bone_silencer", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(u16)>(&CScriptGameObject::set_hud_fire_bone_silencer)))
+		.def("set_hud_fire_bone_silencer", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::set_hud_fire_bone_silencer)))
 		.def("hud_inertion_enabled", SAFE_WRAP(&CScriptGameObject::hud_inertion_enabled))
 		.def("set_hud_inertion_enabled", SAFE_WRAP(&CScriptGameObject::set_hud_inertion_enabled))
 		// For EatableItem
@@ -744,8 +741,8 @@ class_<CScriptGameObject> script_register_game_object2(class_<CScriptGameObject>
 		// Lucy: Script Attachments
 		.def("add_attachment", SAFE_WRAP(&CScriptGameObject::AddAttachment))
 		.def("get_attachment", SAFE_WRAP(&CScriptGameObject::GetAttachment))
-		.def("remove_attachment", SAFE_WRAP((void (CScriptGameObject::*)(LPCSTR)) &CScriptGameObject::RemoveAttachment))
-		.def("remove_attachment", SAFE_WRAP((void (CScriptGameObject::*)(script_attachment*)) &CScriptGameObject::RemoveAttachment))
+		.def("remove_attachment", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(LPCSTR)>(&CScriptGameObject::RemoveAttachment)))
+		.def("remove_attachment", SAFE_WRAP(static_cast<void (CScriptGameObject::*)(script_attachment*)>(&CScriptGameObject::RemoveAttachment)))
 		.def("iterate_attachments", SAFE_WRAP(&CScriptGameObject::IterateAttachments))
 
 		.def("get_shaders", SAFE_WRAP(&CScriptGameObject::GetShaders))

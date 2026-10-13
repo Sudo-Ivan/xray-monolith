@@ -37,8 +37,7 @@ protected:
 		NODEFAULT;
 	}
 
-	template <>
-	static void LoadItemData<0>(u32 count, LPCSTR cfgRecord)
+	static void LoadItemData(std::integral_constant<u32, 0>, u32 count, LPCSTR cfgRecord)
 	{
 		for (u32 k = 0; k < count; k += 1)
 		{
@@ -52,8 +51,7 @@ protected:
 		}
 	}
 
-	template <>
-	static void LoadItemData<1>(u32 count, LPCSTR cfgRecord)
+	static void LoadItemData(std::integral_constant<u32, 1>, u32 count, LPCSTR cfgRecord)
 	{
 		for (u32 k = 0; k < count; k += 2)
 		{
@@ -121,9 +119,9 @@ CSINI_IdToIndex::~CIni_IdToIndex()
 
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetById(const T_ID& str_id, bool no_assert)
+const ITEM_DATA* CSINI_IdToIndex::GetById(const T_ID& str_id, bool no_assert)
 {
-	T_VECTOR::iterator it = m_pItemDataVector->begin();
+	typename T_VECTOR::iterator it = m_pItemDataVector->begin();
 	for (; m_pItemDataVector->end() != it; ++it)
 	{
 		if (!xr_strcmp((*it).id, str_id))
@@ -140,7 +138,7 @@ const typename ITEM_DATA* CSINI_IdToIndex::GetById(const T_ID& str_id, bool no_a
 }
 
 TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
+const ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
 {
 	if ((size_t)index >= m_pItemDataVector->size())
 	{
@@ -158,7 +156,7 @@ void CSINI_IdToIndex::DeleteIdToIndexData()
 }
 
 TEMPLATE_SPECIALIZATION
-typename void CSINI_IdToIndex::InitInternal()
+void CSINI_IdToIndex::InitInternal()
 {
 	VERIFY(!m_pItemDataVector);
 	T_INIT::InitIdToIndex();
@@ -171,7 +169,7 @@ typename void CSINI_IdToIndex::InitInternal()
 		LPCSTR cfgRecord = pSettings->r_string(section_name, line_name);
 		VERIFY(cfgRecord);
 		u32 count = _GetItemCount(cfgRecord);
-		LoadItemData<ITEM_REC_NUM>(count, cfgRecord);
+		LoadItemData(std::integral_constant<u32, ITEM_REC_NUM>(), count, cfgRecord);
 	}
 }
 

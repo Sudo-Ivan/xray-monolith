@@ -14,7 +14,7 @@
 
 namespace RestrictionSpace
 {
-	enum ERestrictorTypes;
+	enum ERestrictorTypes : s32;
 }
 
 class CALifeUpdateManager :

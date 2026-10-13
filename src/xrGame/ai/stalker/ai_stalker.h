@@ -43,12 +43,12 @@
 
 namespace MonsterSpace
 {
-	enum EMovementDirection;
+	enum EMovementDirection : s32;
 };
 
 namespace StalkerSpace
 {
-	enum EBodyAction;
+	enum EBodyAction : u32;
 };
 
 namespace smart_cover
@@ -62,7 +62,7 @@ namespace smart_cover
 	};
 };
 
-enum ECriticalWoundType;
+enum ECriticalWoundType : u32;
 
 class CALifeSimulator;
 class CCharacterPhysicsSupport;
@@ -297,7 +297,7 @@ public:
 	virtual float GetWeaponAccuracy() const;
 	virtual bool unlimited_ammo();
 	virtual void spawn_supplies();
-	IC CAgentManager& agent_manager() const;
+	CAgentManager& agent_manager() const;
 
 	virtual bool human_being() const
 	{

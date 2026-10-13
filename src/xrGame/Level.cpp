@@ -13,13 +13,13 @@
 #include "ai_space.h"
 #include "ai_debug.h"
 #include "ShootingObject.h"
-#include "GameTaskManager.h"
+#include "GametaskManager.h"
 #include "Level_Bullet_Manager.h"
 #include "script_process.h"
 #include "script_engine.h"
 #include "script_engine_space.h"
 #include "team_base_zone.h"
-#include "infoportion.h"
+#include "InfoPortion.h"
 #include "patrol_path_storage.h"
 #include "date_time.h"
 #include "space_restriction_manager.h"
@@ -30,22 +30,22 @@
 #include "ClimableObject.h"
 #include "level_graph.h"
 #include "mt_config.h"
-#include "phcommander.h"
+#include "PHCommander.h"
 #include "map_manager.h"
 #include "xrEngine/CameraManager.h"
 #include "level_sounds.h"
-#include "car.h"
+#include "Car.h"
 #include "trade_parameters.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "MainMenu.h"
 #include "xrEngine/XR_IOConsole.h"
-#include "actor.h"
+#include "Actor.h"
 #include "player_hud.h"
-#include "UI/UIGameTutorial.h"
+#include "ui/UIGameTutorial.h"
 #include "file_transfer.h"
-#include "message_filter.h"
-#include "demoplay_control.h"
-#include "demoinfo.h"
+#include "Message_Filter.h"
+#include "DemoPlay_Control.h"
+#include "DemoInfo.h"
 #include "CustomDetector.h"
 #include "xrPhysics/IPHWorld.h"
 #include "xrPhysics/console_vars.h"
@@ -668,39 +668,35 @@ void CLevel::ProcessSpawnEvents()
 		if (spawn_antifreeze_debug) Msg("[ProcessSpawnEvents] spawning section %s, obj_id %d, parent_id %d, event_id %d", section.c_str(), obj_id, parent_id, dest);
 
 		// demonized: If item is II_BOLT class - go through anyway
-		if (pSettings->line_exist(section.c_str(), "class") && strstr(pSettings->r_string(section.c_str(), "class"), "II_BOLT") != nullptr)
+		if (!(pSettings->line_exist(section.c_str(), "class") && strstr(pSettings->r_string(section.c_str(), "class"), "II_BOLT") != nullptr))
 		{
-			// demonized: this is a sin, but its an easy way
-			goto spawn;
-		}
-
-        // If the object was in alife, but now its absent, skip it
-        auto spawn_data_it = spawn_events_data_copy.find(obj_id);
-        if (spawn_data_it != spawn_events_data_copy.end())
-        {
-            if (spawn_data_it->second.hasAlifeObject)
-            {
-                auto obj = ai().alife().objects().object(obj_id);
-                if (!obj || !obj->m_bOnline)
-                {
-                    if (spawn_antifreeze_debug) Msg("![ProcessSpawnEvents] object absent or offline, do not spawn, section %s, obj_id %d, parent_id %d, event_id %d", section.c_str(), obj_id, parent_id, dest);
-                    continue;
-                }
-            }
-        }        
-
-		// If there is a parent of this object, check if its still in alife
-		if (parent_id != 0xffff)
-		{
-			auto parent_obj = ai().alife().objects().object(parent_id);
-			if (!parent_obj || !parent_obj->m_bOnline)
+			// If the object was in alife, but now its absent, skip it
+			auto spawn_data_it = spawn_events_data_copy.find(obj_id);
+			if (spawn_data_it != spawn_events_data_copy.end())
 			{
-				if (spawn_antifreeze_debug) Msg("![ProcessSpawnEvents] parent object is not in alife, do not spawn, section %s, obj_id %d, parent_id %d, event_id %d", section.c_str(), obj_id, parent_id, dest);
-				continue;
+				if (spawn_data_it->second.hasAlifeObject)
+				{
+					auto obj = ai().alife().objects().object(obj_id);
+					if (!obj || !obj->m_bOnline)
+					{
+						if (spawn_antifreeze_debug) Msg("![ProcessSpawnEvents] object absent or offline, do not spawn, section %s, obj_id %d, parent_id %d, event_id %d", section.c_str(), obj_id, parent_id, dest);
+						continue;
+					}
+				}
+			}        
+
+			// If there is a parent of this object, check if its still in alife
+			if (parent_id != 0xffff)
+			{
+				auto parent_obj = ai().alife().objects().object(parent_id);
+				if (!parent_obj || !parent_obj->m_bOnline)
+				{
+					if (spawn_antifreeze_debug) Msg("![ProcessSpawnEvents] parent object is not in alife, do not spawn, section %s, obj_id %d, parent_id %d, event_id %d", section.c_str(), obj_id, parent_id, dest);
+					continue;
+				}
 			}
 		}
 
-	spawn:
 		u16 dummy16;
 		P.r_begin(dummy16);
 		cl_Process_Spawn(P);
@@ -1447,7 +1443,7 @@ script_attachment* CLevel::get_attachment(LPCSTR name)
 {
 	if (m_script_attachments.size())
 	{
-		auto& att = m_script_attachments.find(name);
+		auto att = m_script_attachments.find(name);
 		if (att != m_script_attachments.end())
 			return att->second;
 	}

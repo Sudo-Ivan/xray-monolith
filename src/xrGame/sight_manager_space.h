@@ -10,8 +10,7 @@
 
 namespace SightManager
 {
-	enum ESightType
-	{
+	enum ESightType : u32 {
 		eSightTypeCurrentDirection = u32(0),
 		eSightTypePathDirection,
 		eSightTypeDirection,

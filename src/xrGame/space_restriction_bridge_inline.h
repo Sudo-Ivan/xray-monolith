@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include "ai_space.h"
+#include "level_graph.h"
+#include "space_restriction_base.h"
+
 IC CSpaceRestrictionBridge::CSpaceRestrictionBridge(CSpaceRestrictionBase* object)
 {
 	VERIFY(object);

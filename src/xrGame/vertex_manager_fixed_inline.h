@@ -10,8 +10,8 @@
 
 #define TEMPLATE_SPECIALIZATION \
 	template <\
-		typename _path_id_type,\
-		typename _index_type,\
+		typename _path_id_type_t,\
+		typename _index_type_t,\
 		u8 mask\
 	>\
 	template <\
@@ -20,7 +20,7 @@
 		typename _data_storage\
 	>
 
-#define CFixedVertexManager	CVertexManagerFixed<_path_id_type,_index_type,mask>::CDataStorage<_vertex,_index_vertex,_data_storage>
+#define CFixedVertexManager	CVertexManagerFixed<_path_id_type_t,_index_type_t,mask>::CDataStorage<_vertex,_index_vertex,_data_storage>
 
 TEMPLATE_SPECIALIZATION
 IC CFixedVertexManager::CDataStorage(const u32 vertex_count) :

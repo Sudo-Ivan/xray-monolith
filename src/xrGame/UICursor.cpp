@@ -1,5 +1,5 @@
-#include "stdafx.h"
-#include "uicursor.h"
+#include "StdAfx.h"
+#include "UICursor.h"
 
 #include "ui/UIStatic.h"
 #include "ui/UIBtnHint.h"
@@ -46,8 +46,10 @@ void CUICursor::InitInternal()
 	m_static->SetWndSize(sz);
 	m_static->SetStretchTexture(true);
 
-	u32 screen_size_x = GetSystemMetrics(SM_CXSCREEN);
-	u32 screen_size_y = GetSystemMetrics(SM_CYSCREEN);
+	// SM_CXSCREEN/SM_CYSCREEN are not implemented by the SDL GetSystemMetrics
+	// shim, use the implemented virtual screen metrics instead
+	u32 screen_size_x = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+	u32 screen_size_y = GetSystemMetrics(SM_CYVIRTUALSCREEN);
 	m_b_use_win_cursor = (screen_size_y >= Device.dwHeight && screen_size_x >= Device.dwWidth);
 }
 

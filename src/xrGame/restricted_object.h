@@ -16,7 +16,7 @@ class CGameObject;
 
 namespace RestrictionSpace
 {
-	enum ERestrictorTypes;
+	enum ERestrictorTypes : s32;
 };
 
 template <bool add>

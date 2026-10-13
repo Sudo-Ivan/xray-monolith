@@ -9,7 +9,7 @@ class CUIWindow;
 
 #include "actor_defs.h"
 #include "inventory_space.h"
-#include "hudsound.h"
+#include "HudSound.h"
 #include "HUDManager.h"
 
 #define TENDTO_SPEED         1.0f     // Модификатор силы инерции (больше - чувствительней)
@@ -98,17 +98,14 @@ protected:
 		fl_inertion_allow = (1 << 3),
 	};
 
-	struct
-	{
-		const CMotionDef* m_current_motion_def;
-		shared_str m_current_motion;
-		u32 m_dwMotionCurrTm;
-		u32 m_dwMotionStartTm;
-		u32 m_dwMotionEndTm;
-		u32 m_startedMotionState;
-		u8 m_started_rnd_anim_idx;
-		bool m_bStopAtEndAnimIsRunning;
-	};
+	const CMotionDef* m_current_motion_def;
+	shared_str m_current_motion;
+	u32 m_dwMotionCurrTm;
+	u32 m_dwMotionStartTm;
+	u32 m_dwMotionEndTm;
+	u32 m_startedMotionState;
+	u8 m_started_rnd_anim_idx;
+	bool m_bStopAtEndAnimIsRunning;
 
 	attachable_hud_item* m_attachable;
 
