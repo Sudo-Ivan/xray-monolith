@@ -42,3 +42,4 @@ compressor/mod/
 *~
 
 __pycache__/*.log
+tests/fixtures/_appdata_/
