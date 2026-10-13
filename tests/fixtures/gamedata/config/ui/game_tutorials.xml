@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game_tutorials>
 	<intro_logo>
+		<global_wnd x="0" y="0" width="1024" height="768"/>
+		<global_wnd_16 x="0" y="0" width="1024" height="768"/>
 		<item type="simple">
 			<length_sec>0.1</length_sec>
 			<main_wnd x="0" y="0" width="1024" height="768"/>
 		</item>
 	</intro_logo>
 	<intro>
+		<global_wnd x="0" y="0" width="1024" height="768"/>
+		<global_wnd_16 x="0" y="0" width="1024" height="768"/>
 		<item type="simple">
 			<length_sec>0.1</length_sec>
 			<main_wnd x="0" y="0" width="1024" height="768"/>

@@ -129,7 +129,9 @@ and enters `CGamePersistent::OnFrame` inside `CRenderDevice::Run`.
   fsgame.ltx, system.ltx/game.ltx sections, environment + weathers +
   sun_positions, 24 synthesized .efd eval functions, a silent rain.ogg,
   a font atlas ini, and the UI xmls loaded during OnAppStart.
-- The run still logs non-fatal XML "node not found" asserts from the
-  stub tutorial/hint xmls, and warns on the missing gamemtl.xr material
-  file and OpenAL source-rate. Real gamedata is needed before any level
-  or gameplay path works.
+- The fixture set now boots clean: the intro_logo tutorial completes,
+  the loop idles stable (0% CPU at 90s) and SIGTERM runs the graceful
+  shutdown path. Remaining informational lines: loose gamemtl.xr falls
+  back to materials/materials.ltx, and fonts take the legacy rung
+  because the dummy SDL display reports height 1. Real gamedata is
+  still needed before any level or gameplay path works.
