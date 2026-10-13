@@ -79,7 +79,12 @@ Done so far:
   Release and Debug matrix and runs ctest. Clang leg is present but
   non-blocking until the port reaches parity.
 
-_
+Not done yet:
+
+- TBB is not used; PPL shim provides task_group/parallel_for over
+  std::thread.
+- Crash handling has no backtrace; stack walking port is still open.
+- File notifications in LocatorAPI_Notifications are stubbed.
 
 ## Later milestones
 
