@@ -10,11 +10,11 @@
 //class ENGINE_API CGammaControl;
 
 #include "pure.h"
-//#include "hw.h"
-#include "../xrcore/ftimer.h"
-#include "stats.h"
-//#include "shader.h"
-//#include "R_Backend.h"
+//#include "../Layers/xrRender/HW.h"
+#include "../xrCore/FTimer.h"
+#include "Stats.h"
+//#include "../Layers/xrRender/Shader.h"
+//#include "../Layers/xrRender/R_Backend.h"
 
 #include "../build_config_defines.h"
 

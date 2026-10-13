@@ -77,16 +77,16 @@
 #else
 #error Unsupported compiler
 #endif
-#include "Common/Compiler.inl"
+#include "Compiler.inl"
 
 #if defined(XR_PLATFORM_WINDOWS)
-#include "Common/PlatformWindows.inl"
+#include "PlatformWindows.inl"
 #elif defined(XR_PLATFORM_LINUX) || defined(XR_PLATFORM_HAIKU)
-#include "Common/PlatformLinux.inl"
+#include "PlatformLinux.inl"
 #elif defined(XR_PLATFORM_BSD)
-#include "Common/PlatformBSD.inl"
+#include "PlatformBSD.inl"
 #elif defined(XR_PLATFORM_APPLE)
-#include "Common/PlatformApple.inl"
+#include "PlatformApple.inl"
 #else
 #error Provide Platform.inl file for your platform
 #endif

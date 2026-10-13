@@ -806,8 +806,8 @@ void dx103DFluidManager::DeregisterFluidData(dx103DFluidData* pData)
 
 	if ( i != iDataNum)
 	{
-		xr_vector<xr_string>::iterator			it1 = m_lstSectionNames.begin();
-		xr_vector<dx103DFluidData*>::iterator	it2 = m_lstFluidData.begin();
+		typename xr_vector<xr_string>::iterator			it1 = m_lstSectionNames.begin();
+		typename xr_vector<dx103DFluidData*>::iterator	it2 = m_lstFluidData.begin();
 		//it1.advance(i);
 		it1 += i;
 		it2	+= i;

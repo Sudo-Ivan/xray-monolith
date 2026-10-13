@@ -38,7 +38,7 @@ void pauseMngr::Pause(const bool b)
 {
 	if (m_paused == b)return;
 
-	xr_vector<CTimer_paused*>::iterator it = m_timers.begin();
+	typename xr_vector<CTimer_paused*>::iterator it = m_timers.begin();
 	for (; it != m_timers.end(); ++it)
 		(*it)->Pause(b);
 

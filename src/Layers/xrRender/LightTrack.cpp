@@ -50,7 +50,7 @@ CROS_impl::CROS_impl()
 void CROS_impl::add(light* source)
 {
 	// Search
-	for (xr_vector<Item>::iterator I = track.begin(); I != track.end(); I++)
+	for (typename xr_vector<Item>::iterator I = track.begin(); I != track.end(); I++)
 		if (source == I->source)
 		{
 			I->frame_touched = Device.dwFrame;
@@ -489,7 +489,7 @@ void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
 		for (s32 id = 0; id < s32(track.size()); id++)
 		{
 			// remove untouched lights
-			xr_vector<CROS_impl::Item>::iterator I = track.begin() + id;
+			typename xr_vector<CROS_impl::Item>::iterator I = track.begin() + id;
 			if (I->frame_touched != Device.dwFrame)
 			{
 				track.erase(I);

@@ -1,9 +1,6 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #pragma hdrstop
 
-#include "cl_RAPID.h"
-#include "cl_defs.h"
-#include "cl_intersect.h"
 
 #ifdef ENGINE_BUILD
 #define R_BEGIN Device.Statistic->clRAY.Begin()

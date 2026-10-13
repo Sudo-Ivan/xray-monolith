@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-//#include "resourcemanager.h"
+//#include "../Layers/xrRender/ResourceManager.h"
 #include "../Include/xrRender/DrawUtils.h"
-//#include "xr_effgamma.h"
-#include "render.h"
+//#include "../Layers/xrRender/xr_effgamma.h"
+#include "Render.h"
 #include "dedicated_server_only.h"
-#include "../xrcdb/xrxrc.h"
+#include "../xrCDB/xrXRC.h"
 
 //#include "securom_api.h"
 

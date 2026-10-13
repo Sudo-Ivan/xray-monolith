@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "SkeletonMotions.h"
-//#include "SkeletonAnimated.h"
+//#include "../Layers/xrRender/SkeletonAnimated.h"
 #include "Fmesh.h"
 #include "motion.h"
 #include "..\Include\xrRender\Kinematics.h"
@@ -101,7 +101,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
 			PART->Name = _strlwr(buf);
 			PART->bones.resize(MP->r_u16());
 
-			for (xr_vector<u32>::iterator b_it = PART->bones.begin(); b_it < PART->bones.end(); b_it++)
+			for (typename xr_vector<u32>::iterator b_it = PART->bones.begin(); b_it < PART->bones.end(); b_it++)
 			{
 				MP->r_stringZ(buf, sizeof(buf));
 				u16 m_idx = u16(MP->r_u32());

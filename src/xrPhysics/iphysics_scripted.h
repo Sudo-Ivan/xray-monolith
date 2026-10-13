@@ -37,11 +37,15 @@ protected:
 #ifdef _EDITOR
 	 virtual ~iphysics_scripted_class		(){}
 #else
-	virtual ~iphysics_scripted_class() =0
-	{
-	}
+	virtual ~iphysics_scripted_class() = 0;
 #endif
 };
+
+#if !defined(_EDITOR)
+inline iphysics_scripted_class::~iphysics_scripted_class()
+{
+}
+#endif
 
 template <class T>
 class cphysics_game_scripted :

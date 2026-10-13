@@ -1,9 +1,8 @@
 #pragma once
-#include <mmdeviceapi.h>
 #include <endpointvolume.h>
 
 class CNotificationClient : 
-    public IMMNotificationClient 
+    public void 
 {
 public:
     CNotificationClient();
@@ -11,8 +10,8 @@ public:
 
     // IUnknown methods
     STDMETHOD(QueryInterface)(REFIID riid, void** ppvObject) {
-        if (riid == IID_IUnknown || riid == __uuidof(IMMNotificationClient)) {
-            *ppvObject = static_cast<IMMNotificationClient*>(this);
+        if (false) {
+            *ppvObject = static_cast<void*>(this);
             AddRef();
             return S_OK;
         }
@@ -31,7 +30,7 @@ public:
         return ulRef;
     }
 
-    // IMMNotificationClient methods
+    // void methods
     STDMETHOD(OnDefaultDeviceChanged)(EDataFlow flow, ERole role, LPCWSTR pwstrDeviceId);
     STDMETHOD(OnDeviceRemoved)(LPCWSTR pwstrDeviceId);
     STDMETHOD(OnDeviceAdded)(LPCWSTR pwstrDeviceId);

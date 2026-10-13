@@ -830,7 +830,7 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
 		return;
 
 	// Visual is 100% visible - simply add it
-	xr_vector<IRenderVisual*>::iterator I, E; // it may be useful for 'hierrarhy' visual
+	typename xr_vector<IRenderVisual*>::iterator I, E; // it may be useful for 'hierrarhy' visual
 
 	switch (pVisual->Type)
 	{
@@ -842,11 +842,11 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
 			{
 				PS::CParticleGroup::SItem& I = *i_it;
 				if (I._effect) add_leafs_Dynamic(I._effect);
-				for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
+				for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
 				                                                                                     ._children_related.
 				                                                                                     end(); ++pit)
 					add_leafs_Dynamic(*pit);
-				for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end()
+				for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end()
 				     ; ++pit)
 					add_leafs_Dynamic(*pit);
 			}
@@ -915,7 +915,7 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
 		return;
 
 	// Visual is 100% visible - simply add it
-	xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
+	typename xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
 
 	switch (pVisual->Type)
 	{
@@ -927,11 +927,11 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
 			{
 				PS::CParticleGroup::SItem& I = *i_it;
 				if (I._effect) add_leafs_Dynamic(I._effect);
-				for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
+				for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
 				                                                                                     ._children_related.
 				                                                                                     end(); ++pit)
 					add_leafs_Dynamic(*pit);
-				for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end()
+				for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end()
 				     ; ++pit)
 					add_leafs_Dynamic(*pit);
 			}
@@ -1021,7 +1021,7 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
 	if (fcvNone == VIS) return FALSE;
 
 	// If we get here visual is visible or partially visible
-	xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
+	typename xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
 
 	switch (pVisual->Type)
 	{
@@ -1035,12 +1035,12 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
 				if (fcvPartial == VIS)
 				{
 					if (I._effect) add_Dynamic(I._effect, planes);
-					for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
+					for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
 					                                                                                     .
 					                                                                                     _children_related
 					                                                                                     .end(); ++pit)
 						add_Dynamic(*pit, planes);
-					for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I
+					for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I
 					                                                                                  ._children_free.
 					                                                                                  end(); ++pit)
 						add_Dynamic(*pit, planes);
@@ -1048,12 +1048,12 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
 				else
 				{
 					if (I._effect) add_leafs_Dynamic(I._effect);
-					for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
+					for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I
 					                                                                                     .
 					                                                                                     _children_related
 					                                                                                     .end(); ++pit)
 						add_leafs_Dynamic(*pit);
-					for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I
+					for (typename xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I
 					                                                                                  ._children_free.
 					                                                                                  end(); ++pit)
 						add_leafs_Dynamic(*pit);
@@ -1145,7 +1145,7 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
 		return;
 
 	// If we get here visual is visible or partially visible
-	xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
+	typename xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
 
 	switch (pVisual->Type)
 	{

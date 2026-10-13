@@ -848,8 +848,8 @@ bool CRelationMapLocation::Update()
 
 		if (Level().MapManager().GetMapLocationsForObject(m_objectID, find_locations_res))
 		{
-			xr_vector<CMapLocation*>::iterator it = find_locations_res.begin();
-			xr_vector<CMapLocation*>::iterator it_e = find_locations_res.end();
+			typename xr_vector<CMapLocation*>::iterator it = find_locations_res.begin();
+			typename xr_vector<CMapLocation*>::iterator it_e = find_locations_res.end();
 			for (; it != it_e; ++it)
 			{
 				CMapLocation* ml = (*it);

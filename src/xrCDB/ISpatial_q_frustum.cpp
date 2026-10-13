@@ -1,6 +1,6 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ISpatial.h"
-#include "frustum.h"
+#include "Frustum.h"
 
 extern Fvector c_spatial_offset[8];
 
@@ -27,8 +27,8 @@ public:
 		if (fcvNone == F->testAABB(BB.data(), fmask)) return;
 
 		// test items
-		xr_vector<ISpatial*>::iterator _it = N->items.begin();
-		xr_vector<ISpatial*>::iterator _end = N->items.end();
+		typename xr_vector<ISpatial*>::iterator _it = N->items.begin();
+		typename xr_vector<ISpatial*>::iterator _end = N->items.end();
 		for (; _it != _end; _it++)
 		{
 			ISpatial* S = *_it;

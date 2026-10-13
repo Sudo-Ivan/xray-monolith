@@ -13,10 +13,10 @@
 
 #include "../xrCore/net_utils.h"
 #include <dplay/dplay8.h>
-#include "net_messages.h"
+#include "NET_Messages.h"
 
 
-#include "net_compressor.h"
+#include "NET_Compressor.h"
 
 XRNETSERVER_API extern ClientID BroadcastCID;
 

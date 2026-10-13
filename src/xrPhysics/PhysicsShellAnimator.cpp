@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "PhysicsShellAnimator.h"
 #include "PhysicsShellAnimatorBoneData.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
@@ -26,7 +26,7 @@ CPhysicsShellAnimator(CPhysicsShell* _pPhysicsShell, CInifile const* ini, LPCSTR
 	}
 
 	if (all_bones)
-		for (xr_vector<CPHElement*>::iterator i = m_pPhysicsShell->Elements().begin(); i != m_pPhysicsShell
+		for (typename xr_vector<CPHElement*>::iterator i = m_pPhysicsShell->Elements().begin(); i != m_pPhysicsShell
 		                                                                                    ->Elements().end(); i++)
 			CreateJoint(*i);
 
@@ -41,7 +41,7 @@ CPhysicsShellAnimator(CPhysicsShell* _pPhysicsShell, CInifile const* ini, LPCSTR
 
 CPhysicsShellAnimator::~CPhysicsShellAnimator()
 {
-	for (xr_vector<CPhysicsShellAnimatorBoneData>::iterator i = m_bones_data.begin(); i != m_bones_data.end(); i++)
+	for (typename xr_vector<CPhysicsShellAnimatorBoneData>::iterator i = m_bones_data.begin(); i != m_bones_data.end(); i++)
 	{
 		((CPHShell*)(m_pPhysicsShell))->Island().DActiveIsland()->RemoveJoint(i->m_anim_fixed_dJointID);
 		dJointDestroy(i->m_anim_fixed_dJointID);
@@ -85,7 +85,7 @@ void CPhysicsShellAnimator::OnFrame()
 {
 	m_pPhysicsShell->Enable();
 
-	for (xr_vector<CPhysicsShellAnimatorBoneData>::iterator i = m_bones_data.begin(); i != m_bones_data.end(); i++)
+	for (typename xr_vector<CPhysicsShellAnimatorBoneData>::iterator i = m_bones_data.begin(); i != m_bones_data.end(); i++)
 	{
 		Fmatrix target_obj_posFmatrixS;
 		CBoneInstance& B = m_pPhysicsShell->PKinematics()->LL_GetBoneInstance(i->m_element->m_SelfID);

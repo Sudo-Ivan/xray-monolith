@@ -273,8 +273,8 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 
 				u32 dwBatch = 0;
 
-				xr_vector<SlotItemVec*>::iterator _vI = vis.begin();
-				xr_vector<SlotItemVec*>::iterator _vE = vis.end();
+				typename xr_vector<SlotItemVec*>::iterator _vI = vis.begin();
+				typename xr_vector<SlotItemVec*>::iterator _vE = vis.end();
 				for (; _vI != _vE; _vI++)
 				{
 					SlotItemVec* items = *_vI;

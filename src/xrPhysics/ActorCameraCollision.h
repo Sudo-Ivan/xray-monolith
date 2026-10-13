@@ -1,4 +1,5 @@
 #pragma once
+#include "xrPhysics.h"
 class CPhysicsShell;
 class CCameraBase;
 class IPhysicsShellHolder;

@@ -1,5 +1,7 @@
 #include "stdafx.h"
+#if defined(_WIN32)
 #include "NotificationClient.h"
+#endif
 
 #include "SoundRender_CoreA.h"
 

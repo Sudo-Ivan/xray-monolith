@@ -1,13 +1,14 @@
 #pragma once
+#include "xrPhysics.h"
 #ifndef	dSINGLE
  #define dSINGLE
 #endif
 #include "PHObject.h"
 #include "PHInterpolation.h"
-#include "../xrserverentities/PHSynchronize.h"
+#include "../xrServerEntities/PHSynchronize.h"
 #include "PHDisabling.h"
 
-#include "../xrEngine/iphysicsshell.h"
+#include "../xrEngine/IPhysicsShell.h"
 
 
 class IPhysicsShellHolder;
@@ -20,10 +21,10 @@ class CPHAICharacter;
 
 namespace ALife
 {
-	enum EHitType;
+	enum EHitType : int;
 };
 
-static enum EEnvironment
+enum EEnvironment
 {
 	peOnGround,
 	peAtWall,

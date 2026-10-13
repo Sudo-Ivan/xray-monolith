@@ -5,7 +5,7 @@
 
 //#include "tntTimer.h"
 #include "vfw.h"
-#include "mmsystem.h"
+#include "../compat/mmsystem.h"
 
 // replaced with standard AVIIF_KEYFRAME
 //rr #define AVIINDEX_ISKEYFRAME 0x10 // ключевой кадр

@@ -7,7 +7,9 @@
 #include "SoundRender_Source.h"
 #include "SoundRender_Emitter.h"
 
+#if defined(_WIN32)
 #include "NotificationClient.h"
+#endif
 
 #include <AL/efx.h>
 
@@ -52,7 +54,11 @@ CSoundRender_Core::CSoundRender_Core()
 	fTimer_Value = Timer.GetElapsed_sec();
 	fTimer_Delta = 0.0f;
 	m_iPauseCounter = 1;
+	#if defined(_WIN32)
 	pSysNotification = xr_new<CNotificationClient>();
+#else
+	pSysNotification = NULL;
+#endif
 }
 
 CSoundRender_Core::~CSoundRender_Core()
@@ -63,7 +69,11 @@ CSoundRender_Core::~CSoundRender_Core()
 #else
 	xr_delete(geom_ENV);
 	xr_delete(geom_SOM);
+	#if defined(_WIN32)
 	xr_delete(pSysNotification);
+#else
+	pSysNotification = NULL;
+#endif
 #endif
 }
 

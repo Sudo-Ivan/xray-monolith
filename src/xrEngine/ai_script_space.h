@@ -17,7 +17,7 @@
 //#define LUABIND_NO_EXCEPTIONS
 
 //AVO: lua re-org
-#include "lua.hpp"
+#include "../3rd party/luajit-2/src/lua.hpp"
 /*extern "C" {
     //#define BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 

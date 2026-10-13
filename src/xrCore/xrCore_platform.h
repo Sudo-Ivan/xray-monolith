@@ -5,7 +5,7 @@
 #if !defined(_WIN32)
 // Non-Windows: platform detection and Win32 compat shims come from the
 // Common layer grafted from OpenXRay (see PORTING.md).
-#include "Common/Platform.hpp"
+#include "../Common/Platform.hpp"
 #else
 
 #define VC_EXTRALEAN // Exclude rarely-used stuff from Windows headers

@@ -260,7 +260,7 @@ protected:
 	EHeliState m_curState;
 
 	xr_map<s16, float> m_hitBones;
-	typedef xr_map<s16, float>::iterator bonesIt;
+	typedef typename xr_map<s16, float>::iterator bonesIt;
 	float m_stepRemains;
 
 	void UpdateState();

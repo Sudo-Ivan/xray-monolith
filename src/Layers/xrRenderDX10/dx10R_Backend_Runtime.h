@@ -459,7 +459,7 @@ IC void CBackend::ApplyVertexLayout()
 	VERIFY(decl);
 	VERIFY(m_pInputSignature);
 
-	xr_map<ID3DBlob*, ID3DInputLayout*>::iterator it;
+	typename xr_map<ID3DBlob*, ID3DInputLayout*>::iterator it;
 
 	it = decl->vs_to_layout.find(m_pInputSignature);
 

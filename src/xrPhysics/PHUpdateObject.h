@@ -1,4 +1,5 @@
 #pragma once
+#include "xrPhysics.h"
 #include "PHItemList.h"
 
 class CPhysicsShell;

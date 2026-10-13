@@ -269,7 +269,7 @@ BOOL COMotion::NormalizeKeys(float from_time, float to_time, float speed)
 //------------------------------------------------------------------------------------------
 #ifdef _EDITOR
 
-//#include "SkeletonCustom.h"
+//#include "../Layers/xrRender/SkeletonCustom.h"
 CSMotion::CSMotion():CCustomMotion()
 {
     mtype =mtSkeleton;

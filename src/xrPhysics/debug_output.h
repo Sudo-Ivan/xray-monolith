@@ -1,4 +1,5 @@
 #pragma once
+#include "xrPhysics.h"
 #ifdef	DEBUG
 
 	enum

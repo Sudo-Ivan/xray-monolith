@@ -9,7 +9,7 @@ class CPHShellSplitterHolder;
 #include "PHElement.h"
 #include "PHDefs.h"
 #include "PHShellSplitter.h"
-#include "phmovestorage.h"
+#include "PHMoveStorage.h"
 #include "physics_scripted.h"
 
 
@@ -75,7 +75,7 @@ public:
 
 	virtual void SetAirResistance(dReal linear = default_k_l, dReal angular = default_k_w)
 	{
-		xr_vector<CPHElement*>::iterator i;
+		typename xr_vector<CPHElement*>::iterator i;
 		for (i = elements.begin(); elements.end() != i; ++i)
 			(*i)->SetAirResistance(linear, angular);
 	}

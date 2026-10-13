@@ -43,7 +43,7 @@ public:
     explicit xr_vector(size_t _count) : std::vector<T>(_count) {}
     void clear() { erase(this->begin(), this->end()); }
     void clear_and_free() { std::vector<T>::clear(); }
-    void clear_not_free() { erase(this->begin(), this->end()); }
+    void clear_not_free() { this->erase(this->begin(), this->end()); }
     ICF const_reference operator[] (size_type _Pos) const { {VERIFY(_Pos < size()); } return (*(this->begin() + _Pos)); }
     ICF reference operator[] (size_type _Pos) { {VERIFY(_Pos < size()); } return (*(this->begin() + _Pos)); }
 };
@@ -178,7 +178,7 @@ public:
 	u32 size() const { return (u32)inherited::size(); }
 
 	void clear_and_free() { inherited::clear(); }
-	void clear_not_free() { erase(this->begin(), this->end()); }
+	void clear_not_free() { this->erase(this->begin(), this->end()); }
 
 	void clear_and_reserve()
 	{
@@ -453,3 +453,14 @@ DEFINE_VECTOR(AnsiString*, LPAStringVec, LPAStringIt);
 #endif
 
 #endif
+
+// Minimal allocator with construct() used by CBlockAllocator
+template <class T>
+struct xr_allocator_t
+{
+	T* allocate(size_t n) { return (T*)xr_malloc(sizeof(T) * n); }
+	void deallocate(T* p, size_t) { xr_free(p); }
+	template <class... Args>
+	void construct(T* p, Args&&... args) { new (p) T(std::forward<Args>(args)...); }
+	void destroy(T* p) { p->~T(); }
+};

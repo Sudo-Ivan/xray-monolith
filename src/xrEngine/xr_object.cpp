@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "igame_level.h"
+#include "IGame_Level.h"
 
 #include "xr_object.h"
-#include "../xrcdb/xr_area.h"
-#include "render.h"
+#include "../xrCDB/xr_area.h"
+#include "Render.h"
 #include "xrLevel.h"
-//#include "fbasicvisual.h"
+//#include "../Layers/xrRender/FBasicVisual.h"
 #include "../Include/xrRender/RenderVisual.h"
 #include "../Include/xrRender/Kinematics.h"
 
@@ -66,7 +66,7 @@ void CObject::cNameSect_set(shared_str N)
 	NameSection = N;
 }
 
-//#include "SkeletonCustom.h"
+//#include "../Layers/xrRender/SkeletonCustom.h"
 void CObject::cNameVisual_set(shared_str N)
 {
 	// check if equal

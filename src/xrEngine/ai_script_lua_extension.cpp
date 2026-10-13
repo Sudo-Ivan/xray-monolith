@@ -28,7 +28,7 @@
 #endif // XRRENDER_R1_EXPORTS
 
 #ifndef ENGINE_BUILD
-#include "ai_space.h"
+#include "../xrGame/ai_space.h"
 #endif
 
 using namespace Script;

@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "ps_instance.h"
+#include "PS_instance.h"
 #include "IGame_Persistent.h"
 
 CPS_Instance::CPS_Instance(bool destroy_on_game_load) :
@@ -25,11 +25,11 @@ extern ENGINE_API BOOL g_bRendering;
 CPS_Instance::~CPS_Instance()
 {
 	VERIFY(!g_bRendering);
-	xr_set<CPS_Instance*>::iterator it = g_pGamePersistent->ps_active.find(this);
+	typename xr_set<CPS_Instance*>::iterator it = g_pGamePersistent->ps_active.find(this);
 	VERIFY(it != g_pGamePersistent->ps_active.end());
 	g_pGamePersistent->ps_active.erase(it);
 
-	xr_vector<CPS_Instance*>::iterator it2 = std::find(g_pGamePersistent->ps_destroy.begin(),
+	typename xr_vector<CPS_Instance*>::iterator it2 = std::find(g_pGamePersistent->ps_destroy.begin(),
 	                                                   g_pGamePersistent->ps_destroy.end(), this);
 
 	VERIFY(it2 == g_pGamePersistent->ps_destroy.end());

@@ -224,7 +224,7 @@ protected:
 
 	bool FindTraversal(NvFaceInfoVec& faceInfos, NvEdgeInfoVec& edgeInfos, NvStripInfo* strip,
 	                   NvStripStartInfo& startInfo);
-	int CountRemainingTris(xr_list<NvStripInfo*>::iterator iter, xr_list<NvStripInfo*>::iterator end);
+	int CountRemainingTris(typename xr_list<NvStripInfo*>::iterator iter, typename xr_list<NvStripInfo*>::iterator end);
 
 	void CommitStrips(NvStripInfoVec& allStrips, const NvStripInfoVec& strips);
 

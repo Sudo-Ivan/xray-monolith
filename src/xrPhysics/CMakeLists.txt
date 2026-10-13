@@ -1,0 +1,70 @@
+# xrPhysics - ODE-based physics
+set(XRPHYSICS_SOURCES
+    ../xrServerEntities/PHNetState.cpp
+    ActorCameraCollision.cpp
+    collisiondamagereceiver.cpp
+    console_vars.cpp
+    dcylinder/dCylinder.cpp
+    debug_output.cpp
+    DisablingParams.cpp
+    dRayMotions.cpp
+    ElevatorState.cpp
+    ExtendedGeom.cpp
+    Geometry.cpp
+    GeometryBits.cpp
+    IActivationShape.cpp
+    MathUtils.cpp
+    MovementBoxDynamicActivate.cpp
+    params.cpp
+    PHActivationShape.cpp
+    PHActorCharacter.cpp
+    PHAICharacter.cpp
+    PHCapture.cpp
+    PHCaptureInit.cpp
+    PHCharacter.cpp
+    PHCollideValidator.cpp
+    PHContactBodyEffector.cpp
+    PHDisabling.cpp
+    PHDynamicData.cpp
+    PHElement.cpp
+    PHElementNetState.cpp
+    PHFracture.cpp
+    PHGeometryOwner.cpp
+    PHInterpolation.cpp
+    PHIsland.cpp
+    PHJoint.cpp
+    PHJointDestroyInfo.cpp
+    PHMoveStorage.cpp
+    PHObject.cpp
+    PHShell.cpp
+    PHShellActivate.cpp
+    PHShellNetState.cpp
+    PHShellSplitter.cpp
+    PHSimpleCharacter.cpp
+    PHSplitedShell.cpp
+    PHStaticGeomShell.cpp
+    phvalide.cpp
+    PHWorld.cpp
+    Physics.cpp
+    PhysicsExternalCommon.cpp
+    PhysicsShell.cpp
+    PhysicsShellAnimator.cpp
+    physics_scripted.cpp
+    ShellHit.cpp
+    stdafx.cpp
+    tri-colliderknoopc/dSortTriPrimitive.cpp
+    tri-colliderknoopc/dTriBox.cpp
+    tri-colliderknoopc/dTriCallideK.cpp
+    tri-colliderknoopc/dTriCylinder.cpp
+    tri-colliderknoopc/dTriList.cpp
+    tri-colliderknoopc/dTriSphere.cpp
+    xrPhysics.cpp
+)
+
+add_library(xrphysics STATIC ${XRPHYSICS_SOURCES})
+target_include_directories(xrphysics PUBLIC
+    "${CMAKE_SOURCE_DIR}/src"
+    "${CMAKE_SOURCE_DIR}/src/xrPhysics"
+    "${CMAKE_SOURCE_DIR}/src/3rd party/ode/include"
+)
+target_link_libraries(xrphysics PUBLIC xrcore xrcdb xrsound ode)

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "feel_vision.h"
-#include "render.h"
+#include "Feel_Vision.h"
+#include "Render.h"
 #include "xr_object.h"
 #include "xr_collide_form.h"
-#include "igame_level.h"
+#include "IGame_Level.h"
 #include "cl_intersect.h"
 
 namespace Feel
@@ -77,7 +77,7 @@ namespace Feel
 
 	void Vision::o_delete(CObject* O)
 	{
-		xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), TE = feel_visible.end();
+		typename xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), TE = feel_visible.end();
 		for (; I != TE; I++)
 			if (I->O == O)
 			{
@@ -96,14 +96,14 @@ namespace Feel
 
 	void Vision::feel_vision_relcase(CObject* object)
 	{
-		xr_vector<CObject*>::iterator Io;
+		typename xr_vector<CObject*>::iterator Io;
 		Io = std::find(seen.begin(), seen.end(), object);
 		if (Io != seen.end()) seen.erase(Io);
 		Io = std::find(query.begin(), query.end(), object);
 		if (Io != query.end())query.erase(Io);
 		Io = std::find(diff.begin(), diff.end(), object);
 		if (Io != diff.end()) diff.erase(Io);
-		xr_vector<feel_visible_Item>::iterator Ii = feel_visible.begin(), IiE = feel_visible.end();
+		typename xr_vector<feel_visible_Item>::iterator Ii = feel_visible.begin(), IiE = feel_visible.end();
 		for (; Ii != IiE; ++Ii)if (Ii->O == object)
 		{
 			feel_visible.erase(Ii);
@@ -137,7 +137,7 @@ namespace Feel
 		if (seen.size() > 1)
 		{
 			std::sort(seen.begin(), seen.end());
-			xr_vector<CObject*>::iterator end = std::unique(seen.begin(), seen.end());
+			typename xr_vector<CObject*>::iterator end = std::unique(seen.begin(), seen.end());
 			if (end != seen.end()) seen.erase(end, seen.end());
 		}
 	}
@@ -147,12 +147,12 @@ namespace Feel
 		// B-A = objects, that become visible
 		if (!seen.empty())
 		{
-			xr_vector<CObject*>::iterator E = std::remove(seen.begin(), seen.end(), parent);
+			typename xr_vector<CObject*>::iterator E = std::remove(seen.begin(), seen.end(), parent);
 			seen.resize(E - seen.begin());
 
 			{
 				diff.resize(_max(seen.size(), query.size()));
-				xr_vector<CObject*>::iterator E = std::set_difference(
+				typename xr_vector<CObject*>::iterator E = std::set_difference(
 					seen.begin(), seen.end(),
 					query.begin(), query.end(),
 					diff.begin());
@@ -166,7 +166,7 @@ namespace Feel
 		if (!query.empty())
 		{
 			diff.resize(_max(seen.size(), query.size()));
-			xr_vector<CObject*>::iterator E = std::set_difference(
+			typename xr_vector<CObject*>::iterator E = std::set_difference(
 				query.begin(), query.end(),
 				seen.begin(), seen.end(),
 				diff.begin());
@@ -183,7 +183,7 @@ namespace Feel
 	void Vision::o_trace(Fvector& P, float dt, float vis_threshold)
 	{
 		RQR.r_clear();
-		xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
+		typename xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
 		for (; I != E; I++)
 		{
 			if (0 == I->O->CFORM())
@@ -263,8 +263,8 @@ namespace Feel
 				RD.flags = CDB::OPT_ONLYFIRST;
 
 				bool collision_found = false;
-				xr_vector<ISpatial*>::const_iterator i = r_spatial.begin();
-				xr_vector<ISpatial*>::const_iterator e = r_spatial.end();
+				typename xr_vector<ISpatial*>::const_iterator i = r_spatial.begin();
+				typename xr_vector<ISpatial*>::const_iterator e = r_spatial.end();
 				for (; i != e; ++i)
 				{
 					if (*i == m_owner)

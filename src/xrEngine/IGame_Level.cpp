@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "igame_level.h"
-#include "igame_persistent.h"
+#include "IGame_Level.h"
+#include "IGame_Persistent.h"
 
 #include "x_ray.h"
 #include "std_classes.h"
-#include "customHUD.h"
-#include "render.h"
-#include "gamefont.h"
+#include "CustomHUD.h"
+#include "Render.h"
+#include "GameFont.h"
 #include "xrLevel.h"
 #include "CameraManager.h"
 #include "xr_object.h"
-#include "feel_sound.h"
+#include "Feel_Sound.h"
 #include "shader_bus.h"
 
 #include "../xrCore/profiler.h"
@@ -31,7 +31,7 @@ IGame_Level::IGame_Level()
 	Device.DumpResourcesMemoryUsage();
 }
 
-//#include "resourcemanager.h"
+//#include "../Layers/xrRender/ResourceManager.h"
 
 IGame_Level::~IGame_Level()
 {
@@ -297,8 +297,8 @@ void IGame_Level::SoundEvent_Register(ref_sound_data_ptr S, float range)
 	}
 
 	// Iterate
-	xr_vector<ISpatial*>::iterator it = snd_ER.begin();
-	xr_vector<ISpatial*>::iterator end = snd_ER.end();
+	typename xr_vector<ISpatial*>::iterator it = snd_ER.begin();
+	typename xr_vector<ISpatial*>::iterator end = snd_ER.end();
 	for (; it != end; it++)
 	{
 		Feel::Sound* L = (*it)->dcast_FeelSound();

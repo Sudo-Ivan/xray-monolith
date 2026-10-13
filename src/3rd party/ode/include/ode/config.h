@@ -46,6 +46,11 @@ extern "C" {
 #include <string.h>
 
 #include <math.h>
+#include <stdint.h>
+
+#if !defined(_MSC_VER)
+#define _cdecl
+#endif
 
 #if defined(WIN32) && (defined(MSVC) || defined(MINGW))
 

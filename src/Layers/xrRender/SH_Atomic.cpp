@@ -102,7 +102,7 @@ SDeclaration::~SDeclaration()
 {
 	DEV->_DeleteDecl(this);
 #if defined(USE_DX10) || defined(USE_DX11)
-	xr_map<ID3DBlob*, ID3DInputLayout*>::iterator iLayout;
+	typename xr_map<ID3DBlob*, ID3DInputLayout*>::iterator iLayout;
 	iLayout = vs_to_layout.begin();
 	for (; iLayout != vs_to_layout.end(); ++iLayout)
 	{

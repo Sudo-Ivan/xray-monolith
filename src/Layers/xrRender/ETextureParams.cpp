@@ -265,8 +265,8 @@ BOOL STextureParams::similar(STextureParams& tp1, xr_vector<AnsiString>& sel_par
 {
 	BOOL res 				= TRUE;
     
-    xr_vector<AnsiString>::iterator it = sel_params.begin();
-    xr_vector<AnsiString>::iterator it_e = sel_params.end();
+    typename xr_vector<AnsiString>::iterator it = sel_params.begin();
+    typename xr_vector<AnsiString>::iterator it_e = sel_params.end();
 
     for(;it!=it_e;++it)
     {

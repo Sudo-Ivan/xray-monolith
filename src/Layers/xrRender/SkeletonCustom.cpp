@@ -364,7 +364,7 @@ IC void iBuildGroups(CBoneData* B, U16Vec& tgt, u16 id, u16& last_id)
 {
 	if (B->IK_data.ik_flags.is(SJointIKData::flBreakable)) id = ++last_id;
 	tgt[B->GetSelfID()] = id;
-	for (xr_vector<CBoneData*>::iterator bone_it = B->children.begin(); bone_it != B->children.end(); bone_it++)
+	for (typename xr_vector<CBoneData*>::iterator bone_it = B->children.begin(); bone_it != B->children.end(); bone_it++)
 		iBuildGroups(*bone_it, tgt, id, last_id);
 }
 
@@ -531,7 +531,7 @@ void CKinematics::LL_SetBoneVisible(u16 bone_id, BOOL val, BOOL bRecursive)
 
 	if (bRecursive)
 	{
-		for (xr_vector<CBoneData*>::iterator C = (*bones)[bone_id]->children.begin(); C != (*bones)[bone_id]
+		for (typename xr_vector<CBoneData*>::iterator C = (*bones)[bone_id]->children.begin(); C != (*bones)[bone_id]
 			->children.end(); C++)
 			LL_SetBoneVisible((*C)->GetSelfID(), val, bRecursive);
 	}
@@ -655,7 +655,7 @@ IC static void RecursiveBindTransform(CKinematics* K, xr_vector<Fmatrix>& matric
 	Fmatrix& BM = matrices[bone_id];
 	// Build matrix
 	BM.mul_43(parent, BD.bind_transform);
-	for (xr_vector<CBoneData*>::iterator C = BD.children.begin(); C != BD.children.end(); C++)
+	for (typename xr_vector<CBoneData*>::iterator C = BD.children.begin(); C != BD.children.end(); C++)
 		RecursiveBindTransform(K, matrices, (*C)->GetSelfID(), BM);
 }
 

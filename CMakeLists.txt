@@ -33,6 +33,13 @@ find_package(Threads REQUIRED)
 
 add_subdirectory(src/xrCore)
 
+add_subdirectory(src/xrXMLParser)
+add_subdirectory(src/xrCDB)
+add_subdirectory(src/xrNetServer)
+add_subdirectory(src/xrSound)
+add_subdirectory("src/3rd party/ode")
+add_subdirectory(src/xrPhysics)
+
 enable_testing()
 
 option(XRCORE_BUILD_SMOKE_TEST "Build the xrCore smoke test executable" ON)

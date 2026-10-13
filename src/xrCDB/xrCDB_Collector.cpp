@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 //.#include "../xrCore/xrCore.h"
 #pragma hdrstop
 
@@ -8,7 +8,7 @@ namespace CDB
 {
 	u32 Collector::VPack(const Fvector& V, float eps)
 	{
-		xr_vector<Fvector>::iterator I, E;
+		typename xr_vector<Fvector>::iterator I, E;
 		I = verts.begin();
 		E = verts.end();
 		for (; I != E; I++) if (I->similar(V, eps)) return u32(I - verts.begin());
@@ -216,9 +216,9 @@ namespace CDB
 		}
 
 		{
-			xr_vector<u32>::const_iterator	I = test.begin();
-			xr_vector<u32>::const_iterator	E = test.end();
-			xr_vector<u32>::const_iterator	J = dest.begin();
+			typename xr_vector<u32>::const_iterator	I = test.begin();
+			typename xr_vector<u32>::const_iterator	E = test.end();
+			typename xr_vector<u32>::const_iterator	J = dest.begin();
 			for ( ; I != E; ++I, ++J) {
 				VERIFY	(*I == *J);
 			}

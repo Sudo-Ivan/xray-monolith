@@ -607,32 +607,32 @@ IC bool CLevelGraph::valid_vertex_position(const Fvector& position) const
 
 IC void CLevelGraph::set_mask(const xr_vector<u32>& mask)
 {
-	xr_vector<u32>::const_iterator I = mask.begin();
-	xr_vector<u32>::const_iterator E = mask.end();
+	typename xr_vector<u32>::const_iterator I = mask.begin();
+	typename xr_vector<u32>::const_iterator E = mask.end();
 	for (; I != E; ++I)
 		set_mask(*I);
 }
 
 IC void CLevelGraph::set_mask_no_check(const xr_vector<u32>& mask)
 {
-	xr_vector<u32>::const_iterator I = mask.begin();
-	xr_vector<u32>::const_iterator E = mask.end();
+	typename xr_vector<u32>::const_iterator I = mask.begin();
+	typename xr_vector<u32>::const_iterator E = mask.end();
 	for (; I != E; ++I)
 		set_mask_no_check(*I);
 }
 
 IC void CLevelGraph::clear_mask(const xr_vector<u32>& mask)
 {
-	xr_vector<u32>::const_iterator I = mask.begin();
-	xr_vector<u32>::const_iterator E = mask.end();
+	typename xr_vector<u32>::const_iterator I = mask.begin();
+	typename xr_vector<u32>::const_iterator E = mask.end();
 	for (; I != E; ++I)
 		clear_mask(*I);
 }
 
 IC void CLevelGraph::clear_mask_no_check(const xr_vector<u32>& mask)
 {
-	xr_vector<u32>::const_iterator I = mask.begin();
-	xr_vector<u32>::const_iterator E = mask.end();
+	typename xr_vector<u32>::const_iterator I = mask.begin();
+	typename xr_vector<u32>::const_iterator E = mask.end();
 	for (; I != E; ++I)
 		clear_mask_no_check(*I);
 }

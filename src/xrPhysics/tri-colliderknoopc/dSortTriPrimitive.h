@@ -6,9 +6,9 @@
 #include "__aabb_tri.h"
 #include "../MathUtils.h"
 #include "../console_vars.h"
-#include "../phworld.h"
-#include "../../xrcdb/xr_area.h"
-#include "../../xrEngine/gamemtllib.h"
+#include "PHWorld.h"
+#include "../../xrCDB/xr_area.h"
+#include "../../xrEngine/GameMtlLib.h"
 #ifdef DEBUG
 #include "../debug_output.h"
 #endif
@@ -204,25 +204,25 @@ IC int dcTriListCollider::dSortTriPrimitiveCollide(
 		debug_output().dbg_saved_tries_for_active_objects()++;
 #endif
 		//if(ignored_tries[I-B])continue;
-		CDB::TRI* T = T_array + *I;
+		CDB::TRI* Tri = T_array + *I;
 		const Point vertices[3] = {
-			Point((dReal*)&V_array[T->verts[0]]), Point((dReal*)&V_array[T->verts[1]]),
-			Point((dReal*)&V_array[T->verts[2]])
+			Point((dReal*)&V_array[Tri->verts[0]]), Point((dReal*)&V_array[Tri->verts[1]]),
+			Point((dReal*)&V_array[Tri->verts[2]])
 		};
 		if (!aabb_tri_aabb(Point(p), Point((float*)&AABB), vertices))
 			continue;
 #ifdef DEBUG
 		if(debug_output().ph_dbg_draw_mask().test(phDBgDrawIntersectedTries))
-										debug_output().DBG_DrawTri(T,V_array,D3DCOLOR_XRGB(0,255,0));
+										debug_output().DBG_DrawTri(Tri,V_array,D3DCOLOR_XRGB(0,255,0));
 		debug_output().dbg_tries_num()++;
 #endif
 		Triangle tri;
-		CalculateTri(T, p, tri, vertices);
+		CalculateTri(Tri, p, tri, vertices);
 		if (tri.dist < 0.f)
 		{
 #ifdef DEBUG
 			if(debug_output().ph_dbg_draw_mask().test(phDBgDrawNegativeTries))
-				debug_output().DBG_DrawTri(T,V_array,D3DCOLOR_XRGB(0,0,255));
+				debug_output().DBG_DrawTri(Tri,V_array,D3DCOLOR_XRGB(0,0,255));
 #endif
 			float last_pos_dist = dDOT(last_pos, tri.norm) - tri.pos;
 			if ((!(last_pos_dist < 0.f)) || b_pushing)
@@ -230,9 +230,9 @@ IC int dcTriListCollider::dSortTriPrimitiveCollide(
 				{
 #ifdef DEBUG
 					if(debug_output().ph_dbg_draw_mask().test(phDBgDrawTriesChangesSign))
-						debug_output().DBG_DrawTri(T,V_array,D3DCOLOR_XRGB(0,255,0));
+						debug_output().DBG_DrawTri(Tri,V_array,D3DCOLOR_XRGB(0,255,0));
 #endif
-					SGameMtl* material = GMLibrary().GetMaterialByIdx(T->material);
+					SGameMtl* material = GMLibrary().GetMaterialByIdx(Tri->material);
 					VERIFY(material);
 					bool b_passable = !!material->Flags.test(SGameMtl::flPassable);
 					bool contain_pos = TriContainPoint(
@@ -329,7 +329,7 @@ IC int dcTriListCollider::dSortTriPrimitiveCollide(
 		{
 #ifdef DEBUG
 			if(debug_output().ph_dbg_draw_mask().test(phDBgDrawPositiveTries))
-				debug_output().DBG_DrawTri(T,V_array,D3DCOLOR_XRGB(255,0,0));
+				debug_output().DBG_DrawTri(Tri,V_array,D3DCOLOR_XRGB(255,0,0));
 #endif
 			if (ret > flags - 10)
 				continue;
@@ -349,7 +349,7 @@ IC int dcTriListCollider::dSortTriPrimitiveCollide(
 	}
 
 	//if(intersect) ret=0;
-	xr_vector<Triangle>::iterator i;
+	typename xr_vector<Triangle>::iterator i;
 
 	if (intersect)
 	{
@@ -403,9 +403,9 @@ IC int dcTriListCollider::dSortTriPrimitiveCollide(
 		//for(i=pos_tries.begin();pos_tries.end() != i;++i){
 		//	CDB::TRI* T=i->T;
 		//	ret+=dTriPrimitive(
-		//		(const dReal*)&V_array[T->verts[0]],
-		//		(const dReal*)&V_array[T->verts[1]],
-		//		(const dReal*)&V_array[T->verts[2]],
+		//		(const dReal*)&V_array[Tri->verts[0]],
+		//		(const dReal*)&V_array[Tri->verts[1]],
+		//		(const dReal*)&V_array[Tri->verts[2]],
 		//		T,
 		//		o1,
 		//		o2,

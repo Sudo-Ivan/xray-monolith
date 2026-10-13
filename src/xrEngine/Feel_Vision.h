@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../xrcdb/xr_collide_defs.h"
-#include "render.h"
+#include "../xrCDB/xr_collide_defs.h"
+#include "Render.h"
 #include "pure_relcase.h"
 
 class IRender_Sector;
@@ -55,13 +55,13 @@ namespace Feel
 		void feel_vision_get(xr_vector<CObject*>& R)
 		{
 			R.clear();
-			xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
+			typename xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
 			for (; I != E; ++I) if (positive(I->fuzzy)) R.push_back(I->O);
 		}
 
 		Fvector feel_vision_get_vispoint(CObject* _O)
 		{
-			xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
+			typename xr_vector<feel_visible_Item>::iterator I = feel_visible.begin(), E = feel_visible.end();
 			for (; I != E; ++I)
 				if (_O == I->O)
 				{

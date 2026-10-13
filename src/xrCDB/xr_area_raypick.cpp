@@ -1,13 +1,15 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "xr_area.h"
-#include "ispatial.h"
-#include "../xrengine/xr_collide_form.h"
-#include "../xrengine/xr_object.h"
-#include "../xrengine/cl_intersect.h"
+#include "ISpatial.h"
+#include "../xrEngine/xr_collide_form.h"
+#include "../xrEngine/xr_object.h"
+#include "../xrEngine/cl_intersect.h"
+#if defined(_WIN32)
 #include "d3d9types.h"
-//#include "igame_level.h"
-//#include "x_ray.h"
-//#include "GameFont.h"
+#endif
+//#include "../xrEngine/IGame_Level.h"
+//#include "../xrEngine/x_ray.h"
+//#include "../xrEngine/GameFont.h"
 #ifdef	DEBUG
 static BOOL _cdb_bDebug = false;
 extern XRCDB_API BOOL *cdb_bDebug = &_cdb_bDebug;

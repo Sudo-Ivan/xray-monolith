@@ -1,11 +1,11 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 
-#include "ispatial.h"
-#include "../xrengine/render.h"
+#include "ISpatial.h"
+#include "../xrEngine/Render.h"
 
 #ifdef DEBUG
-#include "../xrengine/xr_object.h"
-#include "../xrengine/PS_Instance.h"
+#include "../xrEngine/xr_object.h"
+#include "../xrEngine/PS_instance.h"
 #endif
 
 ISpatial_DB* g_SpatialSpace = NULL;
@@ -145,7 +145,7 @@ void ISpatial_NODE::_insert(ISpatial* S)
 void ISpatial_NODE::_remove(ISpatial* S)
 {
 	S->spatial.node_ptr = NULL;
-	xr_vector<ISpatial*>::iterator it = std::find(items.begin(), items.end(), S);
+	typename xr_vector<ISpatial*>::iterator it = std::find(items.begin(), items.end(), S);
 	VERIFY(it!=items.end());
 	items.erase(it);
 	S->spatial.space->stat_objects --;

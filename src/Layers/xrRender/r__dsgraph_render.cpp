@@ -968,7 +968,7 @@ void R_dsgraph_structure::r_dsgraph_render_R1_box(IRender_Sector* _S, Fbox& BB, 
 		dxRender_Visual* V = lstVisuals[test];
 
 		// Visual is 100% visible - simply add it
-		xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
+		typename xr_vector<IRenderVisual*>::iterator I, E; // it may be usefull for 'hierrarhy' visuals
 
 		switch (V->Type)
 		{

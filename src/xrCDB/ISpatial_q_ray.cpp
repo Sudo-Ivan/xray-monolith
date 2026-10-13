@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ISpatial.h"
 #pragma warning(push)
 #pragma warning(disable:4995)
@@ -288,8 +288,8 @@ public:
 		}
 
 		// test items
-		xr_vector<ISpatial*>::iterator _it = N->items.begin();
-		xr_vector<ISpatial*>::iterator _end = N->items.end();
+		typename xr_vector<ISpatial*>::iterator _it = N->items.begin();
+		typename xr_vector<ISpatial*>::iterator _end = N->items.end();
 		for (; _it != _end; _it++)
 		{
 			ISpatial* S = *_it;

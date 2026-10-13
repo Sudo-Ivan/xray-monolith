@@ -1,7 +1,7 @@
 #ifndef __XR_AREA_H__
 #define __XR_AREA_H__
 
-//#include "xr_collide_form.h"
+//#include "../xrEngine/xr_collide_form.h"
 #include "xr_collide_defs.h"
 
 // refs
@@ -13,7 +13,7 @@ class CObject;
 #include "../Include/xrRender/ObjectSpaceRender.h"
 #include "xrXRC.h"
 
-#include "xrcdb.h"
+#include "xrCDB.h"
 
 //-----------------------------------------------------------------------------------------------------------
 //Space Area

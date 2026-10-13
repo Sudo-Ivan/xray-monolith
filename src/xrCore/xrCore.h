@@ -304,7 +304,11 @@ DEFINE_VECTOR(shared_str, RStringVec, RStringVecIt);
 DEFINE_SET(shared_str, RStringSet, RStringSetIt);
 DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
 
+#if defined(_WIN32)
 #define xr_pure_interface __interface
+#else
+#define xr_pure_interface class
+#endif
 
 #include "FS.h"
 #include "log.h"

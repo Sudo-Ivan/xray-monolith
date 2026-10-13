@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ip_filter.h"
-#include "..\xrCore\xr_ini.h"
+#include "../xrCore/xr_ini.h"
 
 ip_filter::ip_filter()
 {
@@ -67,7 +67,7 @@ u32 ip_filter::load()
 
 		subnet_item* tmp_item = xr_new<subnet_item>();
 		unsigned int parse_data[5];
-		unsigned int parsed_params = sscanf_s(
+		unsigned int parsed_params = sscanf(
 			address, "%u.%u.%u.%u/%u",
 			&parse_data[0],
 			&parse_data[1],

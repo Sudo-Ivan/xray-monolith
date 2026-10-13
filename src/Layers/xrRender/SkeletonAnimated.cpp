@@ -562,8 +562,8 @@ void CKinematicsAnimated::LL_UpdateTracks(float dt, bool b_force, bool leave_ble
 			//else{
 			//	CMotionDef* m_def						= m_Motions[B.motionID.slot].motions.motion_def(B.motionID.idx);
 			//	float timeCurrent						= B.timeCurrent;
-			//	xr_vector<motion_marks>::iterator it	= m_def->marks.begin();
-			//	xr_vector<motion_marks>::iterator it_e	= m_def->marks.end();
+			//	typename xr_vector<motion_marks>::iterator it	= m_def->marks.begin();
+			//	typename xr_vector<motion_marks>::iterator it_e	= m_def->marks.end();
 			//	for(;it!=it_e; ++it)
 			//	{
 			//		if( (*it).pick_mark(timeCurrent) )

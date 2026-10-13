@@ -59,7 +59,11 @@
 # ifdef __BORLANDC__
 # define NODEFAULT
 # else
-# define NODEFAULT __assume(0)
+#  ifdef __GNUC__
+#   define NODEFAULT __builtin_unreachable()
+#  else
+#   define NODEFAULT __assume(0)
+#  endif
 # endif
 #ifdef USE_VERIFY_IN_RELEASE
 # define VERIFY(expr) do {if (!(expr)) ::Debug.soft_fail(#expr,DEBUG_INFO);} while(0)

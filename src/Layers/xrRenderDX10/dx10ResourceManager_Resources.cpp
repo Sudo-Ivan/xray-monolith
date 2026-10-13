@@ -238,10 +238,10 @@ void CResourceManager::_DeleteVS(const SVS* vs)
 	if (I != m_vs.end())
 	{
 		m_vs.erase(I);
-		xr_vector<SDeclaration*>::iterator iDecl;
+		typename xr_vector<SDeclaration*>::iterator iDecl;
 		for (iDecl = v_declarations.begin(); iDecl != v_declarations.end(); ++iDecl)
 		{
-			xr_map<ID3DBlob*, ID3DInputLayout*>::iterator iLayout;
+			typename xr_map<ID3DBlob*, ID3DInputLayout*>::iterator iLayout;
 			iLayout = (*iDecl)->vs_to_layout.find(vs->signature->signature);
 			if (iLayout != (*iDecl)->vs_to_layout.end())
 			{

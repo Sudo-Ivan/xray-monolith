@@ -2,9 +2,9 @@
 #ifndef SkeletonMotionsH
 #define SkeletonMotionsH
 
-//#include "skeletoncustom.h"
+//#include "../Layers/xrRender/SkeletonCustom.h"
 #include "bone.h"
-#include "skeletonmotiondefs.h"
+#include "SkeletonMotionDefs.h"
 // refs
 class CKinematicsAnimated;
 class CBlend;

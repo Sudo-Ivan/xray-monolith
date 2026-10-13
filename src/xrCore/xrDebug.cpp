@@ -10,7 +10,7 @@
 #endif
 
 #if defined(_WIN32)
-#include "dxerr.h"
+#include "../3rd party/DXERR/dxerr.h"
 #endif
 
 #ifdef __BORLANDC__

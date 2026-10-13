@@ -1,4 +1,5 @@
 #pragma once
+#include "xrPhysics.h"
 class IPhysicsShellHolder;
 
 class IPHCapture
@@ -8,10 +9,9 @@ public:
 	virtual void RemoveConnection(IPhysicsShellHolder* O) = 0;
 	virtual void Release() =0;
 protected:
-	virtual ~IPHCapture() =0
-	{
-	}
+	virtual ~IPHCapture() = 0;
 };
+inline IPHCapture::~IPHCapture() {}
 
 class CPHCharacter;
 struct NearestToPointCallback;

@@ -2297,8 +2297,8 @@ __acc_gnuc_extension__ typedef unsigned long long acc_ullong_t;
 #  define acc_int64l_t          __int64
 #  define acc_uint64l_t         unsigned __int64
 #  if (ACC_CC_BORLANDC)
-#    define ACC_INT64_C(c)      ((c) + 0i64)
-#    define ACC_UINT64_C(c)     ((c) + 0ui64)
+#    define ACC_INT64_C(c)      ((c) + 0ULL)
+#    define ACC_UINT64_C(c)     ((c) + 0ULL)
 #  else
 #    define ACC_INT64_C(c)      c##i64
 #    define ACC_UINT64_C(c)     c##ui64
@@ -2697,8 +2697,8 @@ __acc_gnuc_extension__ typedef unsigned long long acc_ullong_t;
 #  define acc_int64l_t          __int64
 #  define acc_uint64l_t         unsigned __int64
 #  if (ACC_CC_BORLANDC)
-#    define ACC_INT64_C(c)      ((c) + 0i64)
-#    define ACC_UINT64_C(c)     ((c) + 0ui64)
+#    define ACC_INT64_C(c)      ((c) + 0ULL)
+#    define ACC_UINT64_C(c)     ((c) + 0ULL)
 #  else
 #    define ACC_INT64_C(c)      c##i64
 #    define ACC_UINT64_C(c)     c##ui64

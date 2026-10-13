@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "net_log.h"
+#include "NET_Log.h"
 //---------------------------------------------------------
 string64 PacketName[] = {
 	"M_UPDATE", // DUAL: Update state
@@ -84,7 +84,7 @@ void INetLog::FlushLog()
 {
 	if (m_pLogFile)
 	{
-		for (xr_vector<SLogPacket>::iterator it = m_aLogPackets.begin(); it != m_aLogPackets.end(); it++)
+		for (typename xr_vector<SLogPacket>::iterator it = m_aLogPackets.begin(); it != m_aLogPackets.end(); it++)
 		{
 			SLogPacket* pLPacket = &(*it);
 			if (pLPacket->m_u16Type >= sizeof(PacketName) / sizeof(PacketName[0]))

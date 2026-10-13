@@ -90,7 +90,7 @@ void CWeaponSSRS::OnEvent(NET_Packet& P, u16 type)
 		{
 			P.r_u16(id);
 			inheritedRL::AttachRocket(id, this);
-			xr_vector<shared_str>::iterator it = std::find(m_pendingRockets.begin(), m_pendingRockets.end(), getCurrentRocket()->cNameSect());
+			typename xr_vector<shared_str>::iterator it = std::find(m_pendingRockets.begin(), m_pendingRockets.end(), getCurrentRocket()->cNameSect());
 			if (it != m_pendingRockets.end())
 				m_pendingRockets.erase(it);
 		}
@@ -101,7 +101,7 @@ void CWeaponSSRS::OnEvent(NET_Packet& P, u16 type)
 			bool bLaunch = (type == GE_LAUNCH_ROCKET);
 			P.r_u16(id);
 			// a stripped rocket already left m_rockets, detach it here so its destroy can land
-			xr_vector<u16>::iterator it = std::find(m_strippedRockets.begin(), m_strippedRockets.end(), id);
+			typename xr_vector<u16>::iterator it = std::find(m_strippedRockets.begin(), m_strippedRockets.end(), id);
 			if (it != m_strippedRockets.end())
 			{
 				m_strippedRockets.erase(it);

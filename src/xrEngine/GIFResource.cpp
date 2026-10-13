@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "../xrCore/Stream_Reader.h"
+#include "../xrCore/stream_reader.h"
 
 #include "GIFResource.h"
 
-#include "gif_lib.h"
+#include "../3rd party/giflib/gif_lib.h"
 
 
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "xrPhysics.h"
 
 struct XRPHYSICS_API ph_console
 {

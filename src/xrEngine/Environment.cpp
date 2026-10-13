@@ -2,12 +2,12 @@
 #pragma hdrstop
 
 #ifndef _EDITOR
-#include "render.h"
+#include "Render.h"
 #endif
 
 #include "Environment.h"
 #include "xr_efflensflare.h"
-#include "rain.h"
+#include "Rain.h"
 #include "thunderbolt.h"
 #include "xrHemisphere.h"
 #include "perlin.h"
@@ -17,14 +17,14 @@
 
 #include "../build_config_defines.h"
 
-//#include "resourcemanager.h"
+//#include "../Layers/xrRender/ResourceManager.h"
 
 #ifndef _EDITOR
 #include "IGame_Level.h"
 #endif
 
-//#include "D3DUtils.h"
-#include "../xrcore/xrCore.h"
+//#include "../Layers/xrRender/D3DUtils.h"
+#include "../xrCore/xrCore.h"
 
 #include "../Include/xrRender/EnvironmentRender.h"
 #include "../Include/xrRender/LensFlareRender.h"
@@ -542,7 +542,7 @@ void CEnvironment::lerp(float& current_weight)
 
 	Fvector view = Device.vCameraPosition;
 	float mpower = 0;
-	for (xr_vector<CEnvModifier>::iterator mit = Modifiers.begin(); mit != Modifiers.end(); mit++)
+	for (typename xr_vector<CEnvModifier>::iterator mit = Modifiers.begin(); mit != Modifiers.end(); mit++)
 		mpower += EM.sum(*mit, view);
 
 	// final lerp

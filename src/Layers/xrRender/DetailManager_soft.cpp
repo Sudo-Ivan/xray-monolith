@@ -35,8 +35,8 @@ void CDetailManager::soft_Render()
 		u32 iCount_Object = Object.number_indices;
 
 		xr_vector<SlotItemVec*>& _vis = m_visibles[0][O];
-		xr_vector<SlotItemVec*>::iterator _vI = _vis.begin();
-		xr_vector<SlotItemVec*>::iterator _vE = _vis.end();
+		typename xr_vector<SlotItemVec*>::iterator _vI = _vis.begin();
+		typename xr_vector<SlotItemVec*>::iterator _vE = _vis.end();
 		for (; _vI != _vE; _vI++)
 		{
 			SlotItemVec* items = *_vI;

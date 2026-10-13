@@ -112,14 +112,14 @@ XRCORE_API xr_vector<_open_file> g_open_files;
 
 void _check_open_file(const shared_str& _fname)
 {
-	xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_fname_check(_fname));
+	typename xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_fname_check(_fname));
 	if (it != g_open_files.end())
 		Log("file opened at least twice", _fname.c_str());
 }
 
 _open_file& find_free_item(const shared_str& _fname)
 {
-	xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_fname_free(_fname));
+	typename xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_fname_free(_fname));
 	if (it == g_open_files.end())
 	{
 		g_open_files.resize(g_open_files.size() + 1);
@@ -163,7 +163,7 @@ void _unregister_open_file(T* _r)
 	xrCriticalSection _lock;
 	_lock.Enter();
 
-	xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_pointer<T>(_r));
+	typename xr_vector<_open_file>::iterator it = std::find_if(g_open_files.begin(), g_open_files.end(), eq_pointer<T>(_r));
 	VERIFY(it != g_open_files.end());
 	_open_file& _of = *it;
 	_of._reader = NULL;
@@ -172,8 +172,8 @@ void _unregister_open_file(T* _r)
 
 XRCORE_API void _dump_open_files(int mode)
 {
-	xr_vector<_open_file>::iterator it = g_open_files.begin();
-	xr_vector<_open_file>::iterator it_e = g_open_files.end();
+	typename xr_vector<_open_file>::iterator it = g_open_files.begin();
+	typename xr_vector<_open_file>::iterator it_e = g_open_files.end();
 
 	bool bShow = false;
 	if (mode == 1)
@@ -996,7 +996,7 @@ void CLocatorAPI::file_list_close(xr_vector<char*>*& lst)
 {
 	if (lst)
 	{
-		for (xr_vector<char*>::iterator I = lst->begin(); I != lst->end(); I++)
+		for (typename xr_vector<char*>::iterator I = lst->begin(); I != lst->end(); I++)
 			xr_free(*I);
 		xr_delete(lst);
 	}

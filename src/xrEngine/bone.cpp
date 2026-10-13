@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "bone.h"
-#include "gamemtllib.h"
+#include "GameMtlLib.h"
 
 
 u16 CBone::get_game_mtl_idx() const
@@ -51,7 +51,7 @@ void ENGINE_API CBoneData::CalculateM2B(const Fmatrix& parent)
 	m2b_transform.mul_43(parent, bind_transform);
 
 	// Calculate children
-	for (xr_vector<CBoneData*>::iterator C = children.begin(); C != children.end(); C++)
+	for (typename xr_vector<CBoneData*>::iterator C = children.begin(); C != children.end(); C++)
 		(*C)->CalculateM2B(m2b_transform);
 
 	m2b_transform.invert();

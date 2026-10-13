@@ -1397,8 +1397,8 @@ void NvStripifier::FindAllStrips(NvStripInfoVec& allStrips,
 // This will count the number of triangles left in the
 // strip list starting at iter and finishing up at end
 //
-int NvStripifier::CountRemainingTris(xr_list<NvStripInfo*>::iterator iter,
-                                     xr_list<NvStripInfo*>::iterator end)
+int NvStripifier::CountRemainingTris(typename xr_list<NvStripInfo*>::iterator iter,
+                                     typename xr_list<NvStripInfo*>::iterator end)
 {
 	int count = 0;
 	while (iter != end)

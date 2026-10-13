@@ -6,13 +6,19 @@
 #include "../../Include/xrAPI/xrAPI.h"
 #include "../../Layers/xrRender/dxRenderFactory.h"
 
+#if defined(_MSC_VER)
+# define FACTORY_PTR_SPEC
+#else
+# define FACTORY_PTR_SPEC template<>
+#endif
+
 #define FACTORY_PTR_INSTANCIATE(Class) \
-	inline void FactoryPtr<I##Class>::CreateObject(void) \
+	FACTORY_PTR_SPEC inline void FactoryPtr<I##Class>::CreateObject(void) \
 { \
 	if (!RenderFactory) RenderFactory = &RenderFactoryImpl; \
 	m_pObject = RenderFactory->Create##Class(); \
 } \
-	inline void FactoryPtr<I##Class>::DestroyObject(void) \
+	FACTORY_PTR_SPEC inline void FactoryPtr<I##Class>::DestroyObject(void) \
 { \
 	RenderFactory->Destroy##Class(m_pObject); \
 	m_pObject = NULL; \

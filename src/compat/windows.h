@@ -4,7 +4,7 @@
 // grafted from OpenXRay (see PORTING.md).
 #ifndef _WIN32
 
-#include "Common/Platform.hpp"
+#include "../Common/Platform.hpp"
 
 // extra Win32 types not covered by PlatformLinux.inl
 typedef char CHAR;

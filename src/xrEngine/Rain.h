@@ -6,7 +6,7 @@
 #define RainH
 #pragma once
 
-#include "../xrcdb/xr_collide_defs.h"
+#include "../xrCDB/xr_collide_defs.h"
 
 //refs
 class ENGINE_API IRender_DetailModel;
@@ -15,7 +15,7 @@ class ENGINE_API IRender_DetailModel;
 #include "../Include/xrRender/RainRender.h"
 
 // SSS
-#include "../../xrEngine/perlin.h"
+#include "perlin.h"
 
 //
 class ENGINE_API CEffect_Rain

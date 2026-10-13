@@ -1349,3 +1349,55 @@ inline const char* xr_conv_path(const char* path)
             *p = '/';
     return buf;
 }
+
+// Windows handle/type stragglers used by render-facing headers
+typedef void* HMONITOR;
+typedef void* HWND;
+typedef void* HMENU;
+typedef uint32_t UINT32;
+typedef uint16_t UINT16;
+
+
+#ifndef D3DCOLOR_XRGB
+#define D3DCOLOR_XRGB(r, g, b) (0xff000000u | ((uint32_t)(r) << 16) | ((uint32_t)(g) << 8) | (uint32_t)(b))
+#define D3DCOLOR_ARGB(a, r, g, b) (((uint32_t)(a) << 24) | ((uint32_t)(r) << 16) | ((uint32_t)(g) << 8) | (uint32_t)(b))
+#endif
+
+typedef unsigned char* LPBYTE;
+typedef const unsigned char* LPCBYTE;
+
+// MSVC floating-point classification
+#define _FPCLASS_SNAN 0x0001
+#define _FPCLASS_QNAN 0x0002
+#define _FPCLASS_NINF 0x0004
+#define _FPCLASS_NN   0x0008
+#define _FPCLASS_ND   0x0010
+#define _FPCLASS_NZ   0x0020
+#define _FPCLASS_PZ   0x0040
+#define _FPCLASS_PD   0x0080
+#define _FPCLASS_PINF 0x0100
+inline int xr_fpclass(double x)
+{
+    int c = fpclassify(x);
+    switch (c)
+    {
+    case FP_NAN: return signbit(x) ? _FPCLASS_SNAN : _FPCLASS_QNAN;
+    case FP_INFINITE: return signbit(x) ? _FPCLASS_NINF : _FPCLASS_PINF;
+    case FP_ZERO: return signbit(x) ? _FPCLASS_NZ : _FPCLASS_PZ;
+    case FP_SUBNORMAL: return signbit(x) ? _FPCLASS_ND : _FPCLASS_PD;
+    default: return signbit(x) ? _FPCLASS_NN : _FPCLASS_PD;
+    }
+}
+#define _fpclass xr_fpclass
+#define _copysign copysign
+
+#if !defined(_MSC_VER)
+# ifndef __forceinline
+#  define __forceinline inline __attribute__((always_inline))
+# endif
+#endif
+
+inline unsigned long GetCurrentThreadId()
+{
+    return (unsigned long)pthread_self();
+}

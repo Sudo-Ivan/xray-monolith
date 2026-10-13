@@ -25,7 +25,7 @@ class dcTriListCollider
 	xr_vector<Triangle> pos_tries;
 	xr_vector<Triangle> neg_tries;
 	xr_vector<flags8> gl_cl_tries_state;
-	xr_vector<int>::iterator I, E, B;
+	typename xr_vector<int>::iterator I, E, B;
 public:
 	dcTriListCollider(dxGeom* Geometry);
 	~dcTriListCollider();
@@ -144,7 +144,7 @@ TRI_PRIMITIVE_COLIDE_CLASS_IMPLEMENT(Sphere)
 IC void dcTriListCollider::VxToGlClTriState(u32 v, CDB::TRI* T_array)
 {
 	//CDB::TRI*       T_array      = Level().ObjectSpace.GetStaticTris();
-	xr_vector<int>::iterator LI = I + 1;
+	typename xr_vector<int>::iterator LI = I + 1;
 	for (; E != LI; ++LI)
 	{
 		u32* verts = T_array[*LI].verts;
@@ -158,7 +158,7 @@ IC void dcTriListCollider::VxToGlClTriState(u32 v, CDB::TRI* T_array)
 IC void dcTriListCollider::SideToGlClTriState(u32 v0, u32 v1, CDB::TRI* T_array)
 {
 	//      = Level().ObjectSpace.GetStaticTris();
-	xr_vector<int>::iterator LI = I + 1;
+	typename xr_vector<int>::iterator LI = I + 1;
 	for (; E != LI; ++LI)
 	{
 		u32* verts = T_array[*LI].verts;

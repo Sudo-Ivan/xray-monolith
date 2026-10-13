@@ -672,7 +672,7 @@ void CInput::iRelease(IInputReceiver* p)
 		for (; cnt > 0; --cnt)
 			if (cbStack[cnt - 1] == p)
 			{
-				xr_vector<IInputReceiver*>::iterator it = cbStack.begin();
+				typename xr_vector<IInputReceiver*>::iterator it = cbStack.begin();
 				std::advance(it, cnt - 1);
 				cbStack.erase(it);
 				break;

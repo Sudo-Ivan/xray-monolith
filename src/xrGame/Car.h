@@ -599,7 +599,7 @@ public:
 	void cam_Update(float dt, float fov);
 	void detach_Actor();
 	bool attach_Actor(CGameObject* actor);
-	bool is_Door(u16 id, xr_map<u16, SDoor>::iterator& i);
+	bool is_Door(u16 id, typename xr_map<u16, SDoor>::iterator& i);
 	bool is_Door(u16 id);
 	bool DoorOpen(u16 id);
 	bool DoorClose(u16 id);

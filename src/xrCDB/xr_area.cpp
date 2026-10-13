@@ -1,13 +1,13 @@
-#include "stdafx.h"
-//#include "igame_level.h"
+#include "StdAfx.h"
+//#include "../xrEngine/IGame_Level.h"
 
 #include "xr_area.h"
-#include "../xrengine/xr_object.h"
-#include "../xrengine/xrLevel.h"
-#include "../xrengine/xr_collide_form.h"
-//#include "../xrsound/sound.h"
-//#include "x_ray.h"
-//#include "GameFont.h"
+#include "../xrEngine/xr_object.h"
+#include "../xrEngine/xrLevel.h"
+#include "../xrEngine/xr_collide_form.h"
+//#include "../xrSound/Sound.h"
+//#include "../xrEngine/x_ray.h"
+//#include "../xrEngine/GameFont.h"
 
 
 using namespace collide;
@@ -64,8 +64,8 @@ int CObjectSpace::GetNearest(xr_vector<ISpatial*>& q_spatial, xr_vector<CObject*
 	g_SpatialSpace->q_box(q_spatial, 0, STYPE_COLLIDEABLE, point, B);
 
 	// Iterate
-	xr_vector<ISpatial*>::iterator it = q_spatial.begin();
-	xr_vector<ISpatial*>::iterator end = q_spatial.end();
+	typename xr_vector<ISpatial*>::iterator it = q_spatial.begin();
+	typename xr_vector<ISpatial*>::iterator end = q_spatial.end();
 	for (; it != end; it++)
 	{
 		CObject* O = (*it)->dcast_CObject();

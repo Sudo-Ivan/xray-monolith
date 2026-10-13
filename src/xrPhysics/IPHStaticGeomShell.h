@@ -1,15 +1,15 @@
 #pragma once
-#include "physicsexternalcommon.h"
+#include "xrPhysics.h"
+#include "PhysicsExternalCommon.h"
 
 class IPHStaticGeomShell
 {
 protected:
-	virtual ~IPHStaticGeomShell() =0
-	{
-	}
+	virtual ~IPHStaticGeomShell() = 0;
 
 	//	virtual void						set_ObjectContactCallback	(ObjectContactCallbackFun* callback);											
 };
+inline IPHStaticGeomShell::~IPHStaticGeomShell() {}
 
 class IPhysicsShellHolder;
 class IClimableObject;

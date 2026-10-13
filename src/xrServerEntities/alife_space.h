@@ -89,7 +89,7 @@ namespace ALife
 		eRelationTypeDummy = u32(-1),
 	};
 
-	enum EHitType
+	enum EHitType : int
 	{
 		eHitTypeBurn = u32(0),
 		eHitTypeShock,

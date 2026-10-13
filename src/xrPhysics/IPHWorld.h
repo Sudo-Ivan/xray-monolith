@@ -1,5 +1,6 @@
 #pragma once
-#include "physicsexternalcommon.h"
+#include "xrPhysics.h"
+#include "PhysicsExternalCommon.h"
 #include "iphysics_scripted.h"
 class CPhysicsShell;
 

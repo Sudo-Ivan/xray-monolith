@@ -1,11 +1,11 @@
 // xrCDB.cpp : Defines the entry point for the DLL application.
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #pragma hdrstop
 
 #include "xrCDB.h"
-#include "profiler.h"
+#include "../xrCore/profiler.h"
 
 #ifdef USE_ARENA_ALLOCATOR
 static const u32	s_arena_size = (128+16)*1024*1024;

@@ -10,7 +10,7 @@
 
 #include "xrCore.h"
 #include "xrCore_platform.h"
-//.#include "../../Include/xrAPI/xrAPI.h"
+//.#include "../Include/xrAPI/xrAPI.h"
 #endif
 
 #pragma hdrstop

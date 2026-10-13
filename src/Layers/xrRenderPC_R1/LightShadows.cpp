@@ -431,7 +431,7 @@ void CLightShadows::render()
 		CI_what.O = S.O;
 		CI_what.L = S.L;
 		CI_what.tris = 0;
-		xr_vector<cache_item>::iterator CI_ptr = std::lower_bound(cache.begin(), cache.end(), CI_what, cache_search);
+		typename xr_vector<cache_item>::iterator CI_ptr = std::lower_bound(cache.begin(), cache.end(), CI_what, cache_search);
 		if (CI_ptr == cache.end())
 		{
 			// empty ?
