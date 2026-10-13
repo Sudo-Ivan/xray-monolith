@@ -614,6 +614,7 @@ void CRenderDevice::message_loop()
         return;
     }
 #endif
+#if defined(_WIN32) || defined(_WIN64)
 	MSG msg;
 	PeekMessage(&msg, NULL, 0U, 0U, PM_NOREMOVE);
 	while (msg.message != WM_QUIT)
@@ -626,6 +627,17 @@ void CRenderDevice::message_loop()
 		}
 		on_idle();
 	}
+#else
+	extern void xray_sdl_pump_events();
+	extern void xray_sdl_request_quit();
+	extern bool xray_sdl_quit_requested();
+	// SDL2: pump events each frame; input shim handles event translation.
+	while (!xray_sdl_quit_requested())
+	{
+		xray_sdl_pump_events();
+		on_idle();
+	}
+#endif
 }
 
 void mt_DiscordThread(void*)

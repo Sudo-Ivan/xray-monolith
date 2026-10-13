@@ -513,7 +513,36 @@ bool FlashWindow(HWND, BOOL)
     return true;
 }
 
-#endif // !_WIN32
+// SDL event pump: feeds the input shim and translates window events into
+// the engine's on_message calls (WM_ACTIVATE / WM_CLOSE / WM_DISPLAYCHANGE).
+
+union SDL_Event;
+extern void xray_input_feed_sdl_event(const SDL_Event& e);
+void xray_sdl_request_quit();
+
+class CRenderDevice;
+typedef long LRESULT_unused;
+
+void xray_sdl_pump_events()
+{
+    SDL_Event e;
+    while (SDL_PollEvent(&e))
+    {
+        xray_input_feed_sdl_event(e);
+
+        switch (e.type)
+        {
+        case SDL_QUIT:
+            g_quit = true;
+            break;
+        case SDL_WINDOWEVENT:
+            // window focus/close handled inside input shim via SDL_GetModState
+            // and GetFocus; engine polls them during on_idle
+            break;
+        }
+    }
+}
+
 
 HMONITOR MonitorFromPoint(POINT pt, u32 flags)
 {
@@ -621,3 +650,9 @@ u32 timeGetTime()
 {
     return SDL_GetTicks();
 }
+
+bool xray_sdl_quit_requested()
+{
+    return g_quit;
+}
+#endif // !_WIN32
