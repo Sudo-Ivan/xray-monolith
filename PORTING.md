@@ -105,3 +105,31 @@ Not done yet:
 - Multiplayer/GameSpy.
 - Keeping the Windows build working on the linux branch during early
   milestones. Fix divergence before merge.
+
+## xrGame milestone status
+
+The real `src/xrGame` module now compiles and links on Linux and the
+`xray` binary runs it: `SDL_VIDEODRIVER=dummy ./build/xray -fsltx
+tests/fixtures/fsgame.ltx` boots through real `CGamePersistent` creation
+and enters `CGamePersistent::OnFrame` inside `CRenderDevice::Run`.
+
+- `libxrgame.a` is ~112MB covering the vcxproj source set (minus the three
+  files upstream marks `ExcludedFromBuild` and `lua_studio.cpp`, which
+  needs the cs SDK debugger backend that has no Linux platform branch).
+- `xrServerEntities`, vendored `luajit-2` (amalgamated ljamalg.c plus the
+  minilua/dynasm/buildvm bootstrap), `luabind`, `crypto` (ported to the
+  OpenSSL 3.x API), and `lua-extensions` are linked in.
+- The null renderer registers the renderer cvars game code queries
+  (r2_dof family) at module attach, matching the real renderer entry
+  points.
+- VFS keeps backslash-internal naming; `xr_conv_path` now resolves
+  component case-insensitively on literal-miss because the VFS lowercases
+  registered names while gamedata files keep mixed case on disk.
+- `tests/fixtures/` carries the minimal gamedata the boot path touches:
+  fsgame.ltx, system.ltx/game.ltx sections, environment + weathers +
+  sun_positions, 24 synthesized .efd eval functions, a silent rain.ogg,
+  a font atlas ini, and the UI xmls loaded during OnAppStart.
+- The run still logs non-fatal XML "node not found" asserts from the
+  stub tutorial/hint xmls, and warns on the missing gamemtl.xr material
+  file and OpenAL source-rate. Real gamedata is needed before any level
+  or gameplay path works.
