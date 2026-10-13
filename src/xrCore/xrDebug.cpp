@@ -3,11 +3,15 @@
 
 #ifndef _EDITOR
 
-#include "xrdebug.h"
+#include "xrDebug.h"
 #include "resource.h"
+#if defined(_WIN32)
 #include "dbghelp.h"
+#endif
 
+#if defined(_WIN32)
 #include "dxerr.h"
+#endif
 
 #ifdef __BORLANDC__
 #include "d3d9.h"
@@ -19,7 +23,7 @@ static BOOL bException = TRUE;
 static BOOL bException = FALSE;
 #endif
 
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || !defined(_WIN32)
 #define DEBUG_INVOKE DebugBreak ()
 #else
 #define DEBUG_INVOKE __asm { int 3 }
@@ -35,6 +39,7 @@ static const char* dlgExpr = NULL;
 static const char* dlgFile = NULL;
 static char dlgLine[16];
 
+#if defined(_WIN32)
 static INT_PTR CALLBACK DialogProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)
@@ -75,6 +80,7 @@ static INT_PTR CALLBACK DialogProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 	}
 	return TRUE;
 }
+#endif // _WIN32
 
 void xrDebug::backend(const char* reason, const char* expression, const char* argument0, const char* argument1,
                       const char* file, int line, const char* function, bool& ignore_always)
@@ -95,9 +101,9 @@ void xrDebug::backend(const char* reason, const char* expression, const char* ar
 
 	// Call the dialog
 	dlgExpr = reason;
-	xr_sprintf()
 	dlgFile = file;
 	xr_sprintf(dlgLine, "%d", line);
+#if defined(_WIN32)
 	INT_PTR res = -1;
 #ifdef XRCORE_STATIC
     MessageBox(NULL, tmp, "X-Ray error", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
@@ -121,6 +127,12 @@ void xrDebug::backend(const char* reason, const char* expression, const char* ar
 		DEBUG_INVOKE;
 		break;
 	}
+#else
+	fprintf(stderr, "%s\n", tmp);
+	fflush(stderr);
+	if (bException)
+		_exit(3);
+#endif
 
 	CS.Leave();
 }
@@ -130,6 +142,7 @@ LPCSTR xrDebug::error2string(long code)
 	LPCSTR result = 0;
 	static string1024 desc_storage;
 
+#if defined(_WIN32)
 #ifdef _M_AMD64
 #else
     result = DXGetErrorDescription(code);
@@ -139,6 +152,9 @@ LPCSTR xrDebug::error2string(long code)
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, code, 0, desc_storage, sizeof(desc_storage) - 1, 0);
 		result = desc_storage;
 	}
+#else
+	result = strerror(code);
+#endif
 	return result;
 }
 
@@ -193,8 +209,14 @@ void __cdecl xrDebug::fatal(const char* file, int line, const char* function, co
 void xrDebug::do_exit(const std::string& message)
 {
 	FlushLog();
+#if defined(_WIN32)
 	MessageBox(NULL, message.c_str(), "Error", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 	TerminateProcess(GetCurrentProcess(), 1);
+#else
+	fprintf(stderr, "Error: %s\n", message.c_str());
+	fflush(stderr);
+	_exit(1);
+#endif
 }
 
 int __cdecl _out_of_memory(size_t size)
@@ -208,6 +230,7 @@ void __cdecl _terminate()
 	FATAL("Unexpected application termination");
 }
 
+#if defined(_WIN32)
 // based on dbghelp.h
 typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
                                          CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
@@ -325,6 +348,12 @@ LONG WINAPI UnhandledFilter(struct _EXCEPTION_POINTERS* pExceptionInfo)
 
 	return retval;
 }
+#else // !defined(_WIN32)
+LONG UnhandledFilter(void*)
+{
+	return 0;
+}
+#endif
 
 //////////////////////////////////////////////////////////////////////
 #ifdef M_BORLAND
@@ -351,18 +380,26 @@ void xrDebug::_initialize(const bool& dedicated)
     ::SetUnhandledExceptionFilter(UnhandledFilter); // exception handler to all "unhandled" exceptions
 }
 #else
+#if defined(_WIN32)
 typedef int (__cdecl* _PNH)(size_t);
 _CRTIMP int __cdecl _set_new_mode(int);
 _CRTIMP _PNH __cdecl _set_new_handler(_PNH);
+#endif
 
 void xrDebug::_initialize(const bool& dedicated)
 {
 	handler = 0;
+#if defined(_WIN32)
 	_set_new_mode(1); // gen exception if can't allocate memory
 	_set_new_handler(_out_of_memory); // exception-handler for 'out of memory' condition
+#else
+	std::set_new_handler(_out_of_memory);
+#endif
 	std::set_terminate(_terminate);
 	std::set_unexpected(_terminate);
+#if defined(_WIN32)
 	::SetUnhandledExceptionFilter(UnhandledFilter); // exception handler to all "unhandled" exceptions
+#endif
 }
 
 #endif

@@ -1,7 +1,9 @@
 #ifndef STREAM_READER_INLINE_H
 #define STREAM_READER_INLINE_H
 
-IC CStreamReader::CStreamReader()
+IC CStreamReader::CStreamReader() :
+	m_map_length(0),
+	m_current_map_view_of_file(nullptr)
 {
 }
 
@@ -27,7 +29,12 @@ IC const HANDLE& CStreamReader::file_mapping_handle() const
 
 IC void CStreamReader::unmap()
 {
+#if defined(_WIN32)
 	UnmapViewOfFile(m_current_map_view_of_file);
+#else
+	if (m_current_map_view_of_file)
+		munmap(m_current_map_view_of_file, m_map_length);
+#endif
 }
 
 IC void CStreamReader::remap(const u32& new_offset)

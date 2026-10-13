@@ -1,0 +1,31 @@
+#pragma once
+// MSVC <hash_set> compat for GCC/Clang.
+// Maps stdext::hash_set/hash_multiset onto std::unordered_* containers.
+#include <unordered_set>
+#include <memory>
+#include "xr_hash_compare.h"
+
+namespace stdext
+{
+template <class K,
+          class Traits = hash_compare<K, std::less<K>>,
+          class Alloc = std::allocator<K>>
+class hash_set : public std::unordered_set<K, Traits, std::equal_to<K>, Alloc>
+{
+    using base = std::unordered_set<K, Traits, std::equal_to<K>, Alloc>;
+
+public:
+    using base::base;
+};
+
+template <class K,
+          class Traits = hash_compare<K, std::less<K>>,
+          class Alloc = std::allocator<K>>
+class hash_multiset : public std::unordered_multiset<K, Traits, std::equal_to<K>, Alloc>
+{
+    using base = std::unordered_multiset<K, Traits, std::equal_to<K>, Alloc>;
+
+public:
+    using base::base;
+};
+}

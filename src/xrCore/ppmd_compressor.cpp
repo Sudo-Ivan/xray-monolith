@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ppmd_compressor.h"
-#include "ppmd.h"
+#include "PPMd.h"
 
 const u32 suballocator_size = 32;
 const u32 order_model = 8;
@@ -20,14 +20,14 @@ static LONG PPMd_Locked = 0;
 static inline void
 PPMd_Lock()
 {
-	while (::InterlockedExchange(&PPMd_Locked, 1))
+	while (InterlockedExchange(&PPMd_Locked, 1))
 		::Sleep(0);
 }
 
 static inline void
 PPMd_Unlock()
 {
-	::InterlockedExchange(&PPMd_Locked, 0);
+	InterlockedExchange(&PPMd_Locked, 0);
 }
 
 

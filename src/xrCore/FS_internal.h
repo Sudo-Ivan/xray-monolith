@@ -5,7 +5,7 @@
 #include "lzhuf.h"
 #include <io.h>
 #include <fcntl.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include <share.h>
 
 void* FileDownload(LPCSTR fn, u32* pdwSize = NULL);
@@ -26,14 +26,14 @@ public:
 		{
 			int handle = _sopen(fName.c_str(),_O_WRONLY | _O_TRUNC | _O_CREAT | _O_BINARY,SH_DENYWR);
             if (handle==-1)
-                Msg("!Can't create file: '%s'. Error: '%s'.", fName.c_str(), _sys_errlist[errno]);
+                Msg("!Can't create file: '%s'. Error: '%s'.", fName.c_str(), strerror(errno));
 			hf = _fdopen(handle, "wb");
 		}
 		else
 		{
 			hf = fopen(fName.c_str(), "wb");
 			if (hf == 0)
-				Msg("!Can't write file: '%s'. Error: '%s'.", fName.c_str(), _sys_errlist[errno]);
+				Msg("!Can't write file: '%s'. Error: '%s'.", fName.c_str(), strerror(errno));
 		}
 	}
 
@@ -63,12 +63,12 @@ public:
 			for (req_size = count; req_size > mb_sz; req_size -= mb_sz, ptr += mb_sz)
 			{
 				size_t W = fwrite(ptr, mb_sz, 1, hf);
-				R_ASSERT3(W == 1, "Can't write mem block to file. Disk maybe full.", _sys_errlist[errno]);
+				R_ASSERT3(W == 1, "Can't write mem block to file. Disk maybe full.", strerror(errno));
 			}
 			if (req_size)
 			{
 				size_t W = fwrite(ptr, req_size, 1, hf);
-				R_ASSERT3(W == 1, "Can't write mem block to file. Disk maybe full.", _sys_errlist[errno]);
+				R_ASSERT3(W == 1, "Can't write mem block to file. Disk maybe full.", strerror(errno));
 			}
 		}
 	};

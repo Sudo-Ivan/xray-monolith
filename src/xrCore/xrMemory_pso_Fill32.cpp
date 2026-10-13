@@ -20,6 +20,14 @@ void __stdcall xrMemFill32_MMX(LPVOID dest, u32 value, u32 count)
 block fill:fill a number of DWORDs at DWORD aligned destination
 with DWORD initializer using cacheable stores
 */
+#if !defined(_WIN32)
+void __stdcall xrMemFill32_MMX(LPVOID dest, u32 value, u32 count)
+{
+    u32* d = (u32*)dest;
+    for (u32 i = 0; i < count; ++i)
+        d[i] = value;
+}
+#else
 void __stdcall xrMemFill32_MMX(LPVOID dest, u32 value, u32 count)
 {
     __asm
@@ -71,3 +79,4 @@ void __stdcall xrMemFill32_MMX(LPVOID dest, u32 value, u32 count)
     }
 }
 #endif
+#endif // !defined(_WIN32)

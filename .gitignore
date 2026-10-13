@@ -2,9 +2,11 @@
 .*
 !.gitignore
 !.gitattributes
+!.github/
 
 # exclude binaries and temporary files
 _build/
+build/
 /src/*.tss
 /**/x64/
 **/.vs/

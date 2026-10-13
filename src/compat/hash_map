@@ -1,0 +1,31 @@
+#pragma once
+// MSVC <hash_map> compat for GCC/Clang.
+// Maps stdext::hash_map/hash_multimap onto std::unordered_* containers.
+#include <unordered_map>
+#include <memory>
+#include "xr_hash_compare.h"
+
+namespace stdext
+{
+template <class K, class V,
+          class Traits = hash_compare<K, std::less<K>>,
+          class Alloc = std::allocator<std::pair<const K, V>>>
+class hash_map : public std::unordered_map<K, V, Traits, std::equal_to<K>, Alloc>
+{
+    using base = std::unordered_map<K, V, Traits, std::equal_to<K>, Alloc>;
+
+public:
+    using base::base;
+};
+
+template <class K, class V,
+          class Traits = hash_compare<K, std::less<K>>,
+          class Alloc = std::allocator<std::pair<const K, V>>>
+class hash_multimap : public std::unordered_multimap<K, V, Traits, std::equal_to<K>, Alloc>
+{
+    using base = std::unordered_multimap<K, V, Traits, std::equal_to<K>, Alloc>;
+
+public:
+    using base::base;
+};
+}

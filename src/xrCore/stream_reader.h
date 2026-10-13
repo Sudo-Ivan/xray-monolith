@@ -13,6 +13,7 @@ private:
 private:
 	u32 m_current_offset_from_start;
 	u32 m_current_window_size;
+	u32 m_map_length;
 	u8* m_current_map_view_of_file;
 	u8* m_start_pointer;
 	u8* m_current_pointer;

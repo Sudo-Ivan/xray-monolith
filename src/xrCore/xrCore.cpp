@@ -60,7 +60,17 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 		string_path fn, dr, di;
 
 		// application path
+#if defined(_WIN32)
 		GetModuleFileName(GetModuleHandle(MODULE_NAME), fn, sizeof(fn));
+#else
+		{
+			ssize_t n = readlink("/proc/self/exe", fn, sizeof(fn) - 1);
+			if (n > 0)
+				fn[n] = 0;
+			else
+				fn[0] = 0;
+		}
+#endif
 		_splitpath(fn, dr, di, 0, 0);
 		strconcat(sizeof(ApplicationPath), ApplicationPath, dr, di);
 
@@ -227,7 +237,7 @@ BOOL DllMainXrCore(HANDLE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvReserved
 		//. LogFile.reserve (256);
 		break;
 	case DLL_THREAD_ATTACH:
-		if (!strstr(GetCommandLine(), "-editor"))
+		if (!strstr(xr_commandline(), "-editor"))
 			CoInitializeEx(NULL, COINIT_MULTITHREADED);
 		timeBeginPeriod(1);
 		break;

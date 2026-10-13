@@ -85,7 +85,7 @@ std::string timeInHMSMMM()
 }
 
 BOOL logTimestamps = FALSE;
-enum Console_mark;
+enum Console_mark : int;
 extern bool is_console_mark(Console_mark type);
 
 void AddOne(const char* split)
@@ -293,7 +293,7 @@ void CreateLog(BOOL nl)
 		IWriter* f = FS.w_open(logFName);
 		if (f == NULL)
 		{
-			MessageBox(NULL, "Can't create log file.", "Error", MB_ICONERROR);
+			fprintf(stderr, "Error: cannot create log file.\n");
 			abort();
 		}
 		FS.w_close(f);

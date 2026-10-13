@@ -2,6 +2,25 @@
 #include <malloc.h>
 #include <errno.h>
 
+#if !defined(_WIN32)
+XRCORE_API void vminfo(size_t* _free, size_t* reserved, size_t* committed)
+{
+	*_free = *reserved = *committed = 0;
+	FILE* f = fopen("/proc/self/status", "r");
+	if (!f)
+		return;
+	char line[256];
+	while (fgets(line, sizeof(line), f))
+	{
+		size_t kb = 0;
+		if (sscanf(line, "VmSize: %zu kB", &kb) == 1)
+			*reserved = kb * 1024;
+		else if (sscanf(line, "VmRSS: %zu kB", &kb) == 1)
+			*committed = kb * 1024;
+	}
+	fclose(f);
+}
+#else
 XRCORE_API void vminfo(size_t* _free, size_t* reserved, size_t* committed)
 {
 	MEMORY_BASIC_INFORMATION memory_info;
@@ -25,6 +44,8 @@ XRCORE_API void vminfo(size_t* _free, size_t* reserved, size_t* committed)
 	}
 }
 
+#endif // !defined(_WIN32)
+
 XRCORE_API void log_vminfo()
 {
 	size_t w_free, w_reserved, w_committed;
@@ -39,6 +60,10 @@ XRCORE_API void log_vminfo()
 
 size_t xrMemory::mem_usage()
 {
+#if !defined(_WIN32)
+	struct mallinfo2 mi = mallinfo2();
+	return mi.uordblks;
+#else
 	_HEAPINFO hinfo = {};
 	int status;
 	size_t bytesUsed = 0;
@@ -64,4 +89,6 @@ size_t xrMemory::mem_usage()
 		break;
 	}
 	return bytesUsed;
+}
+#endif // !defined(_WIN32)
 }

@@ -44,6 +44,7 @@ void CStreamReader::map(const u32& new_offset)
 		end_offset = m_archive_size;
 
 	m_current_window_size = end_offset - start_offset;
+#if defined(_WIN32)
 	m_current_map_view_of_file = (u8*)
 		MapViewOfFile(
 			m_file_mapping_handle,
@@ -52,6 +53,16 @@ void CStreamReader::map(const u32& new_offset)
 			start_offset,
 			m_current_window_size
 		);
+#else
+	// m_file_mapping_handle is the file descriptor on POSIX
+	{
+		void* view = mmap(nullptr, m_current_window_size, PROT_READ,
+		                  MAP_PRIVATE, (int)(intptr_t)m_file_mapping_handle, start_offset);
+		VERIFY(view != MAP_FAILED);
+		m_map_length = m_current_window_size;
+		m_current_map_view_of_file = (u8*)view;
+	}
+#endif
 	m_current_pointer = m_current_map_view_of_file;
 
 	u32 difference = pure_start_offset - start_offset;

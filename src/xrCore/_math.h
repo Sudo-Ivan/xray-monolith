@@ -3,6 +3,10 @@
 
 #include "cpuid.h"
 
+#if !defined(_WIN32)
+#include <x86intrin.h>
+#endif
+
 namespace FPU
 {
 	XRCORE_API void m24(void);
@@ -31,7 +35,7 @@ namespace CPU
 	XRCORE_API extern u64 QPC();
 
 #ifdef M_VISUAL
-#ifndef _M_AMD64
+#if !defined(_M_AMD64) && defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable:4035)
 IC u64 GetCLK(void)

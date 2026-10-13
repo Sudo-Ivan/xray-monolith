@@ -58,6 +58,7 @@ namespace xray
 				}
 			} // namespace strconcat_error
 
+#if defined(_WIN32)
 			int stack_overflow_exception_filter(int exception_code)
 			{
 				if (exception_code == EXCEPTION_STACK_OVERFLOW)
@@ -71,9 +72,11 @@ namespace xray
 				else
 					return EXCEPTION_CONTINUE_SEARCH;
 			}
+#endif
 
 			void check_stack_overflow(u32 stack_increment)
 			{
+#if defined(_WIN32)
 				__try
 				{
 					void* p = _alloca(stack_increment);
@@ -83,6 +86,9 @@ namespace xray
 				{
 					_resetstkoflw();
 				}
+#else
+				(void)stack_increment;
+#endif
 			}
 
 			void string_tupples::error_process() const

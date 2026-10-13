@@ -141,6 +141,7 @@ int _cpuid(_processor_info* pinfo)
 	pinfo->stepping = cpui[0] & 0xf;
 
 	// Calculate available processors
+#if defined(_WIN32)
 	ULONG_PTR pa_mask_save, sa_mask_stub = 0;
 	GetProcessAffinityMask(GetCurrentProcess(), &pa_mask_save, &sa_mask_stub);
 
@@ -173,6 +174,16 @@ int _cpuid(_processor_info* pinfo)
 		byteOffset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
 		ptr++;
 	}
+#else
+	ULONG_PTR pa_mask_save = 0;
+	unsigned processorCoreCount = 0;
+	unsigned logicalProcessorCount = (unsigned)sysconf(_SC_NPROCESSORS_ONLN);
+	if (logicalProcessorCount == 0)
+		logicalProcessorCount = 1;
+	// physical core topology is not probed here; assume no SMT distinction
+	processorCoreCount = logicalProcessorCount;
+	pa_mask_save = (ULONG_PTR)-1;
+#endif
 
 	if (logicalProcessorCount != processorCoreCount) pinfo->feature |= static_cast<u32>(_CPU_FEATURE_HTT);
 

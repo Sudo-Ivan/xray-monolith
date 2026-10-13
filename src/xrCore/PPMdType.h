@@ -10,10 +10,14 @@
 
 #include <stdio.h>
 
+#if defined(_WIN32)
 #define _WIN32_ENVIRONMENT_
 //#define _DOS32_ENVIRONMENT_
 //#define _POSIX_ENVIRONMENT_
 //#define _UNKNOWN_ENVIRONMENT_
+#else
+#define _POSIX_ENVIRONMENT_
+#endif
 #if defined(_WIN32_ENVIRONMENT_)+defined(_DOS32_ENVIRONMENT_)+defined(_POSIX_ENVIRONMENT_)+defined(_UNKNOWN_ENVIRONMENT_) != 1
 #error Only one environment must be defined
 #endif /* defined(_WIN32_ENVIRONMENT_)+defined(_DOS32_ENVIRONMENT_)+defined(_POSIX_ENVIRONMENT_)+defined(_UNKNOWN_ENVIRONMENT_) != 1 */
@@ -21,13 +25,14 @@
 #if defined(_WIN32_ENVIRONMENT_)
 #include <windows.h>
 #else /* _DOS32_ENVIRONMENT_ || _POSIX_ENVIRONMENT_ || _UNKNOWN_ENVIRONMENT_ */
+#include <stdint.h>
 typedef int   BOOL;
 #define FALSE 0
-#define TRUE  1
-typedef unsigned char  BYTE;
-typedef unsigned short WORD;
-typedef unsigned long  DWORD;
-typedef unsigned int   UINT;
+#define TRUE 1
+typedef uint8_t  BYTE;
+typedef uint16_t WORD;
+typedef uint32_t DWORD;
+typedef unsigned int UINT;
 #endif /* defined(_WIN32_ENVIRONMENT_)  */
 
 const DWORD PPMdSignature = 0x84ACAF8F, Variant = 'I';

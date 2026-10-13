@@ -67,7 +67,11 @@ namespace FPU
 u16 getFPUsw()
 {
     u16 SW;
+#if defined(_MSC_VER)
     __asm fstcw SW;
+#else
+    asm volatile("fstcw %0" : "=m"(SW));
+#endif
     return SW;
 }
 
@@ -83,32 +87,56 @@ u16 _64r = 0;
 XRCORE_API void m24()
 {
     u16 p = _24;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 XRCORE_API void m24r()
 {
     u16 p = _24r;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 XRCORE_API void m53()
 {
     u16 p = _53;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 XRCORE_API void m53r()
 {
     u16 p = _53r;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 XRCORE_API void m64()
 {
     u16 p = _64;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 XRCORE_API void m64r()
 {
     u16 p = _64r;
+#if defined(_MSC_VER)
     __asm fldcw p;
+#else
+    asm volatile("fldcw %0" :: "m"(p));
+#endif
 }
 
 void initialize()
@@ -139,7 +167,7 @@ void initialize()
 
 #endif //XRCORE_STATIC
 
-    ::Random.seed(u32(CPU::GetCLK() % (1i64 << 32i64)));
+    ::Random.seed(u32(CPU::GetCLK() % (1ll << 32ll)));
 }
 };
 #endif

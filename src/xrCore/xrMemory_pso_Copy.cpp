@@ -34,6 +34,12 @@ void __stdcall xrMemCopy_MMX(LPVOID dest, const void* src, u32 n)
 //one address per cache line,for a series of cache lines,in a short loop.
 //This is faster than using software prefetch.The technique is great for
 //getting maximum read bandwidth,especially in DDR memory systems.
+#if !defined(_WIN32)
+void __stdcall xrMemCopy_MMX(LPVOID dest, const void* src, u32 n)
+{
+    memcpy(dest, src, n);
+}
+#else
 void __stdcall xrMemCopy_MMX(LPVOID dest, const void* src, u32 n)
 {
     __asm
@@ -223,3 +229,4 @@ void __stdcall xrMemCopy_MMX(LPVOID dest, const void* src, u32 n)
     }
 }
 #endif
+#endif // !defined(_WIN32)

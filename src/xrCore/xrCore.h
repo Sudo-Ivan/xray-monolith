@@ -28,7 +28,11 @@
 
 #pragma warning(disable:4996)
 
-#if (defined(_DEBUG) || defined(MIXED) || defined(DEBUG)) && !defined(FORCE_NO_EXCEPTIONS)
+#if defined(__GNUC__) && !defined(_WIN32)
+// Linux/GCC: always build with exceptions enabled
+#define _HAS_EXCEPTIONS 1 // STL
+#define XRAY_EXCEPTIONS 1 // XRAY
+#elif (defined(_DEBUG) || defined(MIXED) || defined(DEBUG)) && !defined(FORCE_NO_EXCEPTIONS)
 // "debug" or "mixed"
 #if !defined(_CPPUNWIND)
 #error Please enable exceptions...
@@ -46,7 +50,7 @@
 #pragma warning(disable:4530)
 #endif
 
-#if !defined(_MT)
+#if !defined(_MT) && !defined(__GNUC__)
 // multithreading disabled
 #error Please enable multi-threaded library...
 #endif
@@ -105,18 +109,24 @@
 // inline control - redefine to use compiler's heuristics ONLY
 // it seems "IC" is misused in many places which cause code-bloat
 // ...and VC7.1 really don't miss opportunities for inline :)
+#if defined(__GNUC__) && !defined(_WIN32)
+# define __forceinline inline __attribute__((always_inline))
+# define __declspec(x)
+# define ICN __attribute__((noinline))
+#else
 #ifdef _EDITOR
 # define __forceinline inline
 #endif
-#define _inline inline
-#define __inline inline
-#define IC inline
-#define ICF __forceinline // !!! this should be used only in critical places found by PROFILER
 #ifdef _EDITOR
 # define ICN
 #else
 # define ICN __declspec (noinline)
 #endif
+#endif
+#define _inline inline
+#define __inline inline
+#define IC inline
+#define ICF __forceinline // !!! this should be used only in critical places found by PROFILER
 
 #define UNUSED(...) (void)(__VA_ARGS__)
 
@@ -130,7 +140,13 @@
 
 #include <time.h>
 // work-around dumb borland compiler
-#ifdef __BORLANDC__
+#if defined(__GNUC__) && !defined(_WIN32)
+#define ALIGN(a) __attribute__((aligned(a)))
+#include <assert.h>
+#include <utime.h>
+#define _utimbuf utimbuf
+#define MODULE_NAME "xrCore"
+#elif defined(__BORLANDC__)
 #define ALIGN(a)
 
 #include <assert.h>

@@ -11,8 +11,13 @@ typedef unsigned short u16;
 typedef signed int s32;
 typedef unsigned int u32;
 
+#if defined(_MSC_VER)
 typedef signed __int64 s64;
 typedef unsigned __int64 u64;
+#else
+typedef signed long long s64;
+typedef unsigned long long u64;
+#endif
 
 typedef float f32;
 typedef double f64;
@@ -65,6 +70,10 @@ typedef char string512[512];
 typedef char string1024[1024];
 typedef char string2048[2048];
 typedef char string4096[4096];
+
+#if !defined(_WIN32) && !defined(_MAX_PATH)
+#define _MAX_PATH MAX_PATH
+#endif
 
 typedef char string_path[2 * _MAX_PATH];
 

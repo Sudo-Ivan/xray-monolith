@@ -1,0 +1,77 @@
+# Linux build CI for the native port branch.
+# See PORTING.md for the overall port plan.
+name: linux-ci
+
+on:
+  push:
+    branches:
+      - linux
+      - master
+      - all-in-one-vs2022-wpo
+  pull_request:
+
+# Least privilege: the job only reads source and produces local artifacts.
+permissions:
+  contents: read
+
+# Cancel superseded runs for the same branch or pull request.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: gcc Release
+            cc: gcc
+            cxx: g++
+            type: Release
+            experimental: false
+          - name: gcc Debug
+            cc: gcc
+            cxx: g++
+            type: Debug
+            experimental: false
+          # Clang is not clean yet (MSVC-isms the port still depends on).
+          # Non-blocking until the port reaches parity.
+          - name: clang Release (experimental)
+            cc: clang
+            cxx: clang++
+            type: Release
+            experimental: true
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ninja-build cmake
+
+      - name: Cache build tree
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: build
+          key: xrcore-${{ matrix.cc }}-${{ matrix.type }}-${{ github.sha }}
+          restore-keys: |
+            xrcore-${{ matrix.cc }}-${{ matrix.type }}-
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DXRCORE_BUILD_SMOKE_TEST=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

@@ -8,9 +8,13 @@
 #pragma warning(disable:4995)
 #include <direct.h>
 #include <fcntl.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental\filesystem>
+#if !defined(_WIN32)
+#include <filesystem>
+#else
+
+#endif
 #pragma warning(default:4995)
 
 #include "FS_internal.h"
@@ -35,7 +39,7 @@ CLocatorAPI* xr_FS = NULL;
 # define FSLTX "fsgame.ltx"
 #endif
 
-std::experimental::filesystem::path fsRoot;
+std::filesystem::path fsRoot;
 
 struct _open_file
 {
@@ -208,9 +212,13 @@ CLocatorAPI::CLocatorAPI()
 {
 	m_Flags.zero();
 	// get page size
+#if defined(_WIN32)
 	SYSTEM_INFO sys_inf;
 	GetSystemInfo(&sys_inf);
 	dwAllocGranularity = sys_inf.dwAllocationGranularity;
+#else
+	dwAllocGranularity = (u32)sysconf(_SC_PAGESIZE);
+#endif
 	m_iLockRescan = 0;
 	dwOpenCounter = 0;
 }
@@ -678,18 +686,18 @@ static void searchForFsltx(const char* fs_name, string_path& fsltxPath)
 	}
 
 	//try in working dir
-	if (std::experimental::filesystem::exists(realFsltxName))
+	if (std::filesystem::exists(realFsltxName))
 	{
 		xr_strcpy(fsltxPath, realFsltxName);
 		return;
 	}
 
-	auto tryPathFunc = [realFsltxName](std::experimental::filesystem::path possibleLocationFsltx,
+	auto tryPathFunc = [realFsltxName](std::filesystem::path possibleLocationFsltx,
 	                                   string_path& fsltxPath) -> bool
 	{
 		possibleLocationFsltx.append(realFsltxName);
 
-		if (std::experimental::filesystem::exists(possibleLocationFsltx))
+		if (std::filesystem::exists(possibleLocationFsltx))
 		{
 			xr_strcpy(fsltxPath, possibleLocationFsltx.generic_string().c_str());
 			return true;
@@ -704,7 +712,7 @@ static void searchForFsltx(const char* fs_name, string_path& fsltxPath)
 	if (tryPathFunc(Core.ApplicationPath, fsltxPath)) return;
 
 	//parent directory again
-	std::experimental::filesystem::path test_path;
+	std::filesystem::path test_path;
 	test_path.assign(Core.ApplicationPath);
 	test_path.append("../");
 
@@ -720,7 +728,7 @@ IReader* CLocatorAPI::setup_fs_ltx(LPCSTR fs_name)
 	              make_string("Cannot find fsltx file: \"%s\"\nCheck your working directory", fs_name));
 	xr_strlwr(fs_path);
 	fsRoot = fs_path;
-	fsRoot = std::experimental::filesystem::absolute(fsRoot);
+	fsRoot = std::filesystem::absolute(fsRoot);
 	fsRoot = fsRoot.parent_path();
 
 	Msg("using fs-ltx %s", fs_path);
@@ -1339,7 +1347,7 @@ bool CLocatorAPI::check_for_file(LPCSTR path, LPCSTR _fname, string_path& fname,
 	return (true);
 }
 
-#include "..\xrGame\Actor_Flags.h"
+#include "../xrGame/Actor_Flags.h"
 
 template <typename T>
 T* CLocatorAPI::r_open_impl(LPCSTR path, LPCSTR _fname)
@@ -1635,7 +1643,7 @@ void CLocatorAPI::set_file_age(LPCSTR nm, u32 age)
 	int res = _utime(nm, &tm);
 	if (0 != res)
 	{
-		Msg("!Can't set file age: '%s'. Error: '%s'", nm, _sys_errlist[errno]);
+		Msg("!Can't set file age: '%s'. Error: '%s'", nm, strerror(errno));
 	}
 	else
 	{

@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "fs_internal.h"
+#include "FS_internal.h"
 
 #pragma warning(disable:4995)
 #include <io.h>
 #include <direct.h>
 #include <fcntl.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 #pragma warning(default:4995)
 
 //typedef void DUMMY_STUFF (const void*,const u32&,void*);

@@ -2,6 +2,12 @@
 #define XRCORE_PLATFORM_H
 #pragma once
 
+#if !defined(_WIN32)
+// Non-Windows: platform detection and Win32 compat shims come from the
+// Common layer grafted from OpenXRay (see PORTING.md).
+#include "Common/Platform.hpp"
+#else
+
 #define VC_EXTRALEAN // Exclude rarely-used stuff from Windows headers
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #ifndef STRICT
@@ -52,5 +58,7 @@
 #include <windowsx.h>
 #endif
 #pragma warning(pop)
+
+#endif // !defined(_WIN32)
 
 #endif

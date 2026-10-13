@@ -49,6 +49,38 @@ Steps:
 M1 exit criteria: `cmake --build` produces libxrcore.a on Linux and the
 test binary reads a real Anomaly gamedata folder.
 
+### Status
+
+Done so far:
+
+- `cmake -B build -G Ninja` plus `cmake --build` produces
+  `src/xrCore/libxrcore.a` with GCC on x86_64.
+- `tests/xrcore_smoke` links against the library and runs under ctest.
+- Platform layer: OpenXRay `src/Common/Platform.hpp` and `PlatformLinux.inl`
+  vendored under `src/Common`, selected from `xrCore_platform.h` on
+  non-Windows. The inl was extended with the Win32 file API surface the
+  engine uses (CreateFile, file mapping over mmap, file attributes,
+  _findfirst family over glob, Interlocked ops, x87 control word helpers).
+- `src/compat/` holds thin shims for MSVC headers (windows.h, io.h,
+  direct.h, intrin.h, hash_map/hash_set, ppl/concurrent_* backed by
+  std::thread and std containers).
+- Windows-only sources excluded or stubbed: blackbox, FileSystem.cpp
+  (replaced by portable FileSystem_linux.cpp), xrDebugNew.cpp StackWalker
+  path (xrDebug.cpp used instead, dialog/dump paths compiled out),
+  MSVC inline assembly replaced with memcpy/memset and GCC asm.
+- GitHub Actions workflow .github/workflows/linux-ci.yml builds the gcc
+  Release and Debug matrix and runs ctest. Clang leg is present but
+  non-blocking until the port reaches parity.
+
+Not done yet:
+
+- The smoke test does not mount a real gamedata folder yet; the VFS mount
+  code path compiles but is unexercised.
+- TBB is not used; PPL shim provides task_group/parallel_for over
+  std::thread.
+- Crash handling has no backtrace; stack walking port is still open.
+- File notifications in LocatorAPI_Notifications are stubbed.
+
 ## Later milestones
 
 - M2: xrEngine + SDL2 window/input (openxray src/xrEngine is the template),

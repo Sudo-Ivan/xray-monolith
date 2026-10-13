@@ -9,6 +9,18 @@
 #pragma hdrstop
 #include "os_clipboard.h"
 
+#if !defined(_WIN32)
+// Linux clipboard is a M2+ task (X11/Wayland selection). Stub for now.
+void os_clipboard::copy_to_clipboard(LPCSTR) {}
+void os_clipboard::paste_from_clipboard(LPSTR buffer, u32 const& buffer_size)
+{
+	VERIFY(buffer);
+	VERIFY(buffer_size > 0);
+	buffer[0] = 0;
+}
+void os_clipboard::update_clipboard(LPCSTR) {}
+#else
+
 void os_clipboard::copy_to_clipboard(LPCSTR buf)
 {
 	if (!OpenClipboard(0))
@@ -89,3 +101,5 @@ void os_clipboard::update_clipboard(LPCSTR string)
     xr_free (buffer);
 #endif // #ifdef _EDITOR
 }
+
+#endif // !defined(_WIN32)

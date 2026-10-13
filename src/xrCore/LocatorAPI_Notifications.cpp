@@ -8,6 +8,31 @@
 #include "LocatorAPI_Notifications.h"
 #include "profiler.h"
 
+#if !defined(_WIN32)
+// FS change notifications need an inotify backend (M2+). Stub for now.
+void CThread::startup(void* P)
+{
+	CThread* T = (CThread*)P;
+	T->Execute();
+}
+
+CFS_PathNotificator::CFS_PathNotificator() : CThread(0), FMutex(nullptr), FNotifyOptionFlags(0)
+{
+}
+
+CFS_PathNotificator::~CFS_PathNotificator(void)
+{
+}
+
+void CFS_PathNotificator::Execute()
+{
+}
+
+void CFS_PathNotificator::RegisterPath(FS_Path&)
+{
+}
+#else
+
 void CThread::startup(void* P)
 {
 	CThread* T = (CThread*)P;
@@ -132,3 +157,5 @@ void CLocatorAPI::ClearEventNotification()
 	}
 	DeleteCriticalSection(&CS);
 }
+
+#endif // !defined(_WIN32)
