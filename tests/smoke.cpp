@@ -1,22 +1,29 @@
-// Smoke test: links libxrcore.a and exercises basic runtime pieces.
-// Exits 0 on success.
+// Smoke test: links libxrcore.a, mounts a gamedata directory through
+// LocatorAPI, and lists the files the VFS sees.
+// Usage: xrcore_smoke [path-to-gamedata]
 #include "stdafx.h"
 
-int main()
+int main(int argc, char** argv)
 {
-    Memory._initialize(FALSE);
+    const char* gamedata = argc > 1 ? argv[1] : "gamedata";
 
-    xr_string s = "zone";
-    Msg("smoke: %s len=%d", s.c_str(), (int)s.size());
+    fprintf(stderr, "[smoke] Core._initialize\n");
+    Core._initialize("xrcore_smoke", nullptr, FALSE);
+    fprintf(stderr, "[smoke] FS._initialize\n");
 
-    // exercise the win32->posix file layer
-    DWORD attr = GetFileAttributes(".");
-    Msg("attr('.')=0x%x", attr);
+    FS._initialize(CLocatorAPI::flTargetFolderOnly, gamedata);
+    fprintf(stderr, "[smoke] FS.file_list\n");
 
-    string_path cwd;
-    GetCurrentDirectory(sizeof(cwd), cwd);
-    Msg("cwd=%s", cwd);
+    FS_FileSet files;
+    int n = FS.file_list(files, "$target_folder$", FS_ListFiles);
+    fprintf(stderr, "[smoke] file_list -> %d\n", n);
+    Msg("VFS mounted %s: %d files", gamedata, n);
 
-    Memory._destroy();
-    return 0;
+    int shown = 0;
+    for (FS_FileSetIt it = files.begin(); it != files.end() && shown < 10; ++it, ++shown)
+        Msg("  %s (%ld bytes)", it->name.c_str(), it->size);
+
+    FS._destroy();
+    Core._destroy();
+    return n > 0 ? 0 : 1;
 }

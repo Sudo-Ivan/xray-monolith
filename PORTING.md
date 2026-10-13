@@ -55,7 +55,14 @@ Done so far:
 
 - `cmake -B build -G Ninja` plus `cmake --build` produces
   `src/xrCore/libxrcore.a` with GCC on x86_64.
-- `tests/xrcore_smoke` links against the library and runs under ctest.
+- `tests/xrcore_smoke` links against the library, mounts a gamedata
+  directory via LocatorAPI (flTargetFolderOnly), and lists the files the
+  VFS registered. Verified against tests/fixtures/gamedata in ctest and
+  the real Anomaly gamedata tree.
+- VFS path handling: internal names keep backslash separators; the POSIX
+  file layer translates to slashes in xr_conv_path at every syscall
+  boundary. Recursive CRITICAL_SECTION semantics preserved via
+  PTHREAD_MUTEX_RECURSIVE.
 - Platform layer: OpenXRay `src/Common/Platform.hpp` and `PlatformLinux.inl`
   vendored under `src/Common`, selected from `xrCore_platform.h` on
   non-Windows. The inl was extended with the Win32 file API surface the
@@ -72,14 +79,7 @@ Done so far:
   Release and Debug matrix and runs ctest. Clang leg is present but
   non-blocking until the port reaches parity.
 
-Not done yet:
-
-- The smoke test does not mount a real gamedata folder yet; the VFS mount
-  code path compiles but is unexercised.
-- TBB is not used; PPL shim provides task_group/parallel_for over
-  std::thread.
-- Crash handling has no backtrace; stack walking port is still open.
-- File notifications in LocatorAPI_Notifications are stubbed.
+_
 
 ## Later milestones
 

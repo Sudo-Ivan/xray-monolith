@@ -437,6 +437,24 @@ decltype(auto) do_nothing(const T& obj)
     return obj;
 }
 
+// xr_strlwr collides with monolith's own xr_strlwr function in
+// _std_extensions.h: the Compiler.inl macro renames it into an
+// infinitely recursive strlwr. Provide real strlwr/strupr and keep
+// xr_strlwr as a real function.
+#undef xr_strlwr
+#undef strupr
+inline char* strlwr(char* s)
+{
+    for (char* p = s; *p; ++p)
+        *p = (char)tolower((unsigned char)*p);
+    return s;
+}
+inline char* strupr(char* s)
+{
+    for (char* p = s; *p; ++p)
+        *p = (char)toupper((unsigned char)*p);
+    return s;
+}
 #define xr_fs_strlwr(str) do_nothing(str)
 #define xr_fs_nostrlwr(str) xr_strlwr(str)
 
@@ -698,7 +716,16 @@ typedef pthread_rwlock_t* PSRWLOCK;
 // CRITICAL_SECTION -> pthread_mutex
 typedef pthread_mutex_t CRITICAL_SECTION;
 typedef pthread_mutex_t* PCRITICAL_SECTION;
-#define InitializeCriticalSection(p) pthread_mutex_init((p), nullptr)
+inline int xr_init_critical_section(pthread_mutex_t* m)
+{
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init(&attr);
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+    int r = pthread_mutex_init(m, &attr);
+    pthread_mutexattr_destroy(&attr);
+    return r;
+}
+#define InitializeCriticalSection(p) xr_init_critical_section(p)
 #define DeleteCriticalSection(p) pthread_mutex_destroy(p)
 #define EnterCriticalSection(p) pthread_mutex_lock(p)
 #define LeaveCriticalSection(p) pthread_mutex_unlock(p)
@@ -844,6 +871,10 @@ inline int _splitpath_s(const char* path, char* drive, size_t drive_sz,
 
 #define SleepEx(ms, alert) usleep((ms)*1000)
 
+// VFS paths use backslash separators internally; translate to '/'
+// at every real filesystem boundary.
+inline const char* xr_conv_path(const char* path);
+
 // ---- Win32 file API layer (fd-as-HANDLE model) ----
 // HANDLE is an int fd cast through intptr_t. "Mapping handles" are the
 // same fd; MapViewOfFile records each mapping length so UnmapViewOfFile
@@ -901,7 +932,7 @@ inline int xr_win32_open_flags(unsigned long access, unsigned long create)
 inline HANDLE CreateFile(LPCSTR path, unsigned long access, unsigned long,
                          void*, unsigned long create, unsigned long, void*)
 {
-    int fd = open(path, xr_win32_open_flags(access, create), 0644);
+    int fd = open(xr_conv_path(path), xr_win32_open_flags(access, create), 0644);
     return (HANDLE)(intptr_t)fd;
 }
 
@@ -1011,7 +1042,7 @@ inline BOOL WriteFile(HANDLE h, const void* buf, DWORD len, DWORD* out, void*)
 inline DWORD GetFileAttributes(LPCSTR path)
 {
     struct stat st;
-    if (stat(path, &st))
+    if (stat(xr_conv_path(path), &st))
         return (DWORD)-1;
     DWORD attr = FILE_ATTRIBUTE_NORMAL;
     if (S_ISDIR(st.st_mode))
@@ -1026,14 +1057,14 @@ inline DWORD GetFileAttributes(LPCSTR path)
 inline BOOL SetFileAttributes(LPCSTR path, DWORD attr)
 {
     struct stat st;
-    if (stat(path, &st))
+    if (stat(xr_conv_path(path), &st))
         return FALSE;
     mode_t mode = st.st_mode;
     if (attr & FILE_ATTRIBUTE_READONLY)
         mode &= ~(S_IWUSR | S_IWGRP | S_IWOTH);
     else
         mode |= S_IWUSR;
-    return chmod(path, mode) == 0;
+    return chmod(xr_conv_path(path), mode) == 0;
 }
 
 inline BOOL IsBadReadPtr(void*, size_t)
@@ -1208,7 +1239,13 @@ inline intptr_t _findfirst(const char* pattern, _finddata_t* out)
 {
     xr_find_state* st = new xr_find_state();
     st->idx = 0;
-    if (glob(pattern, 0, nullptr, &st->g) != 0 || st->g.gl_pathc == 0)
+    char pat[4096];
+    strncpy(pat, xr_conv_path(pattern), sizeof(pat) - 1);
+    pat[sizeof(pat) - 1] = 0;
+    size_t pl = strlen(pat);
+    if (pl >= 3 && strcmp(pat + pl - 3, "*.*") == 0)
+        pat[pl - 1] = 0; // turn trailing *.* into *
+    if (glob(pat, GLOB_PERIOD, nullptr, &st->g) != 0 || st->g.gl_pathc == 0)
     {
         globfree(&st->g);
         delete st;
@@ -1275,10 +1312,10 @@ inline struct tm* _localtime64(const __time64_t* t)
 #define GetProcessHeap() ((HANDLE)0)
 inline BOOL CopyFile(LPCSTR src, LPCSTR dst, BOOL)
 {
-    int in = open(src, O_RDONLY);
+    int in = open(xr_conv_path(src), O_RDONLY);
     if (in < 0)
         return FALSE;
-    int out = open(dst, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int out = open(xr_conv_path(dst), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (out < 0)
     {
         close(in);
@@ -1296,4 +1333,19 @@ inline BOOL CopyFile(LPCSTR src, LPCSTR dst, BOOL)
     close(in);
     close(out);
     return ok;
+}
+
+// VFS paths use backslash separators internally; translate to '/'
+// at every real filesystem boundary.
+inline const char* xr_conv_path(const char* path)
+{
+    if (!path)
+        return path;
+    static thread_local char buf[4096];
+    strncpy(buf, path, sizeof(buf) - 1);
+    buf[sizeof(buf) - 1] = 0;
+    for (char* p = buf; *p; ++p)
+        if (*p == '\\')
+            *p = '/';
+    return buf;
 }
