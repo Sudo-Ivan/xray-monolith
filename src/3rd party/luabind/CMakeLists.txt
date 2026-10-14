@@ -11,5 +11,6 @@ target_include_directories(luabind PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../sdk/include)
 target_compile_definitions(luabind PUBLIC
     USE_LUAJIT_ONE __cdecl= PRIVATE LUABIND_BUILDING)
+target_compile_definitions(luabind PRIVATE LUABIND_NO_EXCEPTIONS)
 target_link_libraries(luabind PUBLIC luajit)
 set_target_properties(luabind PROPERTIES POSITION_INDEPENDENT_CODE ON)

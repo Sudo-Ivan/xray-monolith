@@ -285,9 +285,10 @@ int CScriptEngine::lua_pcall_failed(lua_State* L)
 #if !XRAY_EXCEPTIONS
 	Debug.fatal(DEBUG_INFO, error_msg);
 #endif
-	if (lua_isstring(L, -1))
-		lua_pop(L, 1);
-	return (LUA_ERRRUN);
+	// Message handler contract: return the error object on stack top.
+	// Returning LUA_ERRRUN (2) told the VM to pop two results and underflowed
+	// the frame - corrupting the interpreter on Linux.
+	return 1;
 }
 
 void lua_cast_failed(lua_State* L, LUABIND_TYPE_INFO info)

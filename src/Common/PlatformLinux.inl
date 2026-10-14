@@ -617,18 +617,6 @@ typedef void* FARPROC;
 typedef void* HANDLE32;
 typedef unsigned long DWORDLONG;
 
-// MSVC float classification -> C99 fpclassify
-#define _FPCLASS_SNAN FP_SUBNORMAL
-#define _FPCLASS_QNAN FP_NAN
-#define _FPCLASS_NINF FP_INFINITE
-#define _FPCLASS_PINF FP_INFINITE
-#define _FPCLASS_ND FP_SUBNORMAL
-#define _FPCLASS_PD FP_SUBNORMAL
-#define _FPCLASS_NN FP_NAN
-#define _FPCLASS_PN FP_NORMAL
-#define _FPCLASS_NZ FP_ZERO
-#define _FPCLASS_PZ FP_ZERO
-#define _fpclass(x) fpclassify(x)
 #define _isnan isnan
 
 // MSVC safe-C errno style
@@ -1505,6 +1493,7 @@ typedef const unsigned char* LPCBYTE;
 #define _FPCLASS_PZ   0x0040
 #define _FPCLASS_PD   0x0080
 #define _FPCLASS_PINF 0x0100
+#define _FPCLASS_PN   0x0200
 inline int xr_fpclass(double x)
 {
     int c = fpclassify(x);
@@ -1514,7 +1503,7 @@ inline int xr_fpclass(double x)
     case FP_INFINITE: return signbit(x) ? _FPCLASS_NINF : _FPCLASS_PINF;
     case FP_ZERO: return signbit(x) ? _FPCLASS_NZ : _FPCLASS_PZ;
     case FP_SUBNORMAL: return signbit(x) ? _FPCLASS_ND : _FPCLASS_PD;
-    default: return signbit(x) ? _FPCLASS_NN : _FPCLASS_PD;
+    default: return signbit(x) ? _FPCLASS_NN : _FPCLASS_PN;
     }
 }
 #define _fpclass xr_fpclass

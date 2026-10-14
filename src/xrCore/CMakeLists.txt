@@ -16,7 +16,11 @@ target_compile_definitions(xrcore PRIVATE
     PURE_ALLOC
 )
 
-target_link_libraries(xrcore PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LZO2 REQUIRED lzo2)
+target_link_libraries(xrcore PUBLIC Threads::Threads ${CMAKE_DL_LIBS} ${LZO2_LIBRARIES})
+target_include_directories(xrcore PUBLIC ${LZO2_INCLUDE_DIRS})
+target_link_directories(xrcore PUBLIC ${LZO2_LIBRARY_DIRS})
 
 if(WIN32)
     target_sources(xrcore PRIVATE
@@ -67,12 +71,6 @@ target_sources(xrcore PRIVATE
     ppmd_compressor.cpp
     rt_compressor.cpp
     rt_compressor9.cpp
-    rt_lzo1x_1.cpp
-    rt_lzo1x_9x.cpp
-    rt_lzo1x_d1.cpp
-    rt_lzo1x_d2.cpp
-    rt_lzo1x_d3.cpp
-    rt_lzo_init.cpp
     ScopeLock.cpp
     stdafx.cpp
     stream_reader.cpp

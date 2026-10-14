@@ -3,13 +3,10 @@
 
 
 // #include "rt_lzo.h"
-#include "rt_lzo1x.h"
+#include <lzo/lzo1x.h>
 
 
-#define HEAP_ALLOC(var,size) \
- lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
-
-__declspec(thread) HEAP_ALLOC(rtc_wrkmem, LZO1X_1_MEM_COMPRESS);
+__declspec(thread) unsigned char rtc_wrkmem[LZO1X_1_MEM_COMPRESS] __attribute__((aligned(16)));
 
 
 void rtc_initialize()

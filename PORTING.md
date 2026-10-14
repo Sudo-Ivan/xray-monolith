@@ -146,3 +146,39 @@ and enters `CGamePersistent::OnFrame` inside `CRenderDevice::Run`.
 - `CMainMenu::ReloadUI` falls back to a native `CUIDialogWndEx` when the
   `MAIN_MNU` clsid has no script-registered class, and
   `CUISequencer::OnRender` no longer dereferences an empty item list.
+
+## Real gamedata milestone (Anomaly 1.5.3)
+
+Running against the real Anomaly 1.5.3 install (see
+`base/anomaly` / fsgame.ltx), the engine boots the real xrGame module
+end to end: the db0 archives decompress, `system.ltx` and the config
+chain load, all script class registrators run (object_factory register
+for every clsid and server class), the real console cvar set applies,
+fonts/shader-bus/renderer attach, the intro logo tutorial completes,
+and the loop holds at the main menu idle until SIGTERM teardown.
+
+Three port bugs the real data exposed and fixed:
+
+- `luabind` now builds with `LUABIND_NO_EXCEPTIONS`, matching every
+  upstream vcxproj config. Without it the member-dispatch `o.call` body
+  in `class_rep::function_dispatcher` was inside the `#else` of
+  `#ifndef LUABIND_NO_EXCEPTIONS` and compiled out entirely, so every
+  bound member call fell through to `lua_error` with the raw argument
+  stack still on top. The engine relies on the callback error model
+  (`set_error_callback`/`set_pcall_callback`).
+- `xr_fpclass` returned `_FPCLASS_PD` for positive-normal floats, so
+  `_valid` rejected every positive float (sun positions, etc). Added
+  `_FPCLASS_PN` (0x0200) and corrected the default case; also removed
+  a stale conflicting `_fpclass`/`_FPCLASS_*` shim block.
+- `CScriptEngine::lua_pcall_failed` returned `LUA_ERRRUN` (2) as the
+  Lua message-handler result count, making the VM pop two slots and
+  underflow the frame inside `lj_vm_return`. Now returns 1 (the error
+  object) as the handler contract requires.
+- LZO moved from the vendored minilzo (which corrupted match copies
+  under GCC 16) to the system `lzo2` decompression, fixing db archive
+  reads (BADINI spam and truncated config lines).
+
+Remaining benign warnings on real data: `r__clear_models_on_unload`
+is an Anomaly cvar this engine rev does not register, and
+`misc/smart_terrain_masks.ltx` is optional script data absent from the
+base install.
