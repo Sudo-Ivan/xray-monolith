@@ -1,6 +1,8 @@
 // Generated null renderer stubs - do not edit
 #include "stdafx.h"
 #include "Render.h"
+#include "../xrEngine/defines.h"
+#include "imgui.h"
 #include "Render.h"
 #include "../Include/xrRender/DebugRender.h"
 #include "../Include/xrRender/UIRender.h"
@@ -214,7 +216,18 @@ public:
     void Reset(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2) override {}
     void SetupStates() override {}
     void OnDeviceCreate(LPCSTR shName) override {}
-    void Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool) override {}
+    void Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool) override
+    {
+        if (!psCurrentVidMode[0] || !psCurrentVidMode[1])
+        {
+            psCurrentVidMode[0] = 1024;
+            psCurrentVidMode[1] = 768;
+        }
+        dwWidth = psCurrentVidMode[0];
+        dwHeight = psCurrentVidMode[1];
+        fWidth_2 = float(dwWidth) / 2.f;
+        fHeight_2 = float(dwHeight) / 2.f;
+    }
     void SetupGPU(BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF) override {}
     void overdrawBegin() override {}
     void overdrawEnd() override {}
@@ -363,9 +376,24 @@ class NullIImGuiRender : public IImGuiRender
 {
 public:
     void Copy(IImGuiRender& _in) override {}
-    void Frame() override {}
+    void Frame() override
+    {
+        // Fonts are added later in ide::OnAppStart, so the atlas can only be
+        // built here once fonts exist. CPU-side build gives NewFrame a valid
+        // atlas; the renderer-side upload is a no-op under the null backend.
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.Fonts->Fonts.Size > 0 && !io.Fonts->IsBuilt())
+        {
+            io.Fonts->Build();
+            io.Fonts->SetTexID((ImTextureID)(intptr_t)1);
+        }
+    }
     void Render(ImDrawData* data) override {}
-    void OnDeviceCreate(ImGuiContext* context) override {}
+    void OnDeviceCreate(ImGuiContext* context) override
+    {
+        if (context)
+            ImGui::SetCurrentContext(context);
+    }
     void OnDeviceDestroy() override {}
     void OnDeviceResetBegin() override {}
     void OnDeviceResetEnd() override {}

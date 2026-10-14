@@ -536,8 +536,24 @@ void xray_sdl_pump_events()
             g_quit = true;
             break;
         case SDL_WINDOWEVENT:
-            // window focus/close handled inside input shim via SDL_GetModState
-            // and GetFocus; engine polls them during on_idle
+            // translate window visibility/focus into WM_ACTIVATE so the
+            // engine's activity flag tracks real window state
+            switch (e.window.event)
+            {
+            case SDL_WINDOWEVENT_SHOWN:
+            case SDL_WINDOWEVENT_FOCUS_GAINED:
+            case SDL_WINDOWEVENT_RESTORED:
+                Device.OnWM_Activate(MAKELPARAM(WA_ACTIVE, 0), 0);
+                break;
+            case SDL_WINDOWEVENT_HIDDEN:
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+            case SDL_WINDOWEVENT_MINIMIZED:
+                Device.OnWM_Activate(MAKELPARAM(WA_INACTIVE, 0), 0);
+                break;
+            case SDL_WINDOWEVENT_CLOSE:
+                g_quit = true;
+                break;
+            }
             break;
         }
     }

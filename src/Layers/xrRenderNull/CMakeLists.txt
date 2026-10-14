@@ -15,6 +15,7 @@ target_include_directories(xrrendernull PUBLIC
     "${CMAKE_SOURCE_DIR}/src/3rd party"
     "${CMAKE_SOURCE_DIR}/sdk/include"
     "${CMAKE_SOURCE_DIR}/src/Layers/xrRender"
+    "${CMAKE_SOURCE_DIR}/src/3rd party/imgui"
 )
 target_compile_definitions(xrrendernull PRIVATE ENGINE_BUILD STATIC_RENDERER_NULL)
 target_link_libraries(xrrendernull PUBLIC xrengine xrcore ${SDL2_LIBRARIES})

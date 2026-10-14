@@ -319,10 +319,12 @@ void CUISequencer::OnFrame()
 
 void CUISequencer::OnRender()
 {
+	if (!m_UIWindow || !m_sequencer_items.size())
+		return;
+
 	if (m_UIWindow->IsShown())
 		m_UIWindow->Draw();
 
-	VERIFY(m_sequencer_items.size());
 	m_sequencer_items.front()->OnRender();
 }
 

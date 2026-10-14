@@ -35,7 +35,7 @@ DECLARE_MESSAGE(ScreenResolutionChanged);
 struct _REG_INFO
 {
 	void* Object;
-	int Prio;
+	u32 Prio;
 	u32 Flags;
 };
 
@@ -72,7 +72,7 @@ public:
 	void Add(T* obj, int priority = REG_PRIORITY_NORMAL, u32 flags = 0)
 	{
 #ifdef DEBUG
-        VERIFY(priority != REG_PRIORITY_INVALID);
+        VERIFY((u32)priority != REG_PRIORITY_INVALID);
         VERIFY(obj);
         for (u32 i = 0; i < R.size(); i++) VERIFY(!((R[i].Prio != REG_PRIORITY_INVALID) && (R[i].Object == (void*)obj)));
 #endif

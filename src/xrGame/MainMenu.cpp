@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MainMenu.h"
 #include "ui/UIDialogWnd.h"
+#include "ui/UIScriptWnd.h"
 #include "ui/UIMessageBoxEx.h"
 #include "../xrEngine/XR_IOConsole.h"
 #include "../xrEngine/IGame_Level.h"
@@ -296,14 +297,18 @@ bool CMainMenu::ReloadUI()
 		CleanInternals();
 	}
 	DLL_Pure* dlg = NEW_INSTANCE(TEXT2CLSID("MAIN_MNU"));
-	if (!dlg)
-	{
-		m_Flags.set(flActive | flNeedChangeCapture,FALSE);
-		return false;
-	}
 	xr_delete(m_startDialog);
 	m_startDialog = smart_cast<CUIDialogWnd*>(dlg);
-	VERIFY(m_startDialog);
+	if (!m_startDialog)
+	{
+		// "MAIN_MNU" comes from script-side class registration; when the
+		// script layer is absent (headless/minimal gamedata) the factory
+		// yields nothing usable, so instantiate the base dialog window
+		// directly to keep the menu alive.
+		if (dlg)
+			DEL_INSTANCE(dlg);
+		m_startDialog = xr_new<CUIDialogWndEx>();
+	}
 	m_startDialog->m_bWorkInPause = true;
 	m_startDialog->ShowDialog(true);
 
