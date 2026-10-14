@@ -132,6 +132,17 @@ and enters `CGamePersistent::OnFrame` inside `CRenderDevice::Run`.
 - The fixture set now boots clean: the intro_logo tutorial completes,
   the loop idles stable (0% CPU at 90s) and SIGTERM runs the graceful
   shutdown path. Remaining informational lines: loose gamemtl.xr falls
-  back to materials/materials.ltx, and fonts take the legacy rung
-  because the dummy SDL display reports height 1. Real gamedata is
-  still needed before any level or gameplay path works.
+  back to materials/materials.ltx. Real gamedata is still needed
+  before any level or gameplay path works.
+- `_REG_INFO.Prio` is `u32`: on LP64 an `int` priority of -1 never
+  compared equal to the `0xfffffffful` invalid sentinel, so removed
+  registrator entries kept receiving frame callbacks after the object
+  was freed. Windows only worked because `unsigned long` is 32-bit.
+- SDL window visibility/focus events feed `CRenderDevice::OnWM_Activate`
+  so `b_is_Active` tracks the window under headless drivers.
+- The null renderer returns real selected mode dimensions from
+  `Create()` and its imgui backend builds the font atlas once fonts
+  exist, which keeps `ide::OnFrame` safe.
+- `CMainMenu::ReloadUI` falls back to a native `CUIDialogWndEx` when the
+  `MAIN_MNU` clsid has no script-registered class, and
+  `CUISequencer::OnRender` no longer dereferences an empty item list.
