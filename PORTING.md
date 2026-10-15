@@ -182,3 +182,35 @@ Remaining benign warnings on real data: `r__clear_models_on_unload`
 is an Anomaly cvar this engine rev does not register, and
 `misc/smart_terrain_masks.ltx` is optional script data absent from the
 base install.
+
+## Visual output (SDL presentation)
+
+The null renderer now presents through SDL2 instead of discarding draw
+calls. `src/Layers/xrRenderNull/null_sdl.cpp` implements the pieces:
+
+- `IUIRender` backed by `SDL_Renderer`: `SetShader` binds a texture,
+  `PushPoint`/`StartPrimitive`/`FlushPrimitive` accumulate
+  `SDL_Vertex`/`indices` and draw via `SDL_RenderGeometry`, scissor
+  state maps to `SDL_RenderSetClipRect`.
+- A DDS decoder for the UI texture formats the gamedata ships: DXT1,
+  DXT5/DXT3, and 8/16/24/32 bpp uncompressed (channel masks normalized,
+  alpha-only atlases get white rgb so vertex colors modulate).
+- `IUIShader` per instance, matching the real factory semantics.
+- `IFontRender` (named `dxFontRender` to satisfy the `CGameFont`
+  friend): per-font SDL texture, glyph quads from `TCMap` with the
+  same layout math as the D3D `dxFontRender`.
+- Frame end invokes `g_pGamePersistent->OnRenderPPUI_main()` before
+  `SDL_RenderPresent`, mirroring the PP-UI pass the real renderers
+  run inside their combine phase. `DoRenderDialogs` only runs there,
+  so without this hook the menu never draws.
+- `NullIRender_Target::get_width/get_height` report `Device.dwWidth`/
+  `Device.dwHeight` so `ui_core::pp_start` computes a nonzero
+  postprocess scale.
+- `XRAY_FRAME_DUMP`/`XRAY_FRAME_DUMP_AT` env vars write a frame to a
+  ppm for headless verification (works under
+  `SDL_VIDEODRIVER=offscreen`).
+
+The main menu renders end to end against Anomaly 1.5.3: background,
+logo, button labels, copyright text, and mod icons. 3D scene content
+still has no rasterizer; the menu cursor texture uses the
+magenta-checker fallback where its DDS layout is not decoded.

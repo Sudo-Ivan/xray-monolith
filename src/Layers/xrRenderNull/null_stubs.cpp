@@ -1,5 +1,7 @@
 // Generated null renderer stubs - do not edit
 #include "stdafx.h"
+#include "null_sdl.h"
+#include "../xrEngine/device.h"
 #include "Render.h"
 #include "../xrEngine/defines.h"
 #include "imgui.h"
@@ -90,12 +92,13 @@ public:
     void set_color_base(u32 f) override {}
     void set_color_gray(u32 f) override {}
     void set_color_add(const Fvector& f) override {}
-    u32 get_width() override { return 0; }
-    u32 get_height() override { return 0; }
+    u32 get_width() override { return Device.dwWidth; }
+    u32 get_height() override { return Device.dwHeight; }
     void set_cm_imfluence(float f) override {}
     void set_cm_interpolate(float f) override {}
     void set_cm_textures(const shared_str& tex0, const shared_str& tex1) override {}
 };
+static NullIRender_Target g_nullTarget;
 
 class NullIRender_interface : public IRender_interface
 {
@@ -114,7 +117,7 @@ public:
     IRender_Sector* getSector(int id) override { return nullptr; }
     IRenderVisual* getVisual(int id) override { return nullptr; }
     IRender_Sector* detectSector(const Fvector& P) override { return nullptr; }
-    IRender_Target* getTarget() override { return nullptr; }
+    IRender_Target* getTarget() override { return &g_nullTarget; }
     void set_Transform(Fmatrix* M) override {}
     void set_HUD(BOOL V) override {}
     BOOL get_HUD() override { return false; }
@@ -243,9 +246,9 @@ public:
     DeviceState GetDeviceState() override { return {}; }
     BOOL GetForceGPU_REF() override { return false; }
     u32 GetCacheStatPolys() override { return 0; }
-    void Begin() override {}
-    void Clear() override {}
-    void End() override {}
+    void Begin() override { xray_null_sdl_frame_begin(); }
+    void Clear() override { xray_null_sdl_frame_begin(); }
+    void End() override { xray_null_sdl_frame_end(); }
     void ClearTarget() override {}
     void SetCacheXform(Fmatrix& mView, Fmatrix& mProject) override {}
     void SetCacheXform_prev(Fmatrix& mView, Fmatrix& mProject) override {}

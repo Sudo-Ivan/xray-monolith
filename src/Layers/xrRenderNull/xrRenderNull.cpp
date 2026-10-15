@@ -3,6 +3,7 @@
 // so the device layer, input, and event loop can initialize without a GPU.
 
 #include "stdafx.h"
+#include "null_sdl.h"
 #include "null_stubs.cpp"
 #include "../xrRender/dxRenderFactory.h"
 #include "../xrEngine/XR_IOConsole.h"
@@ -28,7 +29,6 @@ namespace
 {
 NullIRender_interface g_nullRender;
 NullCDUInterface g_nullDU;
-NullIUIRender g_nullUIRender;
 NullIDebugRender g_nullDRender;
 
 NullIRenderDeviceRender g_nullRenderDeviceRender;
@@ -43,14 +43,13 @@ NullILensFlareRender g_nullLensFlareRender;
 NullIEnvDescriptorRender g_nullEnvDescriptorRender;
 NullIEnvDescriptorMixerRender g_nullEnvDescriptorMixerRender;
 NullIEnvironmentRender g_nullEnvironmentRender;
-NullIFontRender g_nullFontRender;
+
 NullIImGuiRender g_nullImGuiRender;
 NullIRainRender g_nullRainRender;
 #ifdef DEBUG
 NullIObjectSpaceRender g_nullObjectSpaceRender;
 #endif
 NullIWallMarkArray g_nullWallMarkArray;
-NullIUIShader g_nullUIShader;
 NullIUISequenceVideoItem g_nullUISequenceVideoItem;
 } // namespace
 
@@ -61,7 +60,8 @@ dxRenderFactory RenderFactoryImpl;
     void dxRenderFactory::Destroy##Class(I##Class*) {}
 
 NULL_FACTORY_IMPL(UISequenceVideoItem, g_nullUISequenceVideoItem)
-NULL_FACTORY_IMPL(UIShader, g_nullUIShader)
+IUIShader* dxRenderFactory::CreateUIShader() { return xray_null_sdl_uishader_create(); }
+void dxRenderFactory::DestroyUIShader(IUIShader* p) { xray_null_sdl_uishader_destroy(p); }
 NULL_FACTORY_IMPL(StatGraphRender, g_nullStatGraphRender)
 NULL_FACTORY_IMPL(ConsoleRender, g_nullConsoleRender)
 NULL_FACTORY_IMPL(RenderDeviceRender, g_nullRenderDeviceRender)
@@ -80,7 +80,8 @@ NULL_FACTORY_IMPL(ImGuiRender, g_nullImGuiRender)
 NULL_FACTORY_IMPL(EnvironmentRender, g_nullEnvironmentRender)
 NULL_FACTORY_IMPL(EnvDescriptorMixerRender, g_nullEnvDescriptorMixerRender)
 NULL_FACTORY_IMPL(EnvDescriptorRender, g_nullEnvDescriptorRender)
-NULL_FACTORY_IMPL(FontRender, g_nullFontRender)
+IFontRender* dxRenderFactory::CreateFontRender() { return xray_null_sdl_fontrender(); }
+void dxRenderFactory::DestroyFontRender(IFontRender* f) { xray_null_sdl_fontrender_destroy(f); }
 
 BOOL DllMainXrRenderNull(HANDLE, DWORD ul_reason_for_call, LPVOID)
 {
@@ -89,7 +90,7 @@ BOOL DllMainXrRenderNull(HANDLE, DWORD ul_reason_for_call, LPVOID)
         ::Render = &g_nullRender;
         ::RenderFactory = &RenderFactoryImpl;
         ::DU = &g_nullDU;
-        UIRender = &g_nullUIRender;
+        UIRender = xray_null_sdl_uirender();
         DRender = &g_nullDRender;
         null_initconsole();
     }

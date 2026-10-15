@@ -1,6 +1,7 @@
 # xrRenderNull - no-op renderer for headless bring-up
 set(NULLRENDER_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/xrRenderNull.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/null_sdl.cpp"
     "${CMAKE_SOURCE_DIR}/src/Layers/xrAPI/xrAPI.cpp"
 )
 
