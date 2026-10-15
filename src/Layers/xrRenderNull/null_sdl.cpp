@@ -17,6 +17,7 @@
 #include "../xrEngine/GameFont.h"
 #include "../xrEngine/MbHelpers.h"
 #include "../Include/xrRender/FontRender.h"
+#include "../xrEngine/device.h"
 #include <SDL.h>
 
 namespace
@@ -32,13 +33,18 @@ SDL_Renderer* ensure_renderer()
     SDL_Window* win = (SDL_Window*)xray_sdl_main_window();
     if (!win)
         return nullptr;
-    g_sdl_renderer = SDL_CreateRenderer(
-        win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    // software first: on systems without GPU GL the accelerated pick
+    // lands on Mesa llvmpipe and every present crawls
+    g_sdl_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_SOFTWARE);
     if (!g_sdl_renderer)
-        g_sdl_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_SOFTWARE);
+        g_sdl_renderer = SDL_CreateRenderer(win, -1, 0);
     if (!g_sdl_renderer)
         return nullptr;
     SDL_SetRenderDrawBlendMode(g_sdl_renderer, SDL_BLENDMODE_BLEND);
+    // UI primitives arrive in device pixel space; map them to whatever
+    // size the window manager gave the SDL window.
+    if (Device.dwWidth && Device.dwHeight)
+        SDL_RenderSetLogicalSize(g_sdl_renderer, (int)Device.dwWidth, (int)Device.dwHeight);
     // 64x64 magenta checker so missing textures are obvious.
     u32 px[64 * 64];
     for (int y = 0; y < 64; ++y)
